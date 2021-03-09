@@ -26,7 +26,11 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
-
+	void GameStage::CreateCellMap()
+	{
+		//float pixelSize = 1.0f;
+		//auto ptr = AddGameObject<StageCellMap>(0.0f, 0.0f, 0.0f);
+	}
 
 	void GameStage::OnCreate() {
 		try {
