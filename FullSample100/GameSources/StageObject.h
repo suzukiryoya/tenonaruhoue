@@ -11,12 +11,17 @@ namespace basecross{
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
-
+		float m_UPic;
+		float m_VPic;
+		wstring m_Texture;
 	public:
 		Floor(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
 			const Vec3& Rotation,
-			const Vec3& Position);
+			const Vec3& Position,
+			float UPic,
+			float VPic,
+			const wstring& Texture);
 		virtual ~Floor();
 		virtual void OnCreate();
 	};
@@ -25,12 +30,17 @@ namespace basecross{
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
-
+		float m_UPic;
+		float m_VPic;
+		wstring m_Texture;
 	public:
 		Wall(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
 			const Vec3& Rotation,
-			const Vec3& Position);
+			const Vec3& Position,
+			float UPic,
+			float VPic,
+			const wstring& Texture);
 		virtual ~Wall();
 		virtual void OnCreate();
 	};
