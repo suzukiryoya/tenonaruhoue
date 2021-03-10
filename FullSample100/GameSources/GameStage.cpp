@@ -26,6 +26,70 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
+	void GameStage::CreateStage() {
+		auto BoxesGroup = CreateSharedObjectGroup(L"StageObject");
+
+		vector<wstring> LineVec1;
+		vector<wstring> LineVec2;
+
+
+		m_GameStageCsv.GetSelect(LineVec1, 0, L"Floor");
+		for (auto& v : LineVec1)
+		{
+			//トークン（カラム）の配列
+			vector<wstring> Tokens;
+			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+			Util::WStrToTokenVector(Tokens, v, L',');
+			//各トークン（カラム）をスケール、回転、位置に読み込む
+			Vec3 Scale(
+				(float)_wtof(Tokens[1].c_str()),
+				(float)_wtof(Tokens[2].c_str()),
+				(float)_wtof(Tokens[3].c_str())
+			);
+			Vec3 Rot;
+			//回転はXM_PIDIV2の文字列になっている場合がある
+			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+			Vec3 Pos(
+				(float)_wtof(Tokens[7].c_str()),
+				(float)_wtof(Tokens[8].c_str()),
+				(float)_wtof(Tokens[9].c_str())
+			);
+
+			auto floor = AddGameObject<Floor>(Scale, Rot, Pos, 1.0f, 1.0f);
+			BoxesGroup->IntoGroup(floor);
+		}
+
+		m_GameStageCsv.GetSelect(LineVec2, 0, L"Wall");
+		for (auto& v : LineVec2)
+		{
+			//トークン（カラム）の配列
+			vector<wstring> Tokens;
+			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+			Util::WStrToTokenVector(Tokens, v, L',');
+			//各トークン（カラム）をスケール、回転、位置に読み込む
+			Vec3 Scale(
+				(float)_wtof(Tokens[1].c_str()),
+				(float)_wtof(Tokens[2].c_str()),
+				(float)_wtof(Tokens[3].c_str())
+			);
+			Vec3 Rot;
+			//回転はXM_PIDIV2の文字列になっている場合がある
+			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+			Vec3 Pos(
+				(float)_wtof(Tokens[7].c_str()),
+				(float)_wtof(Tokens[8].c_str()),
+				(float)_wtof(Tokens[9].c_str())
+			);
+
+			auto wall = AddGameObject<Wall>(Scale, Rot, Pos, 1.0f, 1.0f);
+			BoxesGroup->IntoGroup(wall);
+		}
+	}
+
 	void GameStage::CreateCellMap()
 	{
 		//float pixelSize = 1.0f;
@@ -34,8 +98,12 @@ namespace basecross {
 
 	void GameStage::OnCreate() {
 		try {
+			wstring MediaDir;
+			m_GameStageCsv.SetFileName(MediaDir + L"Stage0.csv");
+			m_GameStageCsv.ReadCsv();
 			//ビューとライトの作成
 			CreateViewLight();
+			CreateStage();
 		}
 		catch (...) {
 			throw;

@@ -25,6 +25,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Object.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h">
@@ -51,6 +53,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StageObject.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCom.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

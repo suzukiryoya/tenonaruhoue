@@ -1,0 +1,6 @@
+ID,PosX,PosY,PosZ,RotX,RotY,Rotz,ScaleX,ScaleY,ScaleZ
+Wall,-15,5.5,0,0,90,0,30,10,1,
+Wall,15,5.5,0,0,90,0,30,10,1,
+Wall,0,5.5,-15,0,0,0,30,10,1,
+Wall,0,5.5,15,0,0,0,30,10,1,
+Floor,0,0,0,0,0,0,31,1,31,
