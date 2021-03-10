@@ -4,10 +4,11 @@
 */
 
 #include "stdafx.h"
-#include "Character.h"
+#include "StageObject.h"
 //#include "Project.h"
 
 namespace basecross{
+
 	//-----------------------------------------------------------------
 	//  °
 	//-----------------------------------------------------------------
@@ -129,6 +130,5 @@ namespace basecross{
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		//SetAlphaActive(true);
 	}
-
 }
 //end basecross
