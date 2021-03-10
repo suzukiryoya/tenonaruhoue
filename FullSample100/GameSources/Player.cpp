@@ -1,6 +1,6 @@
 /*!
-@file Character.cpp
-@brief キャラクターなど実体
+@file Player.cpp
+@brief プレイヤーなど実体
 */
 
 #include "stdafx.h"
@@ -8,6 +8,6 @@
 
 namespace basecross{
 
-
 }
 //end basecross
+

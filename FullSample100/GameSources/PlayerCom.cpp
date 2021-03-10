@@ -1,5 +1,5 @@
 /*!
-@file Character.cpp
+@file PlayerCom.cpp
 @brief キャラクターなど実体
 */
 

@@ -1,6 +1,6 @@
 /*!
-@file Character.cpp
-@brief キャラクターなど実体
+@file ProjectShader.cpp
+@brief プロジェクトで使用するシェーダー実体
 */
 
 #include "stdafx.h"
@@ -11,3 +11,5 @@ namespace basecross{
 
 }
 //end basecross
+
+

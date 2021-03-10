@@ -14,8 +14,6 @@ namespace basecross {
 	class GameStage : public Stage {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
-		void CreateStage();
-		CsvFile m_GameStageCsv;
 	public:
 		//\’z‚Æ”jŠü
 		GameStage() :Stage() {}
