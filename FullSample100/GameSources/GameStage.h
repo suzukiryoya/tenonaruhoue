@@ -16,9 +16,13 @@ namespace basecross {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
 		void CreateStage();
+		wstring m_StageSelect_image;
+
 	public:
 		//\’z‚Æ”jŠü
-		GameStage() :Stage() {}
+		GameStage() :Stage(),
+			m_StageSelect_image(L"cursor.png")
+		{}
 		virtual ~GameStage() {}
 		//‰Šú‰»
 		virtual void OnCreate()override;

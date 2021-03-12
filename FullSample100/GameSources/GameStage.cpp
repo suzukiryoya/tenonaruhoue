@@ -105,6 +105,18 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateStage();
+			wstring dataDir;
+			//サンプルのためアセットディレクトリを取得
+			App::GetApp()->GetAssetsDirectory(dataDir);
+			wstring strMovie = dataDir + L"cursor.png";
+			AddGameObject<Clear>(
+					Vec2(137.0f, 64.0f),
+					Vec3(0.0f, 200.0f, 0.0f),
+					Vec3(3.0f),
+					10,
+					Col4(1.0f),
+				    m_StageSelect_image
+				);
 		}
 		catch (...) {
 			throw;
