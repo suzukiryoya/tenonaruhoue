@@ -99,6 +99,7 @@ namespace basecross {
 	void GameStage::OnCreate() {
 		try {
 			wstring MediaDir;
+			App::GetApp()->GetDataDirectory(MediaDir);
 			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f));
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage0.csv");
 			m_GameStageCsv.ReadCsv();

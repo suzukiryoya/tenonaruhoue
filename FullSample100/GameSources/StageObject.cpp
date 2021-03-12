@@ -126,7 +126,7 @@ namespace basecross{
 		PtrDraw->SetOriginalMeshUse(true);
 		//PtrDraw->SetTextureResource(m_Texture);
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
-		//SetAlphaActive(true);
+		SetAlphaActive(true);
 	}
 }
 //end basecross
