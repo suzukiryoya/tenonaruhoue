@@ -36,6 +36,11 @@ namespace basecross {
 	};
 
 	class Clear : public UI_Base {
+
+		// コントローラから方向ベクトルを得る
+
+		float m_Speed=600.0f;
+
 	public:
 
 		Clear(const shared_ptr<Stage>& StagePtr,
@@ -59,6 +64,11 @@ namespace basecross {
 		~Clear() {}
 
 		virtual void OnCreate() override;
+		virtual void OnUpdate() override;
+
+		
+
+
 	};
 
 }

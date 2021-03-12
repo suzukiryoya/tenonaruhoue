@@ -42,6 +42,7 @@ namespace basecross {
 		//‰Šú‰»
 		virtual void OnCreate() override;
 		//‘€ì
+
 	};
 	//end basecross
 }

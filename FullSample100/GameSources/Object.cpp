@@ -46,6 +46,8 @@ namespace basecross {
     void FixedBox::OnUpdate() {
 
     }
+
+
     TriggerBox::TriggerBox(const shared_ptr<Stage>& StagePtr,
         const Vec3& Scale,
         const Vec3& Rotation,
