@@ -40,7 +40,7 @@ namespace basecross {
         PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
         PtrDraw->SetFogEnabled(true);
         PtrDraw->SetOwnShadowActive(true);
-
+        PtrDraw->SetColorAndAlpha(Col4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
     void FixedBox::OnUpdate() {
