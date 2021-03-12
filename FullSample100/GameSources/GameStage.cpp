@@ -90,6 +90,11 @@ namespace basecross {
 		}
 	}
 
+	void GameStage::CreatePlayer()
+	{
+		AddGameObject<Player>(Vec3(1), Vec3(0), Vec3(1.0f,0,0));
+	}
+
 	void GameStage::CreateCellMap()
 	{
 		//float pixelSize = 1.0f;
@@ -106,6 +111,7 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateStage();
+			CreatePlayer();
 			wstring dataDir;
 			//サンプルのためアセットディレクトリを取得
 			App::GetApp()->GetAssetsDirectory(dataDir);

@@ -16,6 +16,7 @@ namespace basecross {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
 		void CreateStage();
+		void CreatePlayer();
 		wstring m_StageSelect_image;
 
 	public:
