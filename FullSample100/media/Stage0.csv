@@ -1,6 +1,6 @@
-ID,PosX,PosY,PosZ,RotX,RotY,Rotz,ScaleX,ScaleY,ScaleZ
-Wall,-15,5.5,0,0,90,0,30,10,1,
-Wall,15,5.5,0,0,90,0,30,10,1,
-Wall,0,5.5,-15,0,0,0,30,10,1,
-Wall,0,5.5,15,0,0,0,30,10,1,
-Floor,0,0,0,0,0,0,31,1,31,
+ID,ScaleX,ScaleY,ScaleZ,RotX,RotY,Rotz,PosX,PosY,PosZ
+Wall,30,10,1,0,0,0,0,5.5,-15
+Floor,31,1,31,0,0,0,0,0,0
+Wall,30,10,1,0,90,0,15,5.5,0
+Wall,30,10,1,0,90,0,-15,5.5,0
+Wall,30,10,1,0,0,0,0,5.5,15
