@@ -2,6 +2,92 @@
 #include "Project.h"
 
 namespace basecross {
+	Enemy1::Enemy1(const shared_ptr<Stage>& StagePtr,
+		const Vec3& Scale,
+		const Vec3& Rotation,
+		const Vec3& Position
+	) :
+		GameObject(StagePtr),
+		m_Scale(Scale),
+		m_Rotation(Rotation),
+		m_Position(Position),
+		m_Mesh(L"Enemy_robot1.bmf")
+	{}
+	Enemy1::~Enemy1() {}
+
+	void Enemy1::OnCreate() {
+		auto PtrTransform = GetComponent<Transform>();
+
+		PtrTransform->SetScale(m_Scale);
+		PtrTransform->SetRotation(m_Rotation);
+		PtrTransform->SetPosition(m_Position);
+
+		//auto PtrGra = AddComponent<Gravity>();
+
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetMakedSize(1.0f);
+
+		GetStage()->SetCollisionPerformanceActive(true);
+		GetStage()->SetUpdatePerformanceActive(true);
+		GetStage()->SetDrawPerformanceActive(true);
+
+		vector<VertexPositionNormalTexture> vertices;
+		vector<uint16_t> indices;
+		MeshUtill::CreateCube(1.0f, vertices, indices);
+		float UCount = m_Scale.x / m_UPic;
+		float VCount = m_Scale.z / m_VPic;
+		for (size_t i = 0; i < vertices.size(); i++) {
+			if (vertices[i].textureCoordinate.x >= 1.0f) {
+				vertices[i].textureCoordinate.x = UCount;
+			}
+			if (vertices[i].textureCoordinate.y >= 1.0f) {
+				float FrontBetween = bsm::angleBetweenNormals(vertices[i].normal, Vec3(0, 1, 0));
+				float BackBetween = bsm::angleBetweenNormals(vertices[i].normal, Vec3(0, -1, 0));
+				if (FrontBetween < 0.01f || BackBetween < 0.01f) {
+					vertices[i].textureCoordinate.y = VCount;
+				}
+			}
+		}
+
+		Mat4x4 SpanMat; // モデルとトランスフォームの間の差分行列
+		SpanMat.affineTransformation(
+			Vec3(1.0f, 1.0f, 1.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f));
+
+		//影をつける（シャドウマップを描画する）
+		auto ShadowPtr = AddComponent<Shadowmap>();
+		//影の形（メッシュ）を設定
+		ShadowPtr->SetMeshResource(m_Mesh);
+		//ShadowPtr->SetMeshToTransformMatrix(SpanMat);
+
+		//描画するメッシュを設定
+		auto ptrDraw = AddComponent<BcPNTStaticModelDraw>();
+		ptrDraw->SetDiffuse(Col4(1.0f, 1.0f, 1.0f, 1.0f));
+		ptrDraw->SetFogEnabled(true);
+		ptrDraw->SetOwnShadowActive(true);
+		ptrDraw->SetMeshResource(m_Mesh);
+		//ptrDraw->SetTextureResource(m_Texture);
+
+		//ptrDraw->AddAnimation(L"Wait", 0, 16, true, 1);
+		//ptrDraw->AddAnimation(L"Walk", 28, 44, true, 1);
+		//ptrDraw->ChangeCurrentAnimation(L"Wait");
+		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
+
+		////アクションの登録
+		//auto PtrAction = AddComponent<Action>();
+		//PtrAction->AddRotateBy(1.0f, Vec3(0, XM_PI, 0));
+		//PtrAction->AddRotateInterval(1.0f);
+		//PtrAction->AddMoveBy(2.0f, Vec3(4.0f, 0, 0));
+		//PtrAction->AddMoveBy(2.0f, Vec3(-4.0f, 0, 0));
+
+		////ループする
+		//PtrAction->SetLooped(true);
+		////アクション開始
+		//PtrAction->Run();
+	}
+
 
 }
 //end basecross
