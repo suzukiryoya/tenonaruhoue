@@ -32,7 +32,7 @@ namespace basecross{
 
 		PtrColl->SetMakedSize(1.0f);
 		//d—Í‚ğ‚Â‚¯‚é
-		/*auto PtrGra = */AddComponent<Gravity>();
+		///*auto PtrGra = */AddComponent<Gravity>();
 
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
