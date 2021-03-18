@@ -28,6 +28,7 @@ namespace basecross {
 		//‰Šú‰»
 		virtual void OnCreate()override;
 		virtual void CreateCellMap();
+		virtual void SetCellMapCost();
 	};
 
 

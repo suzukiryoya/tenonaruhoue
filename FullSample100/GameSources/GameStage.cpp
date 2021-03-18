@@ -95,17 +95,45 @@ namespace basecross {
 		AddGameObject<Player>(Vec3(1), Vec3(0), Vec3(1.0f,1.0f,0));
 	}
 
-	void GameStage::CreateCellMap()
-	{
-		//float pixelSize = 1.0f;
-		//auto ptr = AddGameObject<StageCellMap>(0.0f, 0.0f, 0.0f);
+	void GameStage::CreateCellMap() {
+		float PieceSize = 1.0f;
+		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 0.0f, -15.5f), PieceSize, 31, 31);
+		Ptr->SetDrawActive(false);
+		SetSharedGameObject(L"StageCellMap", Ptr);
+		SetCellMapCost();
+	}
+	void GameStage::SetCellMapCost() {
+		auto PtrCellMap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
+		auto BoxGroup = GetSharedObjectGroup(L"StageObject");
+		auto& CellVec = PtrCellMap->GetCellVec();
+		auto& BoxVec = BoxGroup->GetGroupVector();
+		vector<AABB> ObjectAABBVec;
+		for (auto& v : BoxVec)
+		{
+			auto FixedBoxPtr = dynamic_pointer_cast<Wall>(v.lock());
+			if (FixedBoxPtr)
+			{
+				auto ColPtr = FixedBoxPtr->GetComponent<CollisionObb>();
+				ObjectAABBVec.push_back(ColPtr->GetObb().GetWrappedAABB());
+			}
+		}
+		for (auto& v : CellVec) {
+			for (auto& v2 : v) {
+				for (auto& vObj : ObjectAABBVec) {
+					if (HitTest::AABB_AABB_NOT_EQUAL(v2.m_PieceRange, vObj)) {
+						v2.m_Cost = -1;
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	void GameStage::OnCreate() {
 		try {
 			wstring MediaDir;
 			App::GetApp()->GetDataDirectory(MediaDir);
-			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f));
+			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,1.0f,0.0f));
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage0.csv");
 			m_GameStageCsv.ReadCsv();
 			//ビューとライトの作成
