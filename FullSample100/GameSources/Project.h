@@ -19,3 +19,6 @@
 #include "Object.h"
 #include "StageObject.h"
 #include "MyUI.h"
+
+#include "TitleStage.h"
+#include "ResultStage.h"

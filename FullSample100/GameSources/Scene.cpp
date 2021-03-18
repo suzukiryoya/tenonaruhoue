@@ -99,12 +99,8 @@ namespace basecross{
 
 			//リソース作成
 			CreateResourses();
-			Col4 Col;
-			Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
-			SetClearColor(Col);
-			//自分自身にイベントを送る
-			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
+
+			SetGameStage(GameStageKey::game);
 		}
 		catch (...) {
 			throw;
@@ -114,12 +110,24 @@ namespace basecross{
 	Scene::~Scene() {
 	}
 
+
 	void Scene::OnEvent(const shared_ptr<Event>& event) {
-		if (event->m_MsgStr == L"ToGameStage") {
-			//最初のアクティブステージの設定
+
+		switch (m_gameStageKey)
+		{
+		case GameStageKey::title:
+			ResetActiveStage<TitleStage>();
+			break;
+		case GameStageKey::game:
 			ResetActiveStage<GameStage>();
+			break;
+		case GameStageKey::result:
+			ResetActiveStage<ResultStage>();
+			break;
 		}
+
 	}
+
 
 }
 //end basecross

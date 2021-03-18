@@ -4,9 +4,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -33,6 +30,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MyUI.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
+      <Filter>Sources\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
+      <Filter>Sources\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResultStage.cpp">
+      <Filter>Sources\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h">
@@ -42,9 +48,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h">
@@ -67,6 +70,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MyUI.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h">
+      <Filter>Headers\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
+      <Filter>Headers\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultStage.h">
+      <Filter>Headers\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -74,6 +86,12 @@
     </Filter>
     <Filter Include="Sources">
       <UniqueIdentifier>{327b033f-fed7-4e46-bf82-0966ecd29e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Stage">
+      <UniqueIdentifier>{a29c762e-7445-4344-849c-837dd29b1b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Stage">
+      <UniqueIdentifier>{d169000d-0684-4763-a669-dae2a53d3c41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
