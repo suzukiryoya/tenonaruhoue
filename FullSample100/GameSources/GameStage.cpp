@@ -12,7 +12,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(0.0f, 30.0f, -10.0f);
+		const Vec3 eye(0.0f, 50.0f, -10.0f);
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -97,8 +97,9 @@ namespace basecross {
 
 	void GameStage::CreateCellMap() {
 		float PieceSize = 1.0f;
-		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 0.0f, -15.5f), PieceSize, 31, 31);
-		Ptr->SetDrawActive(false);
+
+		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 0.5f, -15.5f), PieceSize, 30, 30);
+		Ptr->SetDrawActive(true);
 		SetSharedGameObject(L"StageCellMap", Ptr);
 		SetCellMapCost();
 	}
@@ -140,6 +141,7 @@ namespace basecross {
 			CreateViewLight();
 			CreateStage();
 			CreatePlayer();
+			CreateCellMap();
 			wstring dataDir;
 			//サンプルのためアセットディレクトリを取得
 			App::GetApp()->GetAssetsDirectory(dataDir);
