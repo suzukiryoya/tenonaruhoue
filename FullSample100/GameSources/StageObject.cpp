@@ -104,6 +104,7 @@ namespace basecross{
 
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
+		
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
 		MeshUtill::CreateCube(1.0f, vertices, indices);
@@ -131,5 +132,6 @@ namespace basecross{
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 	}
+
 }
 //end basecross

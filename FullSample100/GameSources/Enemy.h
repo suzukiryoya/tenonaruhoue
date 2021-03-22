@@ -26,5 +26,58 @@ namespace basecross {
 		//void OnUpdate();
 
 	};
+
+	class SeekObject : public GameObject {
+		//ステートマシーン
+		unique_ptr< StateMachine<SeekObject> >  m_StateMachine;
+		Vec3 m_StartPos;
+		float m_StateChangeSize;
+		//フォース
+		Vec3 m_Force;
+		//速度
+		Vec3 m_Velocity;
+	public:
+		//構築と破棄
+		SeekObject(const shared_ptr<Stage>& StagePtr, const Vec3& StartPos);
+		virtual ~SeekObject();
+		//初期化
+		virtual void OnCreate() override;
+		//アクセサ
+		const unique_ptr<StateMachine<SeekObject>>& GetStateMachine() {
+			return m_StateMachine;
+		}
+		float GetStateChangeSize() const {
+			return m_StateChangeSize;
+		}
+		const Vec3& GetForce()const {
+			return m_Force;
+		}
+		void SetForce(const Vec3& f) {
+			m_Force = f;
+		}
+		void AddForce(const Vec3& f) {
+			m_Force += f;
+		}
+
+
+		const Vec3& GetVelocity()const {
+			return m_Velocity;
+		}
+		void SetVelocity(const Vec3& v) {
+			m_Velocity = v;
+		}
+
+		void ApplyForce();
+
+		Vec3 GetTargetPos()const;
+
+
+		//操作
+		virtual void OnUpdate() override;
+		virtual void OnUpdate2() override;
+		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
+	};
+
+
 }
 //end basecross

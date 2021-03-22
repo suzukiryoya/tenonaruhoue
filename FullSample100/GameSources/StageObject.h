@@ -41,6 +41,7 @@ namespace basecross{
 			float VPic);
 		virtual ~Wall();
 		virtual void OnCreate();
+		//void OnCollisionEnter(shared_ptr<GameObject>& other);
 	};
 
 }

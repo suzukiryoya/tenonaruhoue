@@ -27,6 +27,11 @@ namespace basecross{
 		}
 
 		virtual void OnCreate() override; // プレイヤーの作成
+		virtual void OnUpdate();
+
+		void playerMove();
+		void OnCollisionEnter(shared_ptr<GameObject>& other);
+
 		void PlayerRestart();			  // プレイヤーのリスポーン
 
 		//virtual void OnCollisionEnter(shared_ptr<GameObject>& other) override;   // 衝突判定に使う
@@ -44,6 +49,15 @@ namespace basecross{
 		Vec3 m_Rotation;
 		Vec3 m_CameraAt;
 
+		vector<Vec3> m_Checkpoints = 
+		{
+			{ 0, 1.0f, 6.0f },
+			{ 0, 1.0f, 11.0f },
+			{ 0, 1.0f, 6.0f },
+			{12.0f, 1.0f, -9.5f}
+		};
+		Vec3 m_GoalPos;
+ 
 		wstring m_Mesh;
 
 		float m_Speed;

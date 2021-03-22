@@ -12,7 +12,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(0.0f, 10.0f, -10.0f);
+		const Vec3 eye(0.0f, 15.0f, -5.0f);
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -86,19 +86,22 @@ namespace basecross {
 			);
 
 			auto wall = AddGameObject<Wall>(Scale, Rot, Pos, 1.0f, 1.0f);
+			wall->AddTag(L"Wall");
 			BoxesGroup->IntoGroup(wall);
 		}
 	}
 
 	void GameStage::CreatePlayer()
 	{
-		AddGameObject<Player>(Vec3(1.0f), Vec3(0), Vec3(1.0f,1.0f,-0.5f));
+		auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0), Vec3(1.0f,2.0f,-1.0f));
+		player->AddTag(L"Player");
+
 	}
 
 	void GameStage::CreateCellMap() {
 		float PieceSize = 1.0f;
 
-		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 0.5f, -15.5f), PieceSize, 30, 30);
+		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 1.0f, -15.5f), PieceSize, 30, 30);
 		Ptr->SetDrawActive(true);
 		SetSharedGameObject(L"StageCellMap", Ptr);
 		SetCellMapCost();
