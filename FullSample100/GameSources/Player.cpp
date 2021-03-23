@@ -11,7 +11,7 @@ namespace basecross{
 		const Vec3& Scale,
 		const Vec3& Rotation,
 		const Vec3& Position)
-		: GameObject(StagePtr), m_Speed(5.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position), m_Mesh(L"Protagonist_Robot_2.bmf")
+		: GameObject(StagePtr), m_Speed(5.0f), m_GoalPos(12.0f,1.0f,-9.5f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position), m_Mesh(L"Protagonist_Robot_2_ver2.bmf")
 	{
 	}
 
@@ -28,17 +28,15 @@ namespace basecross{
 		PtrTrans->SetPosition(m_Position);
 
 		//CollisionObb衝突判定を付ける
-		auto PtrColl = AddComponent<CollisionObb>();
-
-		PtrColl->SetMakedSize(1.0f);
+		auto ptrColl = AddComponent<CollisionObb>();
+		
+		ptrColl->SetMakedSize(1.5f);
 		//重力をつける
-		///*auto PtrGra = */AddComponent<Gravity>();
+		auto PtrGra = AddComponent<Gravity>();
 
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
 		GetStage()->SetDrawPerformanceActive(true);
-
-		AddTag(L"Player");
 
 		Mat4x4 SpanMat; // モデルとトランスフォームの間の差分行列
 		SpanMat.affineTransformation(
@@ -81,6 +79,37 @@ namespace basecross{
 			//MyCameraに注目するオブジェクト（プレイヤー）の設定
 			//ptrCamera->SetTargetObject(GetThis<GameObject>());
 			//ptrCamera->SetTargetToAt(GetComponent<Transform>()->GetPosition());
+		}
+	}
+
+	void Player::OnUpdate()
+	{
+		playerMove();
+	}
+
+	void Player::playerMove()
+	{
+		auto ptrTrans = GetComponent<Transform>();
+		auto pos = ptrTrans->GetPosition();
+		float elapsedTime = App::GetApp()->GetElapsedTime();
+	}
+
+	void Player::OnCollisionEnter(shared_ptr<GameObject>& other)
+	{
+		//auto ptr = GetStage()->CreateSharedObjectGroup(L"Wall");
+		auto trans = GetComponent<Transform>();
+		float elapsedTime = App::GetApp()->GetElapsedTime();
+
+		if (other->FindTag(L"Wall"))
+		{
+			auto pos = trans->GetPosition();
+			auto GoalToNowPos = pos - m_GoalPos;
+			GoalToNowPos.normalize();
+
+			pos -= GoalToNowPos * elapsedTime * m_Speed;
+
+			trans->SetRotation(-GoalToNowPos.x, 0, 0);
+			trans->SetPosition(pos);
 		}
 	}
 

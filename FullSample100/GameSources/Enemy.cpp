@@ -22,7 +22,7 @@ namespace basecross {
 		PtrTransform->SetRotation(m_Rotation);
 		PtrTransform->SetPosition(m_Position);
 
-		//auto PtrGra = AddComponent<Gravity>();
+		auto PtrGra = AddComponent<Gravity>();
 
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetMakedSize(1.0f);
@@ -74,20 +74,7 @@ namespace basecross {
 		//ptrDraw->AddAnimation(L"Walk", 28, 44, true, 1);
 		//ptrDraw->ChangeCurrentAnimation(L"Wait");
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
-
-		////アクションの登録
-		//auto PtrAction = AddComponent<Action>();
-		//PtrAction->AddRotateBy(1.0f, Vec3(0, XM_PI, 0));
-		//PtrAction->AddRotateInterval(1.0f);
-		//PtrAction->AddMoveBy(2.0f, Vec3(4.0f, 0, 0));
-		//PtrAction->AddMoveBy(2.0f, Vec3(-4.0f, 0, 0));
-
-		////ループする
-		//PtrAction->SetLooped(true);
-		////アクション開始
-		//PtrAction->Run();
 	}
-
 
 }
 //end basecross

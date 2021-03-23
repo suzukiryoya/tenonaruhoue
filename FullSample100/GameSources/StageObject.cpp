@@ -59,10 +59,13 @@ namespace basecross{
 			}
 		}
 
-		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+		auto PtrDraw = AddComponent<BcPCTStaticDraw>();
 		PtrDraw->CreateOriginalMesh(vertices, indices);
 		PtrDraw->SetOriginalMeshUse(true);
-		PtrDraw->SetFogEnabled(true);
+		//PtrDraw->SetFogEnabled(true);
+		//Žb’è“I‚ÉF•Ï‚¦‚Ü‚µ‚½(•K—v‚È‚­‚È‚Á‚½‚çÁ‚µ‚Ä‚Ë)
+		auto color = Col4(0.0f,0.0f,0.0f,1.0f);
+		PtrDraw->SetDiffuse(color);
 		//Ž©•ª‚É‰e‚ª‰f‚è‚±‚Þ‚æ‚¤‚É‚·‚é
 		PtrDraw->SetOwnShadowActive(true);
 		PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
@@ -101,6 +104,7 @@ namespace basecross{
 
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
+		
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
 		MeshUtill::CreateCube(1.0f, vertices, indices);
@@ -128,5 +132,6 @@ namespace basecross{
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 	}
+
 }
 //end basecross
