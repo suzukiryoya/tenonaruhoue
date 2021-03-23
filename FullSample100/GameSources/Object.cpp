@@ -44,9 +44,14 @@ namespace basecross {
 	}
 
     void FixedBox::OnUpdate() {
-
+        
     }
 
+    void FixedBox::OnPushA() {
+
+        GetStage()->AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
+
+    }
 
     TriggerBox::TriggerBox(const shared_ptr<Stage>& StagePtr,
         const Vec3& Scale,
@@ -80,6 +85,8 @@ namespace basecross {
         PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
         PtrDraw->SetFogEnabled(true);
         PtrDraw->SetOwnShadowActive(true);
+        PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 1.0f));
+
 
     }
 
