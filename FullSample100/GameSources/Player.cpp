@@ -11,7 +11,7 @@ namespace basecross{
 		const Vec3& Scale,
 		const Vec3& Rotation,
 		const Vec3& Position)
-		: GameObject(StagePtr), m_Speed(5.0f), m_GoalPos(12.0f,1.0f,-9.5f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position), m_Mesh(L"Protagonist_Robot_2_ver2.bmf")
+		: GameObject(StagePtr), m_Speed(5.0f), m_GoPointPos(-14.0f,0.0f,0.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position), m_Mesh(L"Protagonist_Robot_2_ver2.bmf")
 	{
 	}
 
@@ -89,9 +89,17 @@ namespace basecross{
 
 	void Player::playerMove()
 	{
-		auto ptrTrans = GetComponent<Transform>();
-		auto pos = ptrTrans->GetPosition();
+		auto trans = GetComponent<Transform>();
+		m_Position = trans->GetPosition();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
+
+		auto GoalToNowPos = m_Position + m_GoPointPos;
+		GoalToNowPos.normalize();
+
+		m_Position -= GoalToNowPos * elapsedTime * m_Speed;
+
+		trans->SetRotation(0, m_Rotation.y, 0);
+		trans->SetPosition(m_Position.x,2.0f, m_Position.z);
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& other)
@@ -103,13 +111,25 @@ namespace basecross{
 		if (other->FindTag(L"Wall"))
 		{
 			auto pos = trans->GetPosition();
-			auto GoalToNowPos = pos - m_GoalPos;
+
+			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
+
+			auto GoalToNowPos = pos - m_GoPointPos;
+
+			//if (GoalToNowPos.y < 0)
+			//{
+			//	GoalToNowPos.y = XM_PI;
+			//	m_Rotation.y += GoalToNowPos.y;
+			//}
+			//else
+			//{
+			GoalToNowPos.y = -XM_PI;
+			m_Rotation.y += GoalToNowPos.y;
+			//}
 			GoalToNowPos.normalize();
 
-			pos -= GoalToNowPos * elapsedTime * m_Speed;
+			m_Position -= GoalToNowPos * elapsedTime * m_Speed;
 
-			trans->SetRotation(-GoalToNowPos.x, 0, 0);
-			trans->SetPosition(pos);
 		}
 	}
 

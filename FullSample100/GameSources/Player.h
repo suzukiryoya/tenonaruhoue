@@ -27,7 +27,7 @@ namespace basecross{
 		}
 
 		virtual void OnCreate() override; // ÉvÉåÉCÉÑÅ[ÇÃçÏê¨
-		virtual void OnUpdate();
+		virtual void OnUpdate() override;
 
 		void playerMove();
 		void OnCollisionEnter(shared_ptr<GameObject>& other);
@@ -56,7 +56,7 @@ namespace basecross{
 			{ 0, 1.0f, 6.0f },
 			{12.0f, 1.0f, -9.5f}
 		};
-		Vec3 m_GoalPos;
+		Vec3 m_GoPointPos;
  
 		wstring m_Mesh;
 
