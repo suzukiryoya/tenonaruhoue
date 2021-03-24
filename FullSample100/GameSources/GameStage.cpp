@@ -135,9 +135,15 @@ namespace basecross {
 
 	void GameStage::OnCreate() {
 		try {
+			//物理計算有効
+			SetPhysicsActive(true);
+
 			wstring MediaDir;
 			App::GetApp()->GetDataDirectory(MediaDir);
-			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,1.0f,0.0f));
+
+			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,3.0f,0.0f));
+			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
+
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage0.csv");
 			m_GameStageCsv.ReadCsv();
 			//ビューとライトの作成
@@ -162,6 +168,185 @@ namespace basecross {
 			throw;
 		}
 	}
+
+	void GameStage::OnUpdate()
+	{
+		//キーボード（マウス）の取得
+		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
+		m_MousePoint = KeyState.m_MouseClientPoint;
+		if (KeyState.m_bPressedKeyTbl[VK_LBUTTON]) {
+			OnLButtonEnter();
+		}
+		else if (KeyState.m_bUpKeyTbl[VK_LBUTTON]) {
+			OnLButtonUp();
+		}
+		else if (KeyState.m_bPressedKeyTbl[VK_RBUTTON]) {
+			OnRButtonEnter();
+		}
+		Vec3 Near; Vec3 Far;
+		GetMouseRay(Near, Far);
+
+		auto cxScreen = GetSystemMetrics(SM_CXSCREEN);
+		auto cyScreen = GetSystemMetrics(SM_CYSCREEN);
+
+		wstring ScreenStr(L"Screen:\t");
+		ScreenStr += L"X=" + Util::IntToWStr(cxScreen) + L",\t";
+		ScreenStr += L"Y=" + Util::IntToWStr(cyScreen) + L",\n";
+
+
+		auto viewport = GetView()->GetTargetViewport();
+		wstring ViewStr(L"View:\t");
+		ViewStr += L"Width=" + Util::FloatToWStr(viewport.Width, 6, Util::FloatModify::Fixed) + L",\t";
+		ViewStr += L"Height=" + Util::FloatToWStr(viewport.Height, 6, Util::FloatModify::Fixed) + L",\n";
+
+		wstring MouseRayNearStr(L"MouseRayNear:\t");
+		MouseRayNearStr += L"X=" + Util::FloatToWStr(Near.x, 6, Util::FloatModify::Fixed) + L",\t";
+		MouseRayNearStr += L"Y=" + Util::FloatToWStr(Near.y, 6, Util::FloatModify::Fixed) + L",\t";
+		MouseRayNearStr += L"Z=" + Util::FloatToWStr(Near.z, 6, Util::FloatModify::Fixed) + L"\n";
+
+		wstring MouseRayFarStr(L"MouseRayFar:\t");
+		MouseRayFarStr += L"X=" + Util::FloatToWStr(Far.x, 6, Util::FloatModify::Fixed) + L",\t";
+		MouseRayFarStr += L"Y=" + Util::FloatToWStr(Far.y, 6, Util::FloatModify::Fixed) + L",\t";
+		MouseRayFarStr += L"Z=" + Util::FloatToWStr(Far.z, 6, Util::FloatModify::Fixed) + L"\n";
+
+		wstring str = ScreenStr + ViewStr
+			+ MouseRayNearStr + MouseRayFarStr;
+
+		//AddGameObject<UI_Text>(
+		//	L"メイリオ",
+		//	100.0f,
+		//	Col4(1.0f, 1.0f, 1.0f, 1.0f),
+		//	Rect2D<float>(0.0f, 200.0f, 1820.0f, 500.0f),
+		//	StringSprite::TextAlignment::m_Center,
+		//	MouseRayNearStr,
+		//	false
+		//	);
+	}
+
+	void GameStage::GetMouseRay(Vec3& Near, Vec3& Far) {
+		Mat4x4 world, view, proj;
+		world.affineTransformation(
+			Vec3(1.0f, 1.0f, 1.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f)
+		);
+		auto PtrCamera = GetView()->GetTargetCamera();
+		view = PtrCamera->GetViewMatrix();
+		proj = PtrCamera->GetProjMatrix();
+		auto viewport = GetView()->GetTargetViewport();
+
+		//フルスクリーンだった時の対応
+		App::GetApp()->GetDeviceResources()->GetD3DDevice();
+		auto width = viewport.Width;
+		auto height = viewport.Height;
+		auto winLong = GetWindowLong(App::GetApp()->GetHWnd(), GWL_STYLE);
+		if (!(winLong & WS_OVERLAPPEDWINDOW)) {
+			//フルスクリーン
+			width = (float)GetSystemMetrics(SM_CXSCREEN);
+			height = (float)GetSystemMetrics(SM_CYSCREEN);
+		}
+
+		Near = XMVector3Unproject(
+			Vec3((float)m_MousePoint.x, (float)m_MousePoint.y, 0),
+			viewport.TopLeftX,
+			viewport.TopLeftY,
+			width,
+			height,
+			viewport.MinDepth,
+			viewport.MaxDepth,
+			proj,
+			view,
+			world);
+
+		Far = XMVector3Unproject(
+			Vec3((float)m_MousePoint.x, (float)m_MousePoint.y, 1.0),
+			viewport.TopLeftX,
+			viewport.TopLeftY,
+			width,
+			height,
+			viewport.MinDepth,
+			viewport.MaxDepth,
+			proj,
+			view,
+			world);
+	}
+
+	void GameStage::SelectClear() {
+		for (auto& v : GetGameObjectVec()) {
+			auto PsPtr = dynamic_pointer_cast<ActivePsObject>(v);
+			if (PsPtr) {
+				PsPtr->SetSelected(false);
+			}
+		}
+	}
+
+
+	//マウスの左ボタン押した瞬間
+	void GameStage::OnLButtonEnter() {
+		SelectClear();
+		auto PtrCamera = GetView()->GetTargetCamera();
+		Vec3 Eye = PtrCamera->GetEye();
+
+		vector<shared_ptr<ActivePsObject>> ObjVec;
+		Vec3 NearPos, FarPos;
+		GetMouseRay(NearPos, FarPos);
+		for (auto& v : GetGameObjectVec()) {
+			auto PsPtr = dynamic_pointer_cast<ActivePsObject>(v);
+			if (PsPtr) {
+				auto ColObb = PsPtr->GetComponent<CollisionObb>(false);
+				auto ColSp = PsPtr->GetComponent<CollisionSphere>(false);
+				auto ColCapsule = PsPtr->GetComponent<CollisionCapsule>(false);
+				if (ColObb) {
+					auto Obb = ColObb->GetObb();
+					if (HitTest::SEGMENT_OBB(NearPos, FarPos, Obb)) {
+						ObjVec.push_back(PsPtr);
+						AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
+
+					}
+				}
+				else if (ColSp) {
+					auto Sp = ColSp->GetSphere();
+					if (HitTest::SEGMENT_SPHERE(NearPos, FarPos, Sp)) {
+						ObjVec.push_back(PsPtr);
+					}
+				}
+				else if (ColCapsule) {
+					auto Cap = ColCapsule->GetCapsule();
+					if (HitTest::SEGMENT_CAPSULE(NearPos, FarPos, Cap)) {
+						ObjVec.push_back(PsPtr);
+					}
+				}
+			}
+		}
+		if (ObjVec.size() > 0) {
+			float MinSpan = 1000.0f;
+			shared_ptr<ActivePsObject> SelectObj = nullptr;
+			for (auto& v : ObjVec) {
+				float Span = length(v->GetComponent<Transform>()->GetPosition() - Eye);
+				if (Span < MinSpan) {
+					MinSpan = Span;
+					SelectObj = v;
+				}
+			}
+			if (SelectObj) {
+				SelectObj->SetSelected(true);
+			}
+		}
+	}
+
+	//マウスの左ボタン(離した)
+	void GameStage::OnLButtonUp() {
+		SelectClear();
+
+	}
+
+	//マウスの右ボタン(押した瞬間)
+	void GameStage::OnRButtonEnter() {
+		PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitleStage");
+	}
+
+
 
 }
 //end basecross
