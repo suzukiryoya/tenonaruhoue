@@ -165,6 +165,9 @@ namespace basecross {
         PtrDraw->SetOwnShadowActive(true);
         PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
 
+        auto ptrString = AddComponent<StringSprite>();
+
+
 
 	}
 
@@ -181,10 +184,6 @@ namespace basecross {
 	//文字列の表示
 	void Kakuninn::DrawStrings() {
 
-		//文字列表示
-		wstring Mess(L"コントローラ: Aでジャンプ、Xボタンで発射\n");
-		Mess += L"キーボード: WASDで移動、Spaceでジャンプ、Xで発射。矢印,PageUP,Down: カメラ\n";
-		Mess += L"マウス: クリックで物理オブジェクトつかむ\n";
 		//オブジェクト数
 		auto ObjCount = GetStage()->GetGameObjectVec().size();
 		wstring OBJ_COUNT(L"OBJ_COUNT: ");
@@ -260,13 +259,13 @@ namespace basecross {
 		collTernCountStr += L"\n";
 
 
-		wstring str = Mess + OBJ_COUNT + PS_OBJ_COUNT + FPS + PositionStr + MousePosStr + ScreenStr + ViewStr
+		wstring str =  OBJ_COUNT + PS_OBJ_COUNT + FPS + PositionStr + MousePosStr + ScreenStr + ViewStr
 			+ MouseRayNearStr + MouseRayFarStr
 			+ updatePerStr + drawPerStr + collPerStr + collMiscStr
 			+ collTernCountStr;
-		////文字列をつける
-		//auto PtrString = GetComponent<StringSprite>();
-		//PtrString->SetText(str);
+		//文字列をつける
+		auto PtrString = GetComponent<StringSprite>();
+		PtrString->SetText(str);
 	}
 
 
