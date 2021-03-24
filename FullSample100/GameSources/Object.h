@@ -7,6 +7,36 @@
 #include "stdafx.h"
 
 namespace basecross {
+
+	//--------------------------------------------------------------------------------------
+///	物理計算するアクティブなオブジェクトの親
+//--------------------------------------------------------------------------------------
+	class ActivePsObject : public GameObject {
+		bool m_Selected;
+	protected:
+		ActivePsObject(const shared_ptr<Stage>& StagePtr) :
+			GameObject(StagePtr), m_Selected(false) {}
+		virtual ~ActivePsObject() {}
+	public:
+		void SetSelected(bool b) {
+			m_Selected = b;
+			auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+			if (b) {
+				PtrDraw->SetEmissive(Col4(1.0f, 1.0f, 0, 0));
+
+			}
+			else {
+				PtrDraw->SetEmissive(Col4(0.0f, 0.0f, 0, 0));
+			}
+
+		}
+		bool IsSelected() {
+			return m_Selected;
+		}
+		//更新
+		virtual void OnUpdate() override;
+	};
+
 	class FixedBox : public GameObject {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;

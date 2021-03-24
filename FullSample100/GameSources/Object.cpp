@@ -8,6 +8,32 @@
 
 namespace basecross {
 
+    //--------------------------------------------------------------------------------------
+///	物理計算するアクティブなオブジェクトの親
+//--------------------------------------------------------------------------------------
+    void ActivePsObject::OnUpdate() {
+        if (!IsSelected()) {
+            return;
+        }
+        Vec3 Near, Far;
+        GetTypeStage<GameStage>()->GetMouseRay(Near, Far);
+        auto PsPtr = GetDynamicComponent<RigidbodySingle>(false);
+        if (PsPtr) {
+            auto PsPos = PsPtr->GetPosition();
+            float t;
+            Vec3 RayPos;
+            //現在位置と一番近いレイ上の点を得る
+            HitTest::ClosetPtPointSegment(PsPos, Near, Far, t, RayPos);
+            Vec3 ToVec = RayPos - PsPos;
+            ToVec *= 2.0f;
+            PsPtr->WakeUp();
+            PsPtr->SetLinearVelocity(ToVec);
+        }
+    }
+
+
+
+
     FixedBox::FixedBox(const shared_ptr<Stage>& StagePtr,
         const Vec3& Scale,
         const Vec3& Rotation,
@@ -44,12 +70,17 @@ namespace basecross {
 	}
 
     void FixedBox::OnUpdate() {
-        
+        auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
+        auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+        if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
+            GetStage()->AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
+
+        }
+
     }
 
     void FixedBox::OnPushA() {
 
-        GetStage()->AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
 
     }
 
@@ -71,12 +102,9 @@ namespace basecross {
         PtrTransform->SetScale(m_Scale);
         PtrTransform->SetRotation(m_Rotation);
         PtrTransform->SetPosition(m_Position);
-        //OBB衝突j判定を付ける
-        auto PtrColl = AddComponent<CollisionObb>();
-        PtrColl->SetFixed(true);
         
         //タグをつける
-        AddTag(L"FixedBox");
+        AddTag(L"SoundBox");
         //影をつける（シャドウマップを描画する）
         auto ShadowPtr = AddComponent<Shadowmap>();
         //影の形（メッシュ）を設定
@@ -85,7 +113,7 @@ namespace basecross {
         PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
         PtrDraw->SetFogEnabled(true);
         PtrDraw->SetOwnShadowActive(true);
-        PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 1.0f));
+        PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
 
 
     }

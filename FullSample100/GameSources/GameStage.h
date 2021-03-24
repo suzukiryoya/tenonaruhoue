@@ -22,7 +22,7 @@ namespace basecross {
 	public:
 		//\’z‚Æ”jŠü
 		GameStage() :Stage(),
-			m_StageSelect_image(L"cursor.png")
+			m_StageSelect_image(L"cursor2.png")
 		{}
 		virtual ~GameStage() {}
 		//‰Šú‰»
