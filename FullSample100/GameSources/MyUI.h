@@ -71,4 +71,46 @@ namespace basecross {
 
 	};
 
+	//テキスト
+	class UI_Text :public GameObject {
+		wstring m_fontName;
+		float m_fontSize;
+		Col4 m_color;
+		Rect2D<float> m_rect;
+		StringSprite::TextAlignment m_textAlignment;
+		wstring m_text;
+		int m_layer;
+		bool m_isBk;
+
+	public:
+		UI_Text(const shared_ptr<Stage>& StagePtr,
+			const wstring& fontName,
+			const float fontSize,
+			const Col4& color,
+			const Rect2D<float>& rect,
+			const StringSprite::TextAlignment textAlignment,
+			const wstring& text,
+			const int layer,
+			const bool isBk
+		) :
+			GameObject(StagePtr),
+			m_fontName(fontName),
+			m_fontSize(fontSize),
+			m_color(color),
+			m_rect(rect),
+			m_textAlignment(textAlignment),
+			m_text(text),
+			m_layer(layer),
+			m_isBk(isBk)
+		{}
+		~UI_Text() {}
+
+		virtual void OnCreate() override;
+
+		void UpdateText(const wstring value);
+
+		void Remove();
+	};
+
+
 }

@@ -37,7 +37,7 @@ namespace basecross {
 		virtual void OnUpdate() override;
 	};
 
-	class FixedBox : public GameObject {
+	class FixedBox : public ActivePsObject {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
@@ -52,6 +52,8 @@ namespace basecross {
 		//初期化
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+		virtual void OnUpdate2() override;
+
 
 		void OnPushA();
 		//操作
@@ -74,6 +76,48 @@ namespace basecross {
 		virtual void OnCreate() override;
 		//操作
 
-	};
 	//end basecross
+
+	};
+
+	//--------------------------------------------------------------------------------------
+	///	プレイヤー
+	//--------------------------------------------------------------------------------------
+	class Kakuninn : public GameObject {
+
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
+
+		//文字列の表示
+		void DrawStrings();
+	public:
+		//構築と破棄
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief	コンストラクタ
+		@param[in]	StagePtr	ステージ
+		@param[in]	StartPos	初期位置
+		*/
+		//--------------------------------------------------------------------------------------
+		Kakuninn(const shared_ptr<Stage>& StagePtr,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position);
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief	デストラクタ
+		*/
+		//--------------------------------------------------------------------------------------
+		virtual ~Kakuninn() {}
+		//アクセサ
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+		virtual void OnUpdate2() override;
+
+	};
+
+
 }

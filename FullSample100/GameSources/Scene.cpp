@@ -100,6 +100,7 @@ namespace basecross{
 
 			//ƒŠƒ\[ƒXì¬
 			CreateResourses();
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
 
 			SetGameStage(GameStageKey::game);
 		}
