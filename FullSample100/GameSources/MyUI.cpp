@@ -104,4 +104,25 @@ namespace basecross {
 	}
 
 
+	//テキスト
+	void UI_Text::OnCreate() {
+		SetDrawLayer(m_layer);
+		auto text = AddComponent<StringSprite>();
+		text->SetTextAlignment(m_textAlignment);
+		text->SetFont(m_fontName, m_fontSize);
+		text->SetTextRect(m_rect);
+		text->SetFontColor(m_color);
+		text->SetText(m_text);
+		if (m_isBk) text->SetBackColor(Col4(0.0f, 0.0f, 0.0f, 1.0f));
+	}
+	void UI_Text::UpdateText(const wstring value) {
+		auto text = GetComponent<StringSprite>();
+		text->SetText(value);
+	}
+	void UI_Text::Remove() {
+		GetStage()->RemoveGameObject<GameObject>(GetThis<UI_Text>());
+	}
+
+
+
 }

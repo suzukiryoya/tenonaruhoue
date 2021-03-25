@@ -11,7 +11,7 @@ namespace basecross{
 		const Vec3& Scale,
 		const Vec3& Rotation,
 		const Vec3& Position)
-		: GameObject(StagePtr), m_Speed(5.0f), m_GoPointPos(-14.0f,0.0f,0.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position), m_Mesh(L"Protagonist_Robot_2_ver2.bmf")
+		: GameObject(StagePtr), m_Speed(5.0f), m_GoPointPos(-14.0f,0.0f,0.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position), m_Mesh(L"Protagonist_Robot_3.bmf")
 	{
 	}
 
@@ -66,8 +66,8 @@ namespace basecross{
 		//ptrDraw->AddAnimation(L"Walk", 10, 30, true, 110);
 		//ptrDraw->ChangeCurrentAnimation(L"Wait");
 
-		//////描画するテクスチャを設定
-		//ptrDraw->SetTextureResource(L"PLAYER_TX");
+		////描画するテクスチャを設定
+		ptrDraw->SetTextureResource(L"Tx_Protagonist_Robot.tga");
 
 
 		//SetAlphaActive(true);
