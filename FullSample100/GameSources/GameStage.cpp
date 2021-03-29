@@ -12,7 +12,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(0.0f, 35.0f, -5.0f);
+		const Vec3 eye(0.0f, 20.0f, -5.0f);
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -31,7 +31,8 @@ namespace basecross {
 
 		vector<wstring> LineVec1;
 		vector<wstring> LineVec2;
-
+		vector<wstring> LineVec3;
+		vector<wstring> LineVec4;
 
 		m_GameStageCsv.GetSelect(LineVec1, 0, L"Floor");
 		for (auto& v : LineVec1)
@@ -89,6 +90,64 @@ namespace basecross {
 			wall->AddTag(L"Wall");
 			BoxesGroup->IntoGroup(wall);
 		}
+
+		m_GameStageCsv.GetSelect(LineVec3, 0, L"Enemy1");
+		for (auto& v : LineVec3)
+		{
+			//トークン（カラム）の配列
+			vector<wstring> Tokens;
+			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+			Util::WStrToTokenVector(Tokens, v, L',');
+			//各トークン（カラム）をスケール、回転、位置に読み込む
+			Vec3 Scale(
+				(float)_wtof(Tokens[1].c_str()),
+				(float)_wtof(Tokens[2].c_str()),
+				(float)_wtof(Tokens[3].c_str())
+			);
+			Vec3 Rot;
+			//回転はXM_PIDIV2の文字列になっている場合がある
+			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+			Vec3 Pos(
+				(float)_wtof(Tokens[7].c_str()),
+				(float)_wtof(Tokens[8].c_str()),
+				(float)_wtof(Tokens[9].c_str())
+			);
+
+			auto enemy1 = AddGameObject<Enemy1>(Scale, Rot, Pos, 1.0f, 1.0f);
+			enemy1->AddTag(L"Enemy1");
+			BoxesGroup->IntoGroup(enemy1);
+		}
+
+		m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
+		for (auto& v : LineVec4)
+		{
+			//トークン（カラム）の配列
+			vector<wstring> Tokens;
+			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+			Util::WStrToTokenVector(Tokens, v, L',');
+			//各トークン（カラム）をスケール、回転、位置に読み込む
+			Vec3 Scale(
+				(float)_wtof(Tokens[1].c_str()),
+				(float)_wtof(Tokens[2].c_str()),
+				(float)_wtof(Tokens[3].c_str())
+			);
+			Vec3 Rot;
+			//回転はXM_PIDIV2の文字列になっている場合がある
+			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+			Vec3 Pos(
+				(float)_wtof(Tokens[7].c_str()),
+				(float)_wtof(Tokens[8].c_str()),
+				(float)_wtof(Tokens[9].c_str())
+			);
+
+			auto enemy2 = AddGameObject<Enemy2>(Scale, Rot, Pos, 1.0f, 1.0f);
+			enemy2->AddTag(L"Enemy2");
+			BoxesGroup->IntoGroup(enemy2);
+		}
 	}
 
 	void GameStage::CreatePlayer()
@@ -144,7 +203,7 @@ namespace basecross {
 			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,3.0f,0.0f));
 			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 
-			m_GameStageCsv.SetFileName(MediaDir + L"Stage0.csv");
+			m_GameStageCsv.SetFileName(MediaDir + L"Stage1_1.csv");
 			m_GameStageCsv.ReadCsv();
 			//ビューとライトの作成
 			CreateViewLight();
