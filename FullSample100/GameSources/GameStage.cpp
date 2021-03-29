@@ -183,44 +183,8 @@ namespace basecross {
 		else if (KeyState.m_bPressedKeyTbl[VK_RBUTTON]) {
 			OnRButtonEnter();
 		}
-		Vec3 Near; Vec3 Far;
-		GetMouseRay(Near, Far);
-
-		auto cxScreen = GetSystemMetrics(SM_CXSCREEN);
-		auto cyScreen = GetSystemMetrics(SM_CYSCREEN);
-
-		wstring ScreenStr(L"Screen:\t");
-		ScreenStr += L"X=" + Util::IntToWStr(cxScreen) + L",\t";
-		ScreenStr += L"Y=" + Util::IntToWStr(cyScreen) + L",\n";
 
 
-		auto viewport = GetView()->GetTargetViewport();
-		wstring ViewStr(L"View:\t");
-		ViewStr += L"Width=" + Util::FloatToWStr(viewport.Width, 6, Util::FloatModify::Fixed) + L",\t";
-		ViewStr += L"Height=" + Util::FloatToWStr(viewport.Height, 6, Util::FloatModify::Fixed) + L",\n";
-
-		wstring MouseRayNearStr(L"MouseRayNear:\t");
-		MouseRayNearStr += L"X=" + Util::FloatToWStr(Near.x, 6, Util::FloatModify::Fixed) + L",\t";
-		MouseRayNearStr += L"Y=" + Util::FloatToWStr(Near.y, 6, Util::FloatModify::Fixed) + L",\t";
-		MouseRayNearStr += L"Z=" + Util::FloatToWStr(Near.z, 6, Util::FloatModify::Fixed) + L"\n";
-
-		wstring MouseRayFarStr(L"MouseRayFar:\t");
-		MouseRayFarStr += L"X=" + Util::FloatToWStr(Far.x, 6, Util::FloatModify::Fixed) + L",\t";
-		MouseRayFarStr += L"Y=" + Util::FloatToWStr(Far.y, 6, Util::FloatModify::Fixed) + L",\t";
-		MouseRayFarStr += L"Z=" + Util::FloatToWStr(Far.z, 6, Util::FloatModify::Fixed) + L"\n";
-
-		wstring str = ScreenStr + ViewStr
-			+ MouseRayNearStr + MouseRayFarStr;
-
-		//AddGameObject<UI_Text>(
-		//	L"ÉÅÉCÉäÉI",
-		//	100.0f,
-		//	Col4(1.0f, 1.0f, 1.0f, 1.0f),
-		//	Rect2D<float>(0.0f, 200.0f, 1820.0f, 500.0f),
-		//	StringSprite::TextAlignment::m_Center,
-		//	MouseRayNearStr,
-		//	false
-		//	);
 	}
 
 	void GameStage::GetMouseRay(Vec3& Near, Vec3& Far) {
