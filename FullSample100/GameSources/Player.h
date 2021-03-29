@@ -29,7 +29,7 @@ namespace basecross{
 		virtual void OnCreate() override; // プレイヤーの作成
 		virtual void OnUpdate() override;
 
-		void playerMove();
+		void playerMove(bool flag);
 		void OnCollisionEnter(shared_ptr<GameObject>& other);
 
 		void PlayerRestart();			  // プレイヤーのリスポーン
@@ -38,9 +38,9 @@ namespace basecross{
 		//virtual void OnCollisionExcute(shared_ptr<GameObject>& other) override; // 衝突判定に使う
 		//virtual void OnCollisionExit(shared_ptr<GameObject>& other) override;  // 衝突判定に使う 
 
+
 	private:
 		Vec3 GetInputState() const;
-		Vec3 GetWallRunState();
 
 		std::shared_ptr<Player> m_Player;
 
@@ -60,6 +60,8 @@ namespace basecross{
  
 		wstring m_Mesh;
 
+		float m_NowPosX;
+		float m_NowPosZ;
 		float m_Speed;
 
 	};
