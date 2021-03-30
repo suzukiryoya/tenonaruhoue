@@ -59,10 +59,10 @@ namespace basecross{
 			}
 		}
 
-		auto PtrDraw = AddComponent<BcPCTStaticDraw>();
+		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 		PtrDraw->CreateOriginalMesh(vertices, indices);
 		PtrDraw->SetOriginalMeshUse(true);
-		//PtrDraw->SetFogEnabled(true);
+		PtrDraw->SetFogEnabled(true);
 		//暫定的に色変えました(必要なくなったら消してね)
 		auto color = Col4(0.0f,0.0f,0.0f,1.0f);
 		PtrDraw->SetDiffuse(color);

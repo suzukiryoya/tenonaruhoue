@@ -11,7 +11,7 @@ namespace basecross{
 		const Vec3& Scale,
 		const Vec3& Rotation,
 		const Vec3& Position)
-		: GameObject(StagePtr), m_Speed(5.0f), m_GoPointPos(-14.0f,0.0f,0.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position), m_Mesh(L"Protagonist_Robot_3.bmf")
+		: GameObject(StagePtr), m_Speed(5.0f), m_GoPointPos(0.0f,2.0f,14.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position), m_Mesh(L"Protagonist_Robot_3.bmf")
 	{
 	}
 
@@ -26,6 +26,9 @@ namespace basecross{
 		PtrTrans->SetScale(m_Scale);
 		PtrTrans->SetRotation(m_Rotation);
 		PtrTrans->SetPosition(m_Position);
+
+		m_NowPosX = m_Position.x;
+		m_NowPosZ = m_Position.z;
 
 		//CollisionObbè’ìÀîªíËÇïtÇØÇÈ
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -84,22 +87,37 @@ namespace basecross{
 
 	void Player::OnUpdate()
 	{
-		playerMove();
+		if (m_Position.x >= m_NowPosX)
+		{
+			playerMove(true);
+		}
+		else
+		{
+			playerMove(false);
+		}
 	}
 
-	void Player::playerMove()
+	void Player::playerMove(bool flag)
 	{
 		auto trans = GetComponent<Transform>();
 		m_Position = trans->GetPosition();
-		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-		auto GoalToNowPos = m_Position + m_GoPointPos;
-		GoalToNowPos.normalize();
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
-		m_Position -= GoalToNowPos * elapsedTime * m_Speed;
+		auto GoPointToNowPos = m_Position + m_GoPointPos;
+		GoPointToNowPos.normalize();
+
+		m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
 
 		trans->SetRotation(0, m_Rotation.y, 0);
-		trans->SetPosition(m_Position.x,2.0f, m_Position.z);
+		if (flag)
+		{
+			trans->SetPosition(m_Position.x, 2.0f, m_NowPosZ);
+		}
+		if(!flag)
+		{
+			trans->SetPosition(m_NowPosX, 2.0f, m_Position.z);
+		}
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& other)
@@ -114,21 +132,16 @@ namespace basecross{
 
 			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 
-			auto GoalToNowPos = pos - m_GoPointPos;
+			auto GoPointToNowPos = pos - m_GoPointPos;
 
-			//if (GoalToNowPos.y < 0)
-			//{
-			//	GoalToNowPos.y = XM_PI;
-			//	m_Rotation.y += GoalToNowPos.y;
-			//}
-			//else
-			//{
-			GoalToNowPos.y = -XM_PI;
-			m_Rotation.y += GoalToNowPos.y;
-			//}
-			GoalToNowPos.normalize();
+			GoPointToNowPos.y = -XM_PI;
+			m_Rotation.y += GoPointToNowPos.y;
 
-			m_Position -= GoalToNowPos * elapsedTime * m_Speed;
+			GoPointToNowPos.normalize();
+
+			//m_Speed += 1.0f;
+
+			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
 
 		}
 	}

@@ -72,7 +72,8 @@ namespace basecross{
 					if ((fileName == L"Player_11.bmf") ||
 						(fileName == L"Goal_Spot_2.bmf") ||
 						(fileName == L"Door_Animation.bmf")
-						) {
+					) 
+					{
 						auto modelMesh = MeshResource::CreateBoneModelMesh(dir, fileName);
 						App::GetApp()->RegisterResource(fileName, modelMesh);
 					}
@@ -83,7 +84,6 @@ namespace basecross{
 						App::GetApp()->RegisterResource(fileName, modelMesh);
 					}
 				}
-
 			}
 		} while (FindNextFile(hFind, &win32fd));
 
