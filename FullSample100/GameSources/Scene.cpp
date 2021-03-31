@@ -21,7 +21,7 @@ namespace basecross{
 		FindFile(dataDir);
 		FindFile(mediaDir + L"Textures/");
 		FindFile(mediaDir + L"Model/");
-		//FindFile(mediaDir + L"BGM/");
+		FindFile(mediaDir + L"Sounds/");
 	}
 
 	void Scene::FindFile(wstring dir) {
