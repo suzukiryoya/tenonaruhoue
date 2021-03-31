@@ -12,7 +12,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(0.0f, 20.0f, -5.0f);
+		const Vec3 eye(0.0f, 40.0f, -5.0f);
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -91,63 +91,63 @@ namespace basecross {
 			BoxesGroup->IntoGroup(wall);
 		}
 
-		m_GameStageCsv.GetSelect(LineVec3, 0, L"Enemy1");
-		for (auto& v : LineVec3)
-		{
-			//トークン（カラム）の配列
-			vector<wstring> Tokens;
-			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
-			Util::WStrToTokenVector(Tokens, v, L',');
-			//各トークン（カラム）をスケール、回転、位置に読み込む
-			Vec3 Scale(
-				(float)_wtof(Tokens[1].c_str()),
-				(float)_wtof(Tokens[2].c_str()),
-				(float)_wtof(Tokens[3].c_str())
-			);
-			Vec3 Rot;
-			//回転はXM_PIDIV2の文字列になっている場合がある
-			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
-			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
-			Vec3 Pos(
-				(float)_wtof(Tokens[7].c_str()),
-				(float)_wtof(Tokens[8].c_str()),
-				(float)_wtof(Tokens[9].c_str())
-			);
+		//m_GameStageCsv.GetSelect(LineVec3, 0, L"Enemy1");
+		//for (auto& v : LineVec3)
+		//{
+		//	//トークン（カラム）の配列
+		//	vector<wstring> Tokens;
+		//	//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+		//	Util::WStrToTokenVector(Tokens, v, L',');
+		//	//各トークン（カラム）をスケール、回転、位置に読み込む
+		//	Vec3 Scale(
+		//		(float)_wtof(Tokens[1].c_str()),
+		//		(float)_wtof(Tokens[2].c_str()),
+		//		(float)_wtof(Tokens[3].c_str())
+		//	);
+		//	Vec3 Rot;
+		//	//回転はXM_PIDIV2の文字列になっている場合がある
+		//	Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+		//	Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+		//	Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+		//	Vec3 Pos(
+		//		(float)_wtof(Tokens[7].c_str()),
+		//		(float)_wtof(Tokens[8].c_str()),
+		//		(float)_wtof(Tokens[9].c_str())
+		//	);
 
-			auto enemy1 = AddGameObject<Enemy1>(Scale, Rot, Pos, 1.0f, 1.0f);
-			enemy1->AddTag(L"Enemy1");
-			BoxesGroup->IntoGroup(enemy1);
-		}
+		//	auto enemy1 = AddGameObject<Enemy1>(Scale, Rot, Pos, 1.0f, 1.0f);
+		//	enemy1->AddTag(L"Enemy1");
+		//	BoxesGroup->IntoGroup(enemy1);
+		//}
 
-		m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
-		for (auto& v : LineVec4)
-		{
-			//トークン（カラム）の配列
-			vector<wstring> Tokens;
-			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
-			Util::WStrToTokenVector(Tokens, v, L',');
-			//各トークン（カラム）をスケール、回転、位置に読み込む
-			Vec3 Scale(
-				(float)_wtof(Tokens[1].c_str()),
-				(float)_wtof(Tokens[2].c_str()),
-				(float)_wtof(Tokens[3].c_str())
-			);
-			Vec3 Rot;
-			//回転はXM_PIDIV2の文字列になっている場合がある
-			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
-			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
-			Vec3 Pos(
-				(float)_wtof(Tokens[7].c_str()),
-				(float)_wtof(Tokens[8].c_str()),
-				(float)_wtof(Tokens[9].c_str())
-			);
+		//m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
+		//for (auto& v : LineVec4)
+		//{
+		//	//トークン（カラム）の配列
+		//	vector<wstring> Tokens;
+		//	//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+		//	Util::WStrToTokenVector(Tokens, v, L',');
+		//	//各トークン（カラム）をスケール、回転、位置に読み込む
+		//	Vec3 Scale(
+		//		(float)_wtof(Tokens[1].c_str()),
+		//		(float)_wtof(Tokens[2].c_str()),
+		//		(float)_wtof(Tokens[3].c_str())
+		//	);
+		//	Vec3 Rot;
+		//	//回転はXM_PIDIV2の文字列になっている場合がある
+		//	Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+		//	Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+		//	Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+		//	Vec3 Pos(
+		//		(float)_wtof(Tokens[7].c_str()),
+		//		(float)_wtof(Tokens[8].c_str()),
+		//		(float)_wtof(Tokens[9].c_str())
+		//	);
 
-			auto enemy2 = AddGameObject<Enemy2>(Scale, Rot, Pos, 1.0f, 1.0f);
-			enemy2->AddTag(L"Enemy2");
-			BoxesGroup->IntoGroup(enemy2);
-		}
+		//	auto enemy2 = AddGameObject<Enemy2>(Scale, Rot, Pos, 1.0f, 1.0f);
+		//	enemy2->AddTag(L"Enemy2");
+		//	BoxesGroup->IntoGroup(enemy2);
+		//}
 	}
 
 	void GameStage::CreatePlayer()
@@ -163,7 +163,7 @@ namespace basecross {
 		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 1.0f, -15.5f), PieceSize, 30, 30);
 		Ptr->SetDrawActive(true);
 		SetSharedGameObject(L"StageCellMap", Ptr);
-		SetCellMapCost();
+		//SetCellMapCost();
 	}
 	void GameStage::SetCellMapCost() {
 		auto PtrCellMap = GetSharedGameObject<StageCellMap>(L"StageCellMap");

@@ -72,12 +72,8 @@ namespace basecross {
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->SetMeshResource(m_Mesh);
-		//ptrDraw->SetTextureResource(m_Texture);
-
-		//ptrDraw->AddAnimation(L"Wait", 0, 16, true, 1);
-		//ptrDraw->AddAnimation(L"Walk", 28, 44, true, 1);
-		//ptrDraw->ChangeCurrentAnimation(L"Wait");
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
+		//ptrDraw->SetTextureResource(m_Texture);
 	}
 
 	//“G‚Q
@@ -153,10 +149,6 @@ namespace basecross {
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->SetMeshResource(m_Mesh);
 		ptrDraw->SetTextureResource(m_Texture);
-
-		//ptrDraw->AddAnimation(L"Wait", 0, 16, true, 1);
-		//ptrDraw->AddAnimation(L"Walk", 28, 44, true, 1);
-		//ptrDraw->ChangeCurrentAnimation(L"Wait");
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 	}
 }
