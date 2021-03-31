@@ -30,6 +30,7 @@ namespace basecross{
 		virtual void OnUpdate() override;
 
 		void playerMove(bool flag);
+		void SoundBoxSearch();
 		void OnCollisionEnter(shared_ptr<GameObject>& other);
 
 		void PlayerRestart();			  // プレイヤーのリスポーン
@@ -63,6 +64,8 @@ namespace basecross{
 		float m_NowPosX;
 		float m_NowPosZ;
 		float m_Speed;
+
+		bool m_SoundBoxFlag = false;
 
 	};
 

@@ -32,7 +32,8 @@ namespace basecross{
 
 		//CollisionObb衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionObb>();
-		
+
+		ptrColl->SetDrawActive(true);
 		ptrColl->SetMakedSize(1.5f);
 		//重力をつける
 		auto PtrGra = AddComponent<Gravity>();
@@ -65,15 +66,10 @@ namespace basecross{
 		//描画するメッシュを設定
 		ptrDraw->SetMeshResource(m_Mesh);
 		ptrDraw->SetOwnShadowActive(true);
-		//ptrDraw->AddAnimation(L"Wait", 0, 1, true, 20);
-		//ptrDraw->AddAnimation(L"Walk", 10, 30, true, 110);
-		//ptrDraw->ChangeCurrentAnimation(L"Wait");
 
 		////描画するテクスチャを設定
 		ptrDraw->SetTextureResource(L"Tx_Protagonist_Robot.tga");
 
-
-		//SetAlphaActive(true);
 
 		//カメラを得る
 		auto ptrCamera = dynamic_pointer_cast<Camera>(OnGetDrawCamera());
@@ -87,6 +83,12 @@ namespace basecross{
 
 	void Player::OnUpdate()
 	{
+		auto controller = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (controller[0].wPressedButtons & XINPUT_GAMEPAD_A)
+		{
+			SoundBoxSearch();
+		}
+
 		if (m_Position.x >= m_NowPosX)
 		{
 			playerMove(true);
@@ -104,20 +106,62 @@ namespace basecross{
 
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
-		auto GoPointToNowPos = m_Position + m_GoPointPos;
+		auto controller = App::GetApp()->GetInputDevice().GetControlerVec();
+
+		auto GoPointToNowPos = Vec3(0.0f);
+		GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
+		GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+
 		GoPointToNowPos.normalize();
 
 		m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
 
 		trans->SetRotation(0, m_Rotation.y, 0);
-		if (flag)
+		if (flag == true)
 		{
 			trans->SetPosition(m_Position.x, 2.0f, m_NowPosZ);
 		}
-		if(!flag)
+		else if (m_SoundBoxFlag == true)
+		{
+			trans->SetPosition(m_Position.x, 2.0f, m_Position.z);
+		}
+
+		if (flag == false)
 		{
 			trans->SetPosition(m_NowPosX, 2.0f, m_Position.z);
 		}
+		else if (m_SoundBoxFlag == true)
+		{
+			trans->SetPosition(m_Position.x, 2.0f, m_Position.z);
+		}
+
+	}
+
+	void Player::SoundBoxSearch()
+	{
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+		auto stage = scene->GetActiveStage();
+		auto gameObjects = stage->GetGameObjectVec();
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+
+		for (auto obj : gameObjects)
+		{
+			auto fixedBox = std::dynamic_pointer_cast<FixedBox>(obj);
+
+			if (fixedBox)
+			{
+				if (fixedBox->GetComponent<Transform>()->GetPosition().x <= 10.0f ||
+					fixedBox->GetComponent<Transform>()->GetPosition().z <= 10.0f
+					)
+				{
+					m_GoPointPos = fixedBox->GetComponent<Transform>()->GetPosition();
+					m_SoundBoxFlag = true;
+				}
+			}
+
+		}
+
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& other)
@@ -132,7 +176,9 @@ namespace basecross{
 
 			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 
-			auto GoPointToNowPos = pos - m_GoPointPos;
+			auto GoPointToNowPos = Vec3(0.0f);
+			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
+			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
 
 			GoPointToNowPos.y = -XM_PI;
 			m_Rotation.y += GoPointToNowPos.y;
@@ -142,8 +188,28 @@ namespace basecross{
 			//m_Speed += 1.0f;
 
 			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
-
 		}
+		if (other->FindTag(L"FixedBox"))
+		{
+			auto pos = trans->GetPosition();
+
+			//m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
+
+			auto GoPointToNowPos = Vec3(0.0f);
+			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
+			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+
+			GoPointToNowPos.y = -XM_PI;
+			m_Rotation.y += GoPointToNowPos.y;
+
+			GoPointToNowPos.normalize();
+
+			//m_Speed += 1.0f;
+
+			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
+			m_SoundBoxFlag = false;
+		}
+
 	}
 
 }

@@ -53,10 +53,15 @@ namespace basecross {
         PtrTransform->SetRotation(m_Rotation);
         PtrTransform->SetPosition(m_Position);
         //Õ“Ë”»’è‚ğ‚Â‚¯‚é
-        auto PtrCol = AddComponent<CollisionObb>();
-        ////Õ“Ë”»’è‚ÍNone‚É‚·‚é
-        PtrCol->SetAfterCollision(AfterCollision::None);
+        auto PtrGra = AddComponent<Gravity>();
 
+        auto PtrColl = AddComponent<CollisionObb>();
+        PtrColl->SetDrawActive(true);
+        PtrColl->SetFixed(true);
+        ////Õ“Ë”»’è‚ÍNone‚É‚·‚é
+        //PtrCol->SetAfterCollision(AfterCollision::None);
+
+        AddTag(L"FixedBox");
 
         //‰e‚ğ‚Â‚¯‚é
         auto ShadowPtr = AddComponent<Shadowmap>();
@@ -78,8 +83,7 @@ namespace basecross {
         auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
         auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
         if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
-            GetStage()->AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
-
+            GetStage()->AddGameObject<TriggerBox>(Vec3(9.0f, 1.0f, 9.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
         }
 
 
@@ -123,7 +127,8 @@ namespace basecross {
         PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
         PtrDraw->SetFogEnabled(true);
         PtrDraw->SetOwnShadowActive(true);
-        PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
+        //PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
+        PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
 
 
     }
