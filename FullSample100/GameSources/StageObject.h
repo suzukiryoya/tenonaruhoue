@@ -78,6 +78,7 @@ namespace basecross{
 		float m_UPic;
 		float m_VPic;
 		wstring m_Texture;
+		wstring m_Mesh;
 	public:
 		Goal(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,

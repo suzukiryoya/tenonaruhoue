@@ -203,13 +203,15 @@ namespace basecross{
 		const Vec3& Position,
 		float UPic,
 		float VPic
+
 	) :
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position),
 		m_UPic(UPic),
-		m_VPic(VPic)
+		m_VPic(VPic),
+		m_Mesh(L"Stairs.bmf")
 	{}
 
 	Goal::~Goal() {
@@ -243,9 +245,20 @@ namespace basecross{
 			}
 		}
 
+		Mat4x4 SpanMat;
+		SpanMat.affineTransformation(
+			Vec3(1.0f, 1.0f, 1.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f));
+
+		auto ShadowPtr = AddComponent<Shadowmap>();
+		ShadowPtr->SetMeshResource(m_Mesh);
+		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
+
 		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 		PtrDraw->CreateOriginalMesh(vertices, indices);
-		PtrDraw->SetOriginalMeshUse(true);
+		PtrDraw->SetMeshResource(m_Mesh);
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 	}
