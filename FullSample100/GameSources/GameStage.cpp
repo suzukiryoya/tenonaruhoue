@@ -1,4 +1,4 @@
-/*!
+/*!-
 @file GameStage.cpp
 @brief ゲームステージ実体
 */
@@ -121,7 +121,7 @@ namespace basecross {
 		//	BoxesGroup->IntoGroup(enemy1);
 		//}
 
-		//m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
+		//m_GameStageCsv.111GetSelect(LineVec4, 0, L"Enemy2");
 		//for (auto& v : LineVec4)
 		//{
 		//	//トークン（カラム）の配列
@@ -231,7 +231,7 @@ namespace basecross {
 
 			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,3.0f,0.0f));
 			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
-			//AddGameObject<ActivePsBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
+			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 
 
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage1_1.csv");
@@ -248,7 +248,7 @@ namespace basecross {
 			AddGameObject<Clear>(
 					Vec2(512.0f, 512.0f),
 					Vec3(0.0f, 200.0f, 0.0f),
-					Vec3(0.5f),
+					Vec3(0.2f),
 					10,
 					Col4(1.0f),
 				    m_StageSelect_image
@@ -263,8 +263,11 @@ namespace basecross {
 	{
 		//キーボード（マウス）の取得
 		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto CursorPos = App::GetApp()->GetScene<Scene>()->GetAngle();
+
 		m_MousePoint = KeyState.m_MouseClientPoint;
-		if (KeyState.m_bPressedKeyTbl[VK_LBUTTON]) {
+		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 			OnLButtonEnter();
 		}
 		else if (KeyState.m_bUpKeyTbl[VK_LBUTTON]) {
@@ -303,7 +306,7 @@ namespace basecross {
 		}
 
 		Near = XMVector3Unproject(
-			Vec3((float)CursorPos.x+256, (float)CursorPos.y-256, 0),
+			Vec3((float)CursorPos.x+640, (float)CursorPos.y * -1 + 400, 0),
 			viewport.TopLeftX,
 			viewport.TopLeftY,
 			width,
@@ -315,7 +318,7 @@ namespace basecross {
 			world);
 
 		Far = XMVector3Unproject(
-			Vec3((float)CursorPos.x+256, (float)CursorPos.y-256, 1.0),
+			Vec3((float)CursorPos.x+640, (float)CursorPos.y * -1 + 400, 1.0),
 			viewport.TopLeftX,
 			viewport.TopLeftY,
 			width,
@@ -355,8 +358,9 @@ namespace basecross {
 				if (ColObb) {
 					auto Obb = ColObb->GetObb();
 					if (HitTest::SEGMENT_OBB(NearPos, FarPos, Obb)) {
+						auto a=Obb.m_Center;
 						ObjVec.push_back(PsPtr);
-						AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
+						AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
 
 					}
 				}

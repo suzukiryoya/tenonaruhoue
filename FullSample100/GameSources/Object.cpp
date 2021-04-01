@@ -59,7 +59,7 @@ namespace basecross {
         PtrColl->SetDrawActive(true);
         PtrColl->SetFixed(true);
         ////衝突判定はNoneにする
-        //PtrCol->SetAfterCollision(AfterCollision::None);
+        PtrColl->SetAfterCollision(AfterCollision::None);
 
         AddTag(L"FixedBox");
 
@@ -72,10 +72,10 @@ namespace basecross {
         PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
         PtrDraw->SetOwnShadowActive(true);
 
-        ////物理計算ボックス
-        //PsBoxParam param(PtrTransform->GetWorldMatrix(), 1.0f, true, PsMotionType::MotionTypeActive);
-        //auto PsPtr = AddComponent<RigidbodyBox>(param);
-        //PsPtr->SetDrawActive(true);
+        //物理計算ボックス
+        PsBoxParam param(PtrTransform->GetWorldMatrix(), 1.0f, true, PsMotionType::MotionTypeActive);
+        auto PsPtr = AddComponent<RigidbodyBox>(param);
+        PsPtr->SetDrawActive(true);
         PtrDraw->SetColorAndAlpha(Col4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
@@ -83,7 +83,7 @@ namespace basecross {
         auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
         auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
         if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
-            GetStage()->AddGameObject<TriggerBox>(Vec3(9.0f, 1.0f, 9.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
+            //GetStage()->AddGameObject<TriggerBox>(Vec3(9.0f, 1.0f, 9.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
         }
 
 
@@ -212,10 +212,13 @@ namespace basecross {
 		PositionStr += L"Y=" + Util::FloatToWStr(Pos.y, 6, Util::FloatModify::Fixed) + L",\t";
 		PositionStr += L"Z=" + Util::FloatToWStr(Pos.z, 6, Util::FloatModify::Fixed) + L"\n";
 
+
 		wstring MousePosStr(L"MousePos:\t");
+        auto CursorPos = App::GetApp()->GetScene<Scene>()->GetAngle();
+
 		auto MousePos = GetTypeStage<GameStage>()->GetMousePoint();
-		MousePosStr += L"X=" + Util::IntToWStr(MousePos.x) + L",\t";
-		MousePosStr += L"Y=" + Util::IntToWStr(MousePos.y) + L"\n";
+		MousePosStr += L"X=" + Util::IntToWStr(CursorPos.x + 640) + L",\t";
+		MousePosStr += L"Y=" + Util::IntToWStr(CursorPos.y*-1 +400) + L"\n";
 
 		Vec3 Near; Vec3 Far;
 		GetTypeStage<GameStage>()->GetMouseRay(Near, Far);
