@@ -44,5 +44,23 @@ namespace basecross{
 		//void OnCollisionEnter(shared_ptr<GameObject>& other);
 	};
 
+	class Door : public GameObject {
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
+		float m_UPic;
+		float m_VPic;
+	public:
+		Door(const shared_ptr<Stage>& StagePtr,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position,
+			float UPic,
+			float VPic);
+		virtual ~Door();
+		virtual void OnCreate();
+		virtual void OnUpdate();
+	};
+
 }
 //end basecross
