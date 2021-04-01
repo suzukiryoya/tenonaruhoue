@@ -7,6 +7,9 @@
 #include "stdafx.h"
 
 namespace basecross{
+	//-----------------------------------------------------------------
+	//  床
+	//-----------------------------------------------------------------
 	class Floor : public GameObject {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
@@ -24,7 +27,9 @@ namespace basecross{
 		virtual ~Floor();
 		virtual void OnCreate();
 	};
-
+	//-----------------------------------------------------------------
+	//  壁
+	//-----------------------------------------------------------------
 	class Wall : public GameObject {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
@@ -43,13 +48,16 @@ namespace basecross{
 		virtual void OnCreate();
 		//void OnCollisionEnter(shared_ptr<GameObject>& other);
 	};
-
+	//-----------------------------------------------------------------
+	//  一階入り口
+	//-----------------------------------------------------------------
 	class Door : public GameObject {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
 		float m_UPic;
 		float m_VPic;
+		wstring m_Texture;
 	public:
 		Door(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
@@ -60,6 +68,25 @@ namespace basecross{
 		virtual ~Door();
 		virtual void OnCreate();
 	};
-
+	//-----------------------------------------------------------------
+	//  ステージ　ゴール
+	//-----------------------------------------------------------------
+	class Goal : public GameObject {
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
+		float m_UPic;
+		float m_VPic;
+		wstring m_Texture;
+	public:
+		Goal(const shared_ptr<Stage>& StagePtr,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position,
+			float UPic,
+			float VPic);
+		virtual ~Goal();
+		virtual void OnCreate();
+	};
 }
 //end basecross
