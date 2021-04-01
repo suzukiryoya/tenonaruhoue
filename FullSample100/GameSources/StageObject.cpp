@@ -18,15 +18,14 @@ namespace basecross{
 		const Vec3& Position,
 		float UPic,
 		float VPic
-		//const wstring& Texture
 	) :
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position),
 		m_UPic(UPic),
-		m_VPic(VPic)
-		//m_Texture(Texture)
+		m_VPic(VPic),
+		m_Texture(L"ƒXƒe[ƒW°.jpg")
 	{}
 
 	Floor::~Floor()
@@ -69,7 +68,7 @@ namespace basecross{
 		//Ž©•ª‚É‰e‚ª‰f‚è‚±‚Þ‚æ‚¤‚É‚·‚é
 		PtrDraw->SetOwnShadowActive(true);
 		PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		//PtrDraw->SetTextureResource(m_Texture);
+		PtrDraw->SetTextureResource(m_Texture);
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 
@@ -94,7 +93,8 @@ namespace basecross{
 		m_Rotation(Rotation),
 		m_Position(Position),
 		m_UPic(UPic),
-		m_VPic(VPic)
+		m_VPic(VPic),
+		m_Texture(L"ƒXƒe[ƒW•Ç.jpg")
 	{}
 
 	Wall::~Wall() {
@@ -133,7 +133,7 @@ namespace basecross{
 		//Ž©•ª‚É‰e‚ª‰f‚è‚±‚Þ‚æ‚¤‚É‚·‚é
 		PtrDraw->SetOwnShadowActive(true);
 		PtrDraw->SetOriginalMeshUse(true);
-		//PtrDraw->SetTextureResource(m_Texture);
+		PtrDraw->SetTextureResource(m_Texture);
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 	}
@@ -190,7 +190,6 @@ namespace basecross{
 		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 		PtrDraw->CreateOriginalMesh(vertices, indices);
 		PtrDraw->SetOriginalMeshUse(true);
-		//PtrDraw->SetTextureResource(m_Texture);
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 	}
