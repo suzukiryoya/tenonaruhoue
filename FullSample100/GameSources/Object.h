@@ -20,14 +20,14 @@ namespace basecross {
 	public:
 		void SetSelected(bool b) {
 			m_Selected = b;
-			auto PtrDraw = AddComponent<BcPNTStaticDraw>();
-			if (b) {
-				PtrDraw->SetEmissive(Col4(1.0f, 1.0f, 0, 0));
+			//auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+			//if (b) {
+			//	PtrDraw->SetEmissive(Col4(1.0f, 1.0f, 0, 0));
 
-			}
-			else {
-				PtrDraw->SetEmissive(Col4(0.0f, 0.0f, 0, 0));
-			}
+			//}
+			//else {
+			//	PtrDraw->SetEmissive(Col4(0.0f, 0.0f, 0, 0));
+			//}
 
 		}
 		bool IsSelected() {
