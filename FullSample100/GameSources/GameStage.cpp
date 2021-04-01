@@ -143,6 +143,8 @@ namespace basecross {
 
 			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,3.0f,0.0f));
 			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
+			//AddGameObject<ActivePsBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
+
 
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage0.csv");
 			m_GameStageCsv.ReadCsv();
@@ -199,6 +201,7 @@ namespace basecross {
 		view = PtrCamera->GetViewMatrix();
 		proj = PtrCamera->GetProjMatrix();
 		auto viewport = GetView()->GetTargetViewport();
+		auto CursorPos= App::GetApp()->GetScene<Scene>()->GetAngle();
 
 		//フルスクリーンだった時の対応
 		App::GetApp()->GetDeviceResources()->GetD3DDevice();
@@ -212,7 +215,7 @@ namespace basecross {
 		}
 
 		Near = XMVector3Unproject(
-			Vec3((float)m_MousePoint.x, (float)m_MousePoint.y, 0),
+			Vec3((float)CursorPos.x+256, (float)CursorPos.y-256, 0),
 			viewport.TopLeftX,
 			viewport.TopLeftY,
 			width,
@@ -224,7 +227,7 @@ namespace basecross {
 			world);
 
 		Far = XMVector3Unproject(
-			Vec3((float)m_MousePoint.x, (float)m_MousePoint.y, 1.0),
+			Vec3((float)CursorPos.x+256, (float)CursorPos.y-256, 1.0),
 			viewport.TopLeftX,
 			viewport.TopLeftY,
 			width,

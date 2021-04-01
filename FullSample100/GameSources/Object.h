@@ -119,5 +119,23 @@ namespace basecross {
 
 	};
 
+	//--------------------------------------------------------------------------------------
+///	物理計算するアクティブなボックス
+//--------------------------------------------------------------------------------------
+	class ActivePsBox : public ActivePsObject {
+		Vec3 m_Scale;
+		Vec3 m_Qt;
+		Vec3 m_Position;
+	public:
+		//構築と破棄
+		ActivePsBox(const shared_ptr<Stage>& StagePtr,
+			const Vec3& Scale,
+			const Vec3& Qt,
+			const Vec3& Position
+		);
+		virtual ~ActivePsBox();
+		//初期化
+		virtual void OnCreate() override;
+	};
 
 }

@@ -67,18 +67,18 @@ namespace basecross {
         PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
         PtrDraw->SetOwnShadowActive(true);
 
-        //物理計算ボックス
-        PsBoxParam param(PtrTransform->GetWorldMatrix(), 1.0f, true, PsMotionType::MotionTypeActive);
-        auto PsPtr = AddComponent<RigidbodyBox>(param);
-        PsPtr->SetDrawActive(true);
-        //PtrDraw->SetColorAndAlpha(Col4(1.0f, 0.0f, 0.0f, 1.0f));
+        ////物理計算ボックス
+        //PsBoxParam param(PtrTransform->GetWorldMatrix(), 1.0f, true, PsMotionType::MotionTypeActive);
+        //auto PsPtr = AddComponent<RigidbodyBox>(param);
+        //PsPtr->SetDrawActive(true);
+        PtrDraw->SetColorAndAlpha(Col4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
     void FixedBox::OnUpdate() {
         auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
         auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
         if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
-            GetStage()->AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
+            GetStage()->AddGameObject<TriggerBox>(Vec3(5.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
 
         }
 
@@ -153,17 +153,17 @@ namespace basecross {
         PtrTransform->SetRotation(m_Rotation);
         PtrTransform->SetPosition(m_Position);
 
-        //タグをつける
-        AddTag(L"SoundBox");
-        //影をつける（シャドウマップを描画する）
-        auto ShadowPtr = AddComponent<Shadowmap>();
-        //影の形（メッシュ）を設定
-        ShadowPtr->SetMeshResource(L"DEFAULT_CUBE");
-        auto PtrDraw = AddComponent<BcPNTStaticDraw>();
-        PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
-        PtrDraw->SetFogEnabled(true);
-        PtrDraw->SetOwnShadowActive(true);
-        PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
+        ////タグをつける
+        //AddTag(L"SoundBox");
+        ////影をつける（シャドウマップを描画する）
+        //auto ShadowPtr = AddComponent<Shadowmap>();
+        ////影の形（メッシュ）を設定
+        //ShadowPtr->SetMeshResource(L"DEFAULT_CUBE");
+        //auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+        //PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
+        //PtrDraw->SetFogEnabled(true);
+        //PtrDraw->SetOwnShadowActive(true);
+        //PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
 
         auto ptrString = AddComponent<StringSprite>();
 
@@ -228,12 +228,12 @@ namespace basecross {
 		ViewStr += L"Width=" + Util::FloatToWStr(viewport.Width, 6, Util::FloatModify::Fixed) + L",\t";
 		ViewStr += L"Height=" + Util::FloatToWStr(viewport.Height, 6, Util::FloatModify::Fixed) + L",\n";
 
-		wstring MouseRayNearStr(L"MouseRayNear:\t");
+		wstring MouseRayNearStr(L"RayNear:\t");
 		MouseRayNearStr += L"X=" + Util::FloatToWStr(Near.x, 6, Util::FloatModify::Fixed) + L",\t";
 		MouseRayNearStr += L"Y=" + Util::FloatToWStr(Near.y, 6, Util::FloatModify::Fixed) + L",\t";
 		MouseRayNearStr += L"Z=" + Util::FloatToWStr(Near.z, 6, Util::FloatModify::Fixed) + L"\n";
 
-		wstring MouseRayFarStr(L"MouseRayFar:\t");
+		wstring MouseRayFarStr(L"RayFar:\t");
 		MouseRayFarStr += L"X=" + Util::FloatToWStr(Far.x, 6, Util::FloatModify::Fixed) + L",\t";
 		MouseRayFarStr += L"Y=" + Util::FloatToWStr(Far.y, 6, Util::FloatModify::Fixed) + L",\t";
 		MouseRayFarStr += L"Z=" + Util::FloatToWStr(Far.z, 6, Util::FloatModify::Fixed) + L"\n";
@@ -268,7 +268,52 @@ namespace basecross {
 		PtrString->SetText(str);
 	}
 
+	//--------------------------------------------------------------------------------------
+///	物理計算するアクティブなボックス
+//--------------------------------------------------------------------------------------
+//構築と破棄
+	ActivePsBox::ActivePsBox(const shared_ptr<Stage>& StagePtr,
+		const Vec3& Scale,
+		const Vec3& Qt,
+		const Vec3& Position
+	) :
+		ActivePsObject(StagePtr),
+		m_Scale(Scale),
+		m_Qt(Qt),
+		m_Position(Position)
+	{}
 
+	ActivePsBox::~ActivePsBox() {}
+	//初期化
+	void ActivePsBox::OnCreate() {
+		auto PtrTransform = GetComponent<Transform>();
+
+		PtrTransform->SetScale(m_Scale);
+        PtrTransform->SetRotation(m_Qt);
+        PtrTransform->SetPosition(m_Position);
+
+		//衝突判定をつける
+		auto PtrCol = AddComponent<CollisionObb>();
+		//衝突判定はNoneにする
+		PtrCol->SetAfterCollision(AfterCollision::None);
+
+
+		//影をつける
+		auto ShadowPtr = AddComponent<Shadowmap>();
+		ShadowPtr->SetMeshResource(L"DEFAULT_CUBE");
+
+		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+		PtrDraw->SetFogEnabled(true);
+		PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		PtrDraw->SetOwnShadowActive(true);
+
+		//物理計算ボックス
+		PsBoxParam param(PtrTransform->GetWorldMatrix(), 1.0f, true, PsMotionType::MotionTypeActive);
+		auto PsPtr = AddComponent<RigidbodyBox>(param);
+        //PsPtr->SetAutoTransform(false);
+
+		PsPtr->SetDrawActive(true);
+	}
 
 }
 //end basecross

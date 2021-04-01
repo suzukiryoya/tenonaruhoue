@@ -100,6 +100,8 @@ namespace basecross {
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += moveVec * elapsedTime * m_Speed;
 			GetComponent<Transform>()->SetPosition(pos);
+			App::GetApp()->GetScene<Scene>()->SetAngle(pos);
+
 
 	}
 
