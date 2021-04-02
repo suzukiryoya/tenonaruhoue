@@ -5,16 +5,16 @@ namespace basecross {
 	Enemy1::Enemy1(const shared_ptr<Stage>& StagePtr,
 		const Vec3& Scale,
 		const Vec3& Rotation,
-		const Vec3& Position,
-		float UPic,
-		float VPic
+		const Vec3& Position
+		//float UPic,
+		//float VPic
 	) :
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position),
-		m_UPic(UPic),
-		m_VPic(VPic),
+		//m_UPic(UPic),
+		//m_VPic(VPic),
 		m_Mesh(L"Enemy_robot1.bmf")
 	{}
 	Enemy1::~Enemy1() {}
@@ -35,23 +35,6 @@ namespace basecross {
 		GetStage()->SetUpdatePerformanceActive(true);
 		GetStage()->SetDrawPerformanceActive(true);
 
-		vector<VertexPositionNormalTexture> vertices;
-		vector<uint16_t> indices;
-		MeshUtill::CreateCube(1.0f, vertices, indices);
-		float UCount = m_Scale.x / m_UPic;
-		float VCount = m_Scale.z / m_VPic;
-		for (size_t i = 0; i < vertices.size(); i++) {
-			if (vertices[i].textureCoordinate.x >= 1.0f) {
-				vertices[i].textureCoordinate.x = UCount;
-			}
-			if (vertices[i].textureCoordinate.y >= 1.0f) {
-				float FrontBetween = bsm::angleBetweenNormals(vertices[i].normal, Vec3(0, 1, 0));
-				float BackBetween = bsm::angleBetweenNormals(vertices[i].normal, Vec3(0, -1, 0));
-				if (FrontBetween < 0.01f || BackBetween < 0.01f) {
-					vertices[i].textureCoordinate.y = VCount;
-				}
-			}
-		}
 
 		Mat4x4 SpanMat; // モデルとトランスフォームの間の差分行列
 		SpanMat.affineTransformation(
@@ -74,6 +57,20 @@ namespace basecross {
 		ptrDraw->SetMeshResource(m_Mesh);
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 		//ptrDraw->SetTextureResource(m_Texture);
+	}
+
+	void Enemy1::OnUpdate() {
+
+	}
+
+	void Enemy1::OnCollisionEnter(shared_ptr<GameObject>& Other) {
+		if (Other->FindTag(L"SoundBox")) {
+			auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+
+			PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
+
+
+		}
 	}
 
 	//敵２
