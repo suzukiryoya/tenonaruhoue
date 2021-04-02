@@ -261,6 +261,7 @@ namespace basecross {
 			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,3.0f,0.0f));
 			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
+			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.0f, 0.0f));
 
 
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage1_1.csv");
@@ -391,6 +392,7 @@ namespace basecross {
 						ObjVec.push_back(PsPtr);
 						AddGameObject<TriggerBox>(Vec3(10.0f, 1.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
 						SetSoundPosition(Vec3(a.x, 1.0f, a.z));
+						App::GetApp()->GetScene<Scene>()->SetPosition(Vec3(a.x,1.0f,a.z));
 					}
 				}
 				else if (ColSp) {

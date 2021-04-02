@@ -10,8 +10,8 @@ namespace basecross {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
-		float m_UPic;
-		float m_VPic;
+		//float m_UPic;
+		//float m_VPic;
 		wstring m_Texture;
 		wstring m_Mesh;
 
@@ -19,12 +19,15 @@ namespace basecross {
 		Enemy1(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
 			const Vec3& Rotation,
-			const Vec3& Position,
-			float UPic,
-			float VPic
+			const Vec3& Position
+			//float UPic,
+			//float VPic
 		);
 		virtual ~Enemy1();
 		virtual void OnCreate()override;
+		virtual void OnUpdate()override;
+		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other);
+
 		//void OnUpdate();
 
 	};

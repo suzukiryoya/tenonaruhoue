@@ -119,6 +119,13 @@ namespace basecross {
         
         //タグをつける
         AddTag(L"SoundBox");
+
+        auto PtrColl = AddComponent<CollisionObb>();
+        PtrColl->SetDrawActive(true);
+        PtrColl->SetFixed(true);
+        ////衝突判定はNoneにする
+        PtrColl->SetAfterCollision(AfterCollision::None);
+
         //影をつける（シャドウマップを描画する）
         auto ShadowPtr = AddComponent<Shadowmap>();
         //影の形（メッシュ）を設定
@@ -129,6 +136,22 @@ namespace basecross {
         PtrDraw->SetOwnShadowActive(true);
         //PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
         PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
+
+
+    }
+
+    void TriggerBox::OnUpdate() {
+        float elapsedTime = App::GetApp()->GetElapsedTime();
+        time += elapsedTime;
+
+
+
+        if (time >= 3.0f) {
+
+            SetUpdateActive(false);
+            SetDrawActive(false);
+
+        }
 
 
     }

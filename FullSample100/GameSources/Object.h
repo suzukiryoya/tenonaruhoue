@@ -64,6 +64,8 @@ namespace basecross {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
+
+		float time;
 	public:
 		//\’z‚Æ”jŠü
 		TriggerBox(const shared_ptr<Stage>& StagePtr,
@@ -74,6 +76,7 @@ namespace basecross {
 		virtual ~TriggerBox();
 		//‰Šú‰»
 		virtual void OnCreate() override;
+		virtual void OnUpdate() override;
 		//‘€ì
 
 	//end basecross
