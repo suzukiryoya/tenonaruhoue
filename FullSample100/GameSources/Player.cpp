@@ -248,7 +248,7 @@ namespace basecross{
 		}
 		if (other->FindTag(L"Goal"))
 		{
-			App::GetApp()->GetScene<Scene>()->SetGameStage(result);
+			App::GetApp()->GetScene<Scene>()->SetCheck(true);
 		}
 	}
 

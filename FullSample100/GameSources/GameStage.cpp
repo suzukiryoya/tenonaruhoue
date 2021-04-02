@@ -296,6 +296,7 @@ namespace basecross {
 		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto CursorPos = App::GetApp()->GetScene<Scene>()->GetAngle();
+		auto Check = App::GetApp()->GetScene<Scene>()->GetCheck();
 
 		m_MousePoint = KeyState.m_MouseClientPoint;
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
@@ -306,6 +307,10 @@ namespace basecross {
 		}
 		else if (KeyState.m_bPressedKeyTbl[VK_RBUTTON]) {
 			OnRButtonEnter();
+		}
+
+		if (Check = true) {
+
 		}
 
 

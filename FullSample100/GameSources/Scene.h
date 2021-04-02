@@ -32,6 +32,7 @@ namespace basecross{
 		GameStageKey m_gameStageKey;
 		Vec3 m_getangle;
 		Vec3 m_getposition;
+		bool m_check;
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -70,6 +71,10 @@ namespace basecross{
 		Vec3 GetAngle();
 		Vec3 SetPosition(Vec3 position);
 		Vec3 GetPosition();
+		
+		bool SetCheck(bool check);
+		bool GetCheck();
+
 		//SE‚ÌŠÖ”
 		void PlaySE(wstring key, float vol) {
 			auto se = App::GetApp()->GetXAudio2Manager();
