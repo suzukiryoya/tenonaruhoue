@@ -112,12 +112,11 @@ namespace basecross{
 
 		if (m_SoundBoxFlag == true)
 		{
-			auto pos = trans->GetPosition();
+			m_Position = trans->GetPosition();
 
-			//m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
+			GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
+			GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
 
-			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
-			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
 
 			GoPointToNowPos.y = -XM_PI;
 			m_Rotation.y += GoPointToNowPos.y;
@@ -145,12 +144,10 @@ namespace basecross{
 
 		if (m_SoundBoxFlag == true)
 		{
-			auto pos = trans->GetPosition();
+			m_Position = trans->GetPosition();
 
-			//m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
-
-			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
-			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+			GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
+			GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
 
 			GoPointToNowPos.y = -XM_PI;
 			m_Rotation.y += GoPointToNowPos.y;
@@ -183,9 +180,10 @@ namespace basecross{
 		auto& app = App::GetApp();
 		auto scene = app->GetScene<Scene>();
 		auto stage = scene->GetActiveStage();
-		auto gameObjects = stage->GetGameObjectVec();
-		float ElapsedTime = App::GetApp()->GetElapsedTime();
-			
+		auto gameObjects = stage->GetChileStageVec();
+		auto ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
+
 		for (auto obj : gameObjects)
 		{
 			auto gameStage = std::dynamic_pointer_cast<GameStage>(obj);
@@ -193,15 +191,24 @@ namespace basecross{
 			if (gameStage)
 			{
 				m_GoPointPos = gameStage->GetSoundPosition();
+				m_Position = GetComponent<Transform>()->GetPosition();
 
-				if (m_GoPointPos.x <= 10.0f ||
-					m_GoPointPos.z <= 10.0f)
+
+				GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
+				GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
+
+				GoPointToNowPos.normalize();
+
+				if (GoPointToNowPos.length() <= 10.0f)
 				{
 					m_SoundBoxFlag = true;
+					gameStage->SetSoundFlag(m_SoundBoxFlag);
+
 				}
 				else
 				{
 					m_SoundBoxFlag = false;
+					gameStage->SetSoundFlag(m_SoundBoxFlag);
 				}
 			}
 		}
