@@ -25,6 +25,8 @@ namespace basecross{
 
 		void CreateResourses();
 		void FindFile(wstring dir);
+		shared_ptr<SoundItem> m_bgm;
+
 
 		wstring m_stageKey[GameStageKey::Max];
 		GameStageKey m_gameStageKey;
@@ -68,6 +70,24 @@ namespace basecross{
 		Vec3 GetAngle();
 		Vec3 SetPosition(Vec3 position);
 		Vec3 GetPosition();
+		//SE‚ÌŠÖ”
+		void PlaySE(wstring key, float vol) {
+			auto se = App::GetApp()->GetXAudio2Manager();
+			se->Start(key, 0, vol);
+		}
+
+		//BGM
+		void PlayBGM(wstring key, float vol) {
+			auto bgm = App::GetApp()->GetXAudio2Manager();
+			m_bgm = bgm->Start(key, XAUDIO2_LOOP_INFINITE, vol);
+		}
+
+		//BGM‚ðŽ~‚ß‚é
+		void StopBGM() {
+			auto bgm = App::GetApp()->GetXAudio2Manager();
+			bgm->Stop(m_bgm);
+		}
+
 
 	};
 
