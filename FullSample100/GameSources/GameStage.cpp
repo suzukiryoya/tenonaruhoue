@@ -309,8 +309,17 @@ namespace basecross {
 			OnRButtonEnter();
 		}
 
-		if (Check = true) {
+		if (Check == true) {
+			AddGameObject<Title_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(1.0f),
+				3,
+				Col4(1.0f),
+				m_StageClear_image
+				);
 
+			Check = false;
 		}
 
 
