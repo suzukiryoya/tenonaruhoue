@@ -133,6 +133,22 @@ namespace basecross {
 
     }
 
+    void TriggerBox::OnUpdate() {
+        float elapsedTime = App::GetApp()->GetElapsedTime();
+        time += elapsedTime;
+
+
+
+        if (time >= 3.0f) {
+
+            SetUpdateActive(false);
+            SetDrawActive(false);
+
+        }
+
+
+    }
+
 	//--------------------------------------------------------------------------------------
 //	class Player : public GameObject;
 //	用途: プレイヤー

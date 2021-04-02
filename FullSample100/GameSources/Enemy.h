@@ -25,6 +25,8 @@ namespace basecross {
 		);
 		virtual ~Enemy1();
 		virtual void OnCreate()override;
+		virtual void OnUpdate()override;
+
 		//void OnUpdate();
 
 	};
