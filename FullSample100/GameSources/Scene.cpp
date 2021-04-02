@@ -96,6 +96,8 @@ namespace basecross{
 	//--------------------------------------------------------------------------------------
 	void Scene::OnCreate(){
 		try {
+
+			m_check = false;
 			//クリアする色を設定
 
 			//リソース作成
@@ -147,6 +149,14 @@ namespace basecross{
 		return m_getposition;
 	}
 
+	bool Scene::SetCheck(bool check) {
+		m_check = check;
+		return check;
+	}
+
+	bool Scene::GetCheck() {
+		return m_check;
+	}
 
 }
 //end basecross
