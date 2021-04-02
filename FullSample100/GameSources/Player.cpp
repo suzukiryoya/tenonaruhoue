@@ -108,31 +108,72 @@ namespace basecross{
 
 		auto controller = App::GetApp()->GetInputDevice().GetControlerVec();
 
-		auto GoPointToNowPos = Vec3(0.0f);
-		GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
-		GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+		auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 
-		GoPointToNowPos.normalize();
-
-		m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
-
-		trans->SetRotation(0, m_Rotation.y, 0);
-		if (flag == true)
+		if (m_SoundBoxFlag == true)
 		{
+			auto pos = trans->GetPosition();
+
+			//m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
+
+			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
+			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+
+			GoPointToNowPos.y = -XM_PI;
+			m_Rotation.y += GoPointToNowPos.y;
+
+			GoPointToNowPos.normalize();
+
+			//m_Speed += 1.0f;
+
+			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
+			trans->SetPosition(m_Position.x, 2.0f, m_Position.z);
+		}
+		else if (flag == true)
+		{
+			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
+			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+
+			GoPointToNowPos.normalize();
+
+			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
+
+			trans->SetRotation(0, m_Rotation.y, 0);
+
 			trans->SetPosition(m_Position.x, 2.0f, m_NowPosZ);
 		}
-		else if (m_SoundBoxFlag == true)
-		{
-			trans->SetPosition(m_Position.x, 2.0f, m_Position.z);
-		}
 
-		if (flag == false)
+		if (m_SoundBoxFlag == true)
 		{
-			trans->SetPosition(m_NowPosX, 2.0f, m_Position.z);
-		}
-		else if (m_SoundBoxFlag == true)
-		{
+			auto pos = trans->GetPosition();
+
+			//m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
+
+			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
+			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+
+			GoPointToNowPos.y = -XM_PI;
+			m_Rotation.y += GoPointToNowPos.y;
+
+			GoPointToNowPos.normalize();
+
+			//m_Speed += 1.0f;
+
+			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
 			trans->SetPosition(m_Position.x, 2.0f, m_Position.z);
+		}
+		else if (flag == false)
+		{
+			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
+			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+
+			GoPointToNowPos.normalize();
+
+			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
+
+			trans->SetRotation(0, m_Rotation.y, 0);
+
+			trans->SetPosition(m_NowPosX, 2.0f, m_Position.z);
 		}
 
 	}
@@ -144,24 +185,26 @@ namespace basecross{
 		auto stage = scene->GetActiveStage();
 		auto gameObjects = stage->GetGameObjectVec();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-
+			
 		for (auto obj : gameObjects)
 		{
-			auto fixedBox = std::dynamic_pointer_cast<FixedBox>(obj);
+			auto gameStage = std::dynamic_pointer_cast<GameStage>(obj);
 
-			if (fixedBox)
+			if (gameStage)
 			{
-				if (fixedBox->GetComponent<Transform>()->GetPosition().x <= 10.0f ||
-					fixedBox->GetComponent<Transform>()->GetPosition().z <= 10.0f
-					)
+				m_GoPointPos = gameStage->GetSoundPosition();
+
+				if (m_GoPointPos.x <= 10.0f ||
+					m_GoPointPos.z <= 10.0f)
 				{
-					m_GoPointPos = fixedBox->GetComponent<Transform>()->GetPosition();
 					m_SoundBoxFlag = true;
 				}
+				else
+				{
+					m_SoundBoxFlag = false;
+				}
 			}
-
 		}
-
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& other)
@@ -176,7 +219,7 @@ namespace basecross{
 
 			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 
-			auto GoPointToNowPos = Vec3(0.0f);
+			auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
 			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
 
@@ -189,13 +232,13 @@ namespace basecross{
 
 			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
 		}
-		if (other->FindTag(L"FixedBox"))
+		if (other->FindTag(L"FixdBox"))
 		{
 			auto pos = trans->GetPosition();
 
 			//m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 
-			auto GoPointToNowPos = Vec3(0.0f);
+			auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
 			GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
 

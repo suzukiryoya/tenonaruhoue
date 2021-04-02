@@ -21,6 +21,8 @@ namespace basecross {
 
 		wstring m_StageSelect_image;
 
+		Vec3 m_SoundPos;
+
 		//マウス位置
 		Point2D<int> m_MousePoint;
 
@@ -50,6 +52,11 @@ namespace basecross {
 		void OnLButtonUp();
 		//マウスの右ボタン(押した瞬間)
 		void OnRButtonEnter();
+
+		//音の鳴った場所取得用
+		void SetSoundPosition(Vec3 pos);
+		Vec3 GetSoundPosition();
+
 	};
 
 

@@ -389,8 +389,8 @@ namespace basecross {
 					if (HitTest::SEGMENT_OBB(NearPos, FarPos, Obb)) {
 						auto a=Obb.m_Center;
 						ObjVec.push_back(PsPtr);
-						AddGameObject<TriggerBox>(Vec3(3.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
-
+						AddGameObject<TriggerBox>(Vec3(10.0f, 1.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
+						SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 					}
 				}
 				else if (ColSp) {
@@ -434,7 +434,15 @@ namespace basecross {
 		PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitleStage");
 	}
 
+	void GameStage::SetSoundPosition(Vec3 pos)
+	{
+		m_SoundPos = pos;
+	}
 
+	Vec3 GameStage::GetSoundPosition()
+	{
+		return m_SoundPos;
+	}
 
 }
 //end basecross
