@@ -192,7 +192,7 @@ namespace basecross{
 		GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
 		GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
 
-		if (GoPointToNowPos.length() <= 5.0f)
+		if (GoPointToNowPos.length() <= 6.0f)
 		{
 			m_SoundBoxFlag = true;
 		}
@@ -248,7 +248,7 @@ namespace basecross{
 		}
 		if (other->FindTag(L"Goal"))
 		{
-
+			App::GetApp()->GetScene<Scene>()->SetGameStage(result);
 		}
 	}
 
