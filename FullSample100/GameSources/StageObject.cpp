@@ -63,8 +63,8 @@ namespace basecross{
 		PtrDraw->SetOriginalMeshUse(true);
 		PtrDraw->SetFogEnabled(true);
 		//暫定的に色変えました(必要なくなったら消してね)
-		auto color = Col4(0.0f,0.0f,0.0f,1.0f);
-		PtrDraw->SetDiffuse(color);
+		/*auto color = Col4(0.0f,0.0f,0.0f,1.0f);
+		PtrDraw->SetDiffuse(color);*/
 		//自分に影が映りこむようにする
 		PtrDraw->SetOwnShadowActive(true);
 		PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
@@ -153,7 +153,8 @@ namespace basecross{
 		m_Rotation(Rotation),
 		m_Position(Position),
 		m_UPic(UPic),
-		m_VPic(VPic)
+		m_VPic(VPic),
+		m_Mesh(L"Door_Animation.bmf")
 	{}
 
 	Door::~Door() {
@@ -189,7 +190,7 @@ namespace basecross{
 
 		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 		PtrDraw->CreateOriginalMesh(vertices, indices);
-		PtrDraw->SetOriginalMeshUse(true);
+		PtrDraw->SetMeshResource(m_Mesh);
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 	}
@@ -211,6 +212,7 @@ namespace basecross{
 		m_Position(Position),
 		m_UPic(UPic),
 		m_VPic(VPic),
+		m_Texture(L"ステージ床.jpg"),
 		m_Mesh(L"Stairs.bmf")
 	{}
 
@@ -258,6 +260,7 @@ namespace basecross{
 
 		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 		PtrDraw->CreateOriginalMesh(vertices, indices);
+		PtrDraw->SetTextureResource(m_Texture);
 		PtrDraw->SetMeshResource(m_Mesh);
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
