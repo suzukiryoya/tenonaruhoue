@@ -246,7 +246,10 @@ namespace basecross{
 
 			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
 		}
+		if (other->FindTag(L"Goal"))
+		{
 
+		}
 	}
 
 }
