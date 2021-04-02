@@ -136,7 +136,15 @@ namespace basecross{
 		return angle;
 	}
 	Vec3 Scene::GetAngle() {
+		
 		return m_getangle;
+	}
+	Vec3 Scene::SetPosition(Vec3 position) {
+		m_getposition = position;
+		return position;
+	}
+	Vec3 Scene::GetPosition() {
+		return m_getposition;
 	}
 
 

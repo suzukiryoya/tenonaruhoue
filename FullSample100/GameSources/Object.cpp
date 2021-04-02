@@ -119,6 +119,13 @@ namespace basecross {
         
         //タグをつける
         AddTag(L"SoundBox");
+
+        auto PtrColl = AddComponent<CollisionObb>();
+        PtrColl->SetDrawActive(true);
+        PtrColl->SetFixed(true);
+        ////衝突判定はNoneにする
+        PtrColl->SetAfterCollision(AfterCollision::None);
+
         //影をつける（シャドウマップを描画する）
         auto ShadowPtr = AddComponent<Shadowmap>();
         //影の形（メッシュ）を設定

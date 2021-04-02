@@ -29,6 +29,7 @@ namespace basecross{
 		wstring m_stageKey[GameStageKey::Max];
 		GameStageKey m_gameStageKey;
 		Vec3 m_getangle;
+		Vec3 m_getposition;
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -65,7 +66,8 @@ namespace basecross{
 
 		Vec3 SetAngle(Vec3 angle);
 		Vec3 GetAngle();
-
+		Vec3 SetPosition(Vec3 position);
+		Vec3 GetPosition();
 
 	};
 
