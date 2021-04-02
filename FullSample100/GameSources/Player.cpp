@@ -184,31 +184,21 @@ namespace basecross{
 		auto ElapsedTime = App::GetApp()->GetElapsedTime();
 		auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 
-		for (auto obj : gameObjects)
+		auto soundPosition = scene->GetPosition();
+
+		m_GoPointPos = soundPosition;
+		m_Position = GetComponent<Transform>()->GetPosition();
+
+		GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
+		GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
+
+		if (GoPointToNowPos.length() <= 5.0f)
 		{
-			auto gameStage = std::dynamic_pointer_cast<GameStage>(obj);
-
-			if (gameStage)
-			{
-				m_GoPointPos = gameStage->GetSoundPosition();
-				m_Position = GetComponent<Transform>()->GetPosition();
-
-
-				GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
-				GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
-
-				GoPointToNowPos.normalize();
-
-				if (GoPointToNowPos.length() <= 10.0f)
-				{
-					m_SoundBoxFlag = true;
-
-				}
-				else
-				{
-					m_SoundBoxFlag = false;
-				}
-			}
+			m_SoundBoxFlag = true;
+		}
+		else
+		{
+			m_SoundBoxFlag = false;
 		}
 	}
 
@@ -237,11 +227,11 @@ namespace basecross{
 
 			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
 		}
-		if (other->FindTag(L"FixdBox"))
+		if (other->FindTag(L"FixedBox1"))
 		{
 			auto pos = trans->GetPosition();
 
-			//m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
+			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 
 			auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 			GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
@@ -255,7 +245,6 @@ namespace basecross{
 			//m_Speed += 1.0f;
 
 			m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
-			m_SoundBoxFlag = false;
 		}
 
 	}

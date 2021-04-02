@@ -61,7 +61,7 @@ namespace basecross {
         ////Õ“Ë”»’è‚ÍNone‚É‚·‚é
         PtrColl->SetAfterCollision(AfterCollision::None);
 
-        AddTag(L"FixedBox");
+        AddTag(L"FixedBox1");
 
         //‰e‚ð‚Â‚¯‚é
         auto ShadowPtr = AddComponent<Shadowmap>();
