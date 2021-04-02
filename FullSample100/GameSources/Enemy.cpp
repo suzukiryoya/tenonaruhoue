@@ -68,6 +68,7 @@ namespace basecross {
 			auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 
 			PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
+			auto SoundBoxPos = App::GetApp()->GetScene<Scene>()->GetPosition();
 
 
 		}
