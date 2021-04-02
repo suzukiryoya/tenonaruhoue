@@ -202,13 +202,11 @@ namespace basecross{
 				if (GoPointToNowPos.length() <= 10.0f)
 				{
 					m_SoundBoxFlag = true;
-					gameStage->SetSoundFlag(m_SoundBoxFlag);
 
 				}
 				else
 				{
 					m_SoundBoxFlag = false;
-					gameStage->SetSoundFlag(m_SoundBoxFlag);
 				}
 			}
 		}
