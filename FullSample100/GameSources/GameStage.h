@@ -19,7 +19,7 @@ namespace basecross {
 		void CreateStage();
 		void CreatePlayer();
 
-		wstring m_StageSelect_image;
+		wstring m_StageSelect_image,m_StageClear_image;
 
 		Vec3 m_SoundPos;
 
@@ -30,6 +30,7 @@ namespace basecross {
 		//ç\ízÇ∆îjä¸
 		GameStage() :Stage(),
 			m_StageSelect_image(L"cursor2.png"),
+			m_StageClear_image(L"GameClear.png"),
 			m_MousePoint(0, 0)
 		{}
 		virtual ~GameStage() {}

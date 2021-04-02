@@ -112,5 +112,31 @@ namespace basecross {
 		void Remove();
 	};
 
+	class Title_UI : public UI_Base {
+	public:
+
+		Title_UI(const shared_ptr<Stage>& StagePtr,
+			const Vec2& vertex,
+			const Vec3& pos,
+			const Vec3& scale,
+			const int& layer,
+			const Col4& color,
+			const wstring& textures
+		) :
+			UI_Base(
+				StagePtr,
+				vertex,
+				pos,
+				scale,
+				layer,
+				color,
+				textures
+			)
+		{}
+		~Title_UI() {}
+
+		virtual void OnCreate() override;
+
+	};
 
 }

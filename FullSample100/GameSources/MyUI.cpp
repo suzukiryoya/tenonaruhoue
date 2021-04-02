@@ -125,6 +125,8 @@ namespace basecross {
 		GetStage()->RemoveGameObject<GameObject>(GetThis<UI_Text>());
 	}
 
-
+	void Title_UI::OnCreate() {
+		Draw();
+	}
 
 }
