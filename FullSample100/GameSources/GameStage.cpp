@@ -210,7 +210,8 @@ namespace basecross {
 
 	void GameStage::CreatePlayer()
 	{
-		auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0, XM_PIDIV2,0), Vec3(-14.0f,2.0f,5.0f));
+		auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
+		auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0, -XM_PIDIV2,0), Vec3(-10.0f,2.0f,5.0f), ptrCellmap);
 		player->AddTag(L"Player");
 
 	}
@@ -221,7 +222,7 @@ namespace basecross {
 		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 1.0f, -15.5f), PieceSize, 30, 30);
 		Ptr->SetDrawActive(true);
 		SetSharedGameObject(L"StageCellMap", Ptr);
-		//SetCellMapCost();
+		SetCellMapCost();
 	}
 	void GameStage::SetCellMapCost() {
 		auto PtrCellMap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
@@ -269,8 +270,8 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateStage();
-			CreatePlayer();
 			CreateCellMap();
+			CreatePlayer();
 			App::GetApp()->GetScene<Scene>()->PlayBGM(L"PlayBGM_Towards_the_Future.wav", 0.1f);
 			wstring dataDir;
 			//サンプルのためアセットディレクトリを取得

@@ -8,13 +8,20 @@
 
 namespace basecross{
 
+	enum class CellSearchFlg {
+		Failed,
+		Seek,
+		Arrived
+	};
+
 	class Player : public GameObject
 	{
 	public:
 		Player(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
 			const Vec3& Rotation,
-			const Vec3& Position
+			const Vec3& Position,
+			const shared_ptr<StageCellMap>& CellMap
 		);
 		virtual ~Player();
 		auto SetPad()
@@ -35,10 +42,21 @@ namespace basecross{
 
 		void PlayerRestart();			  // プレイヤーのリスポーン
 
-		//virtual void OnCollisionEnter(shared_ptr<GameObject>& other) override;   // 衝突判定に使う
-		//virtual void OnCollisionExcute(shared_ptr<GameObject>& other) override; // 衝突判定に使う
-		//virtual void OnCollisionExit(shared_ptr<GameObject>& other) override;  // 衝突判定に使う 
+		const Vec3& GetStartPosition()const {
+			return m_StartPosition;
+		}
 
+		// 目的の場所をサーチする
+		// TargetPos	目的の箇所
+		bool Search(const Vec3& TargetPos);
+
+		// 目的の場所をサーチしSeek行動をする
+		// TargetPos	目的の箇所
+		CellSearchFlg SeekBehavior(const Vec3& TargetPos);
+
+		// 目的の場所にarrive行動をとる
+		// TargetPos	目的の箇所
+		void ArriveBehavior(const Vec3& TargetPos);
 
 	private:
 		Vec3 GetInputState() const;
@@ -49,6 +67,8 @@ namespace basecross{
 		Vec3 m_Position;
 		Vec3 m_Rotation;
 		Vec3 m_CameraAt;
+
+		std::shared_ptr<Action> m_PtrAction;
 
 		vector<Vec3> m_Checkpoints = 
 		{
@@ -65,10 +85,21 @@ namespace basecross{
 		float m_NowPosZ;
 		float m_Speed;
 
-		bool m_SoundBoxFlag = false;
+		bool m_HomingFlag = false;
 
+		// 経路探索用
+		Vec3 m_StartPosition;
+		Vec3 m_Force;
+		Vec3 m_Velocity;
+		weak_ptr<StageCellMap> m_CelMap;
+		vector<CellIndex> m_CellPath;
+		//現在の自分のセルインデックス
+		int m_CellIndex;
+		//めざす（次の）のセルインデックス
+		int m_NextCellIndex;
+		//ターゲットのセルインデックス
+		int m_TargetCellIndex;
 	};
-
 }
 //end basecross
 
