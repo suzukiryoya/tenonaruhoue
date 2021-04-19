@@ -36,7 +36,7 @@ namespace basecross{
 		virtual void OnCreate() override; // ÉvÉåÉCÉÑÅ[ÇÃçÏê¨
 		virtual void OnUpdate() override;
 
-		void playerMove(bool flag);
+		void playerMove(bool flag, float speed);
 		void SoundBoxSearch();
 		void OnCollisionEnter(shared_ptr<GameObject>& other);
 
@@ -81,8 +81,8 @@ namespace basecross{
  
 		wstring m_Mesh;
 
-		float m_NowPosX;
-		float m_NowPosZ;
+		//float m_NowPosX;
+		//float m_NowPosZ;
 		float m_Speed;
 
 		bool m_HomingFlag = false;

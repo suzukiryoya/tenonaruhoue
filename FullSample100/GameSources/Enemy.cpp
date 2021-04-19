@@ -15,7 +15,8 @@ namespace basecross {
 		m_Position(Position),
 		//m_UPic(UPic),
 		//m_VPic(VPic),
-		m_Mesh(L"Enemy_robot1.bmf")
+		m_Mesh(L"Enemy_robot_3.bmf"),
+		m_Texture(L"Tx_Enemy_robot_1.tga")
 	{}
 	Enemy1::~Enemy1() {}
 
@@ -56,7 +57,7 @@ namespace basecross {
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->SetMeshResource(m_Mesh);
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
-		//ptrDraw->SetTextureResource(m_Texture);
+		ptrDraw->SetTextureResource(m_Texture);
 	}
 
 	void Enemy1::OnUpdate() {

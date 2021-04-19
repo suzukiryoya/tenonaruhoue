@@ -13,12 +13,15 @@ namespace basecross{
 		const Vec3& Position,
 		const shared_ptr<StageCellMap>& CellMap
 		)
-		: GameObject(StagePtr), m_Speed(3.0f), m_GoPointPos(-10.0f, 2.0f, 14.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position),
+		: GameObject(StagePtr), m_Speed(5.0f), m_GoPointPos(-10.0f, 2.0f, 14.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position),
 		m_CelMap(CellMap),
 		m_StartPosition(Position),
 		m_Force(0),
-		m_Mesh(L"Protagonist_Robot_3.bmf"),
-		m_Velocity(0)
+		m_Mesh(L"Protagonist_Robot_4.bmf"),
+		m_Velocity(0),
+		m_CellIndex(0),
+		m_NextCellIndex(0),
+		m_TargetCellIndex(0)
 	{
 	}
 
@@ -78,13 +81,7 @@ namespace basecross{
 		ptrDraw->SetOwnShadowActive(true);
 
 		////描画するテクスチャを設定
-		ptrDraw->SetTextureResource(L"Tx_Protagonist_Robot.tga");
-
-		////ループする
-		//m_PtrAction->SetLooped(true)
-		//アクション開始
-		//m_PtrAction->Run();
-
+		ptrDraw->SetTextureResource(L"Tx_Protagonist_Robot_2.tga");
 
 		//カメラを得る
 		auto ptrCamera = dynamic_pointer_cast<Camera>(OnGetDrawCamera());
@@ -109,11 +106,10 @@ namespace basecross{
 			SoundBoxSearch();
 		}
 
-		playerMove(m_HomingFlag);
-		
+		playerMove(m_HomingFlag, m_Speed);
 	}
 
-	void Player::playerMove(bool flag)
+	void Player::playerMove(bool flag, float speed)
 	{
 		if (SeekBehavior(m_GoPointPos) == CellSearchFlg::Failed) {
 			if (SeekBehavior(GetStartPosition()) == CellSearchFlg::Arrived) {
@@ -121,7 +117,6 @@ namespace basecross{
 			}
 		}
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		m_Velocity += m_Speed * ElapsedTime;
 		auto pos = GetComponent<Transform>()->GetPosition();
 		auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 		auto trans = GetComponent<Transform>();
@@ -129,7 +124,6 @@ namespace basecross{
 		//if (length(pos - m_GoPointPos) <= 1.8f) {
 		//	m_Velocity *= 0.95f;
 		//}
-		m_Position += m_Velocity * ElapsedTime;
 
 		if (flag == true) // SoundBoxFlagがTrueの時
 		{
@@ -148,6 +142,9 @@ namespace basecross{
 		}
 		else if (flag == false) // SoundBoxFlagがFalseの時
 		{
+			m_Velocity += speed * ElapsedTime;
+			m_Position += m_Velocity * ElapsedTime;
+
 			//GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
 			//GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
 
@@ -155,9 +152,12 @@ namespace basecross{
 
 			//m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
 
+
 			trans->SetRotation(0, m_Rotation.y, 0);
 
-			trans->SetPosition(m_Position.x, 2.0f, m_NowPosZ);
+			trans->SetPosition(m_Position.x, 2.0f, m_Position.z);
+
+			m_Speed = 0;
 		}
 	}
 
@@ -203,21 +203,20 @@ namespace basecross{
 
 		if (other->FindTag(L"Wall") || other->FindTag(L"Enemy1") || other->FindTag(L"Enemy2"))
 		{
-			m_GoPointPos = -m_Position;
-
+			m_GoPointPos -= other->GetComponent<Transform>()->GetPosition();
 			m_Rotation.y += XM_PI;
 			trans->SetRotation(m_Rotation);
 
 			auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
-			GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
-			GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
+			GoPointToNowPos.x += m_Position.x - m_GoPointPos.x;
+			GoPointToNowPos.z += m_Position.z - m_GoPointPos.z;
 
 
-			GoPointToNowPos.normalize();
+			//GoPointToNowPos.normalize();
 
-			m_Position += GoPointToNowPos * elapsedTime * m_Speed;
-			trans->SetPosition(m_Position);
-			m_HomingFlag = true;
+			m_Position = GoPointToNowPos * m_Velocity * elapsedTime;
+			//trans->SetPosition(m_Position);
+			m_HomingFlag = false;
 		}
 		//if (other->FindTag(L"FixedBox1"))
 		//{
