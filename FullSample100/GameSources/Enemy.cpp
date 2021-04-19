@@ -89,7 +89,7 @@ namespace basecross {
 		m_Position(Position),
 		m_UPic(UPic),
 		m_VPic(VPic),
-		m_Mesh(L"SecurityRobot.bmf"),
+		m_Mesh(L"SecurityRobot_Animation_0001.bmf"),
 		m_Texture(L"Tx_SecurityRobot.png")
 	{}
 	Enemy2::~Enemy2() {}

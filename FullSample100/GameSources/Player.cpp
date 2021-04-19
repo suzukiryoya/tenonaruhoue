@@ -13,7 +13,7 @@ namespace basecross{
 		const Vec3& Position,
 		const shared_ptr<StageCellMap>& CellMap
 		)
-		: GameObject(StagePtr), m_Speed(5.0f), m_GoPointPos(-10.0f, 2.0f, 14.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position),
+		: GameObject(StagePtr), m_Speed(25.0f), m_GoPointPos(-10.0f, 2.0f, 14.0f), m_Scale(Scale), m_Rotation(Rotation), m_Position(Position),
 		m_CelMap(CellMap),
 		m_StartPosition(Position),
 		m_Force(0),
@@ -38,7 +38,7 @@ namespace basecross{
 		PtrTrans->SetPosition(m_Position);
 
 		//m_NowPosX = m_Position.x;
-		//m_NowPosZ = m_Position.z;
+		m_NowPosZ = m_Position.z;
 
 		//CollisionObbè’ìÀîªíËÇïtÇØÇÈ
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -98,8 +98,6 @@ namespace basecross{
 		auto trans = GetComponent<Transform>();
 		auto newPos = trans->GetPosition();
 
-		//GetComponent<Transform>()->SetPosition(Pos);
-
 		auto controller = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (controller[0].wPressedButtons & XINPUT_GAMEPAD_A)
 		{
@@ -118,17 +116,17 @@ namespace basecross{
 		}
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		auto pos = GetComponent<Transform>()->GetPosition();
-		auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
+		//auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 		auto trans = GetComponent<Transform>();
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 		//if (length(pos - m_GoPointPos) <= 1.8f) {
 		//	m_Velocity *= 0.95f;
 		//}
 
-		if (flag == true) // SoundBoxFlagÇ™TrueÇÃéû
+		if (flag == true) // ç∂ï˚å¸Ç…à⁄ìÆÇ∑ÇÈÇ∆Ç´
 		{
-			//GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
-			//GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
+			m_Velocity -= speed * ElapsedTime;
+			m_Position -= m_Velocity * ElapsedTime;
 
 
 			////GoPointToNowPos.y = -XM_PI;
@@ -138,9 +136,13 @@ namespace basecross{
 
 			//m_Speed += 1.0f;
 
-			//trans->SetPosition(m_Position.x, 2.0f, m_Position.z);
+			trans->SetRotation(0, m_Rotation.y, 0);
+
+			trans->SetPosition(m_Position.x, 2.0f, m_NowPosZ);
+
+			m_Speed = 0;
 		}
-		else if (flag == false) // SoundBoxFlagÇ™FalseÇÃéû
+		else // âEï˚å¸Ç…à⁄ìÆÇ∑ÇÈÇ∆Ç´
 		{
 			m_Velocity += speed * ElapsedTime;
 			m_Position += m_Velocity * ElapsedTime;
@@ -155,7 +157,7 @@ namespace basecross{
 
 			trans->SetRotation(0, m_Rotation.y, 0);
 
-			trans->SetPosition(m_Position.x, 2.0f, m_Position.z);
+			trans->SetPosition(m_Position.x, 2.0f, m_NowPosZ);
 
 			m_Speed = 0;
 		}
@@ -173,50 +175,55 @@ namespace basecross{
 		auto soundPosition = scene->GetPosition();
 
 		m_GoPointPos = soundPosition;
-		m_Position = GetComponent<Transform>()->GetPosition();
+		//m_Position = GetComponent<Transform>()->GetPosition();
 
-		GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
+		//GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
 		GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
 
 		GoPointToNowPos.normalize();
 
 		if (GoPointToNowPos.length() <= 6.0f)
 		{
-			m_Position.x = GoPointToNowPos.x * elapsedTime * m_Speed;
-			m_Position.z = GoPointToNowPos.z * elapsedTime * m_Speed;
+			//m_Position.x = GoPointToNowPos.x * elapsedTime * m_Speed;
+			m_Position.z += GoPointToNowPos.z * elapsedTime;
 
 			m_Position.normalize();
 
-			m_HomingFlag = true;
+			m_NowPosZ += m_Position.z += GoPointToNowPos.z * elapsedTime;
 		}
-		else
-		{
-			m_HomingFlag = false;
-		}
+		
+		//if(m_NowPosZ == )
+		//{
+		//	return;
+		//}
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& other)
 	{
-		//auto ptr = GetStage()->CreateSharedObjectGroup(L"Wall");
 		auto trans = GetComponent<Transform>();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
 		if (other->FindTag(L"Wall") || other->FindTag(L"Enemy1") || other->FindTag(L"Enemy2"))
 		{
-			m_GoPointPos -= other->GetComponent<Transform>()->GetPosition();
+			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 			m_Rotation.y += XM_PI;
 			trans->SetRotation(m_Rotation);
 
 			auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
-			GoPointToNowPos.x += m_Position.x - m_GoPointPos.x;
-			GoPointToNowPos.z += m_Position.z - m_GoPointPos.z;
+			GoPointToNowPos.x -= m_Position.x + m_GoPointPos.x;
 
+			GoPointToNowPos.normalize();
 
-			//GoPointToNowPos.normalize();
-
-			m_Position = GoPointToNowPos * m_Velocity * elapsedTime;
-			//trans->SetPosition(m_Position);
-			m_HomingFlag = false;
+			m_Position += GoPointToNowPos * elapsedTime;
+			
+			if (m_HomingFlag == true)
+			{
+				m_HomingFlag = false;
+			}
+			else
+			{
+				m_HomingFlag = true;
+			}
 		}
 		//if (other->FindTag(L"FixedBox1"))
 		//{
