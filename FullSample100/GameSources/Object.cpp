@@ -58,7 +58,6 @@ namespace basecross {
         auto PtrGra = AddComponent<Gravity>();
 
         auto PtrColl = AddComponent<CollisionObb>();
-        PtrColl->SetDrawActive(true);
         PtrColl->SetFixed(true);
         ////衝突判定はNoneにする
         PtrColl->SetAfterCollision(AfterCollision::None);
@@ -78,7 +77,7 @@ namespace basecross {
         //物理計算ボックス
         PsBoxParam param(PtrTransform->GetWorldMatrix(), 1.0f, true, PsMotionType::MotionTypeActive);
         auto PsPtr = AddComponent<RigidbodyBox>(param);
-        PsPtr->SetDrawActive(true);
+        //PsPtr->SetDrawActive(true);
         PtrDraw->SetColorAndAlpha(Col4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 
@@ -124,7 +123,7 @@ namespace basecross {
         AddTag(L"SoundBox");
 
         auto PtrColl = AddComponent<CollisionObb>();
-        PtrColl->SetDrawActive(true);
+        //PtrColl->SetDrawActive(true);
         PtrColl->SetFixed(true);
         ////衝突判定はNoneにする
         PtrColl->SetAfterCollision(AfterCollision::None);

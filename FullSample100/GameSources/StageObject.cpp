@@ -75,7 +75,7 @@ namespace basecross{
 		//物理計算ボックス
 		PsBoxParam param(PtrTransform->GetWorldMatrix(), 0.0f, true, PsMotionType::MotionTypeFixed);
 		auto PsPtr = AddComponent<RigidbodyBox>(param);
-		PsPtr->SetDrawActive(true);
+		//PsPtr->SetDrawActive(true);
 	}
 
 	//-----------------------------------------------------------------

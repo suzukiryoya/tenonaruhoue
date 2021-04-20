@@ -308,7 +308,6 @@ namespace basecross {
 		float PieceSize = 1.0f;
 
 		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 1.0f, -15.5f), PieceSize, 30, 30);
-		Ptr->SetDrawActive(true);
 		SetSharedGameObject(L"StageCellMap", Ptr);
 		SetCellMapCost();
 	}
@@ -353,12 +352,12 @@ namespace basecross {
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.5f, 0.0f));
 
 
-			m_GameStageCsv.SetFileName(MediaDir + L"Stage5.csv");
+			m_GameStageCsv.SetFileName(MediaDir + L"Stage1.csv");
 			m_GameStageCsv.ReadCsv();
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateStage();
-			//CreateCellMap();
+			CreateCellMap();
 			CreatePlayer();
 			App::GetApp()->GetScene<Scene>()->PlayBGM(L"PlayBGM_Towards_the_Future.wav", 0.1f);
 			wstring dataDir;
