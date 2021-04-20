@@ -23,6 +23,31 @@ namespace basecross {
 			//float UPic,
 			//float VPic
 		);
+		//float GetStateChangeSize() const {
+		//	return m_StateChangeSize;
+		//}
+		//const Vec3& GetForce()const {
+		//	return m_Force;
+		//}
+		//void SetForce(const Vec3& f) {
+		//	m_Force = f;
+		//}
+		//void AddForce(const Vec3& f) {
+		//	m_Force += f;
+		//}
+
+
+		//const Vec3& GetVelocity()const {
+		//	return m_Velocity;
+		//}
+		//void SetVelocity(const Vec3& v) {
+		//	m_Velocity = v;
+		//}
+
+		//void ApplyForce();
+
+		//Vec3 GetTargetPos()const;
+
 		virtual ~Enemy1();
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
@@ -108,6 +133,36 @@ namespace basecross {
 		virtual void OnUpdate2() override;
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
 	};
+
+
+	//--------------------------------------------------------------------------------------
+//	class SeekFarState : public ObjState<SeekObject>;
+//	用途: プレイヤーから遠いときの移動
+//--------------------------------------------------------------------------------------
+	class SeekFarState : public ObjState<SeekObject>
+	{
+		SeekFarState() {}
+	public:
+		static shared_ptr<SeekFarState> Instance();
+		virtual void Enter(const shared_ptr<SeekObject>& Obj)override;
+		virtual void Execute(const shared_ptr<SeekObject>& Obj)override;
+		virtual void Exit(const shared_ptr<SeekObject>& Obj)override;
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	class SeekNearState : public ObjState<SeekObject>;
+	//	用途: プレイヤーから近いときの移動
+	//--------------------------------------------------------------------------------------
+	class SeekNearState : public ObjState<SeekObject>
+	{
+		SeekNearState() {}
+	public:
+		static shared_ptr<SeekNearState> Instance();
+		virtual void Enter(const shared_ptr<SeekObject>& Obj)override;
+		virtual void Execute(const shared_ptr<SeekObject>& Obj)override;
+		virtual void Exit(const shared_ptr<SeekObject>& Obj)override;
+	};
+
 
 
 }

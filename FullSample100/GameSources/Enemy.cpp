@@ -75,6 +75,12 @@ namespace basecross {
 		}
 	}
 
+
+
+
+
+
+
 	//敵２
 	Enemy2::Enemy2(const shared_ptr<Stage>& StagePtr,
 		const Vec3& Scale,
@@ -150,5 +156,59 @@ namespace basecross {
 		ptrDraw->SetTextureResource(m_Texture);
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 	}
+
+
+//	//--------------------------------------------------------------------------------------
+////	プレイヤーから遠いときの移動
+////--------------------------------------------------------------------------------------
+//	shared_ptr<SeekFarState> SeekFarState::Instance() {
+//		static shared_ptr<SeekFarState> instance(new SeekFarState);
+//		return instance;
+//	}
+//	void SeekFarState::Enter(const shared_ptr<SeekObject>& Obj) {
+//	}
+//	void SeekFarState::Execute(const shared_ptr<SeekObject>& Obj) {
+//		auto ptrSeek = Obj->GetBehavior<SeekSteering>();
+//		auto ptrSep = Obj->GetBehavior<SeparationSteering>();
+//		auto force = Obj->GetForce();
+//		force = ptrSeek->Execute(force, Obj->GetVelocity(), Obj->GetTargetPos());
+//		force += ptrSep->Execute(force);
+//		Obj->SetForce(force);
+//		Obj->ApplyForce();
+//		float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
+//		if (f < Obj->GetStateChangeSize()) {
+//			Obj->GetStateMachine()->ChangeState(SeekNearState::Instance());
+//		}
+//	}
+//
+//	void SeekFarState::Exit(const shared_ptr<SeekObject>& Obj) {
+//	}
+//
+//	//--------------------------------------------------------------------------------------
+//	//	プレイヤーから近いときの移動
+//	//--------------------------------------------------------------------------------------
+//	shared_ptr<SeekNearState> SeekNearState::Instance() {
+//		static shared_ptr<SeekNearState> instance(new SeekNearState);
+//		return instance;
+//	}
+//	void SeekNearState::Enter(const shared_ptr<SeekObject>& Obj) {
+//	}
+//	void SeekNearState::Execute(const shared_ptr<SeekObject>& Obj) {
+//		auto ptrArrive = Obj->GetBehavior<ArriveSteering>();
+//		auto ptrSep = Obj->GetBehavior<SeparationSteering>();
+//		auto force = Obj->GetForce();
+//		force = ptrArrive->Execute(force, Obj->GetVelocity(), Obj->GetTargetPos());
+//		force += ptrSep->Execute(force);
+//		Obj->SetForce(force);
+//		Obj->ApplyForce();
+//		float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
+//		if (f >= Obj->GetStateChangeSize()) {
+//			Obj->GetStateMachine()->ChangeState(SeekFarState::Instance());
+//		}
+//	}
+//	void SeekNearState::Exit(const shared_ptr<SeekObject>& Obj) {
+//	}
+
+
 }
 //end basecross
