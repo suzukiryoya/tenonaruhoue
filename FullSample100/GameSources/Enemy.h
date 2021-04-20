@@ -7,6 +7,9 @@ namespace basecross {
 	class Enemy1 : public GameObject
 	{
 	private:
+
+		unique_ptr< StateMachine<Enemy1> >  m_StateMachine;
+
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
@@ -14,7 +17,12 @@ namespace basecross {
 		//float m_VPic;
 		wstring m_Texture;
 		wstring m_Mesh;
-
+		Vec3 m_StartPos;
+		float m_StateChangeSize;
+		//フォース
+		Vec3 m_Force;
+		//速度
+		Vec3 m_Velocity;
 	public:
 		Enemy1(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
@@ -23,30 +31,35 @@ namespace basecross {
 			//float UPic,
 			//float VPic
 		);
-		//float GetStateChangeSize() const {
-		//	return m_StateChangeSize;
-		//}
-		//const Vec3& GetForce()const {
-		//	return m_Force;
-		//}
-		//void SetForce(const Vec3& f) {
-		//	m_Force = f;
-		//}
-		//void AddForce(const Vec3& f) {
-		//	m_Force += f;
-		//}
+
+		const unique_ptr<StateMachine<Enemy1>>& GetStateMachine() {
+			return m_StateMachine;
+		}
+
+		float GetStateChangeSize() const {
+			return m_StateChangeSize;
+		}
+		const Vec3& GetForce()const {
+			return m_Force;
+		}
+		void SetForce(const Vec3& f) {
+			m_Force = f;
+		}
+		void AddForce(const Vec3& f) {
+			m_Force += f;
+		}
 
 
-		//const Vec3& GetVelocity()const {
-		//	return m_Velocity;
-		//}
-		//void SetVelocity(const Vec3& v) {
-		//	m_Velocity = v;
-		//}
+		const Vec3& GetVelocity()const {
+			return m_Velocity;
+		}
+		void SetVelocity(const Vec3& v) {
+			m_Velocity = v;
+		}
 
-		//void ApplyForce();
+		void ApplyForce();
 
-		//Vec3 GetTargetPos()const;
+		Vec3 GetTargetPos()const;
 
 		virtual ~Enemy1();
 		virtual void OnCreate()override;
@@ -82,85 +95,32 @@ namespace basecross {
 		//void OnUpdate();
 
 	};
-
-	class SeekObject : public GameObject {
-		//ステートマシーン
-		unique_ptr< StateMachine<SeekObject> >  m_StateMachine;
-		Vec3 m_StartPos;
-		float m_StateChangeSize;
-		//フォース
-		Vec3 m_Force;
-		//速度
-		Vec3 m_Velocity;
-	public:
-		//構築と破棄
-		SeekObject(const shared_ptr<Stage>& StagePtr, const Vec3& StartPos);
-		virtual ~SeekObject();
-		//初期化
-		virtual void OnCreate() override;
-		//アクセサ
-		const unique_ptr<StateMachine<SeekObject>>& GetStateMachine() {
-			return m_StateMachine;
-		}
-		float GetStateChangeSize() const {
-			return m_StateChangeSize;
-		}
-		const Vec3& GetForce()const {
-			return m_Force;
-		}
-		void SetForce(const Vec3& f) {
-			m_Force = f;
-		}
-		void AddForce(const Vec3& f) {
-			m_Force += f;
-		}
-
-
-		const Vec3& GetVelocity()const {
-			return m_Velocity;
-		}
-		void SetVelocity(const Vec3& v) {
-			m_Velocity = v;
-		}
-
-		void ApplyForce();
-
-		Vec3 GetTargetPos()const;
-
-
-		//操作
-		virtual void OnUpdate() override;
-		virtual void OnUpdate2() override;
-		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
-	};
-
-
 	//--------------------------------------------------------------------------------------
 //	class SeekFarState : public ObjState<SeekObject>;
 //	用途: プレイヤーから遠いときの移動
 //--------------------------------------------------------------------------------------
-	class SeekFarState : public ObjState<SeekObject>
+	class SeekFarState : public ObjState<Enemy1>
 	{
 		SeekFarState() {}
 	public:
 		static shared_ptr<SeekFarState> Instance();
-		virtual void Enter(const shared_ptr<SeekObject>& Obj)override;
-		virtual void Execute(const shared_ptr<SeekObject>& Obj)override;
-		virtual void Exit(const shared_ptr<SeekObject>& Obj)override;
+		virtual void Enter(const shared_ptr<Enemy1>& Obj)override;
+		virtual void Execute(const shared_ptr<Enemy1>& Obj)override;
+		virtual void Exit(const shared_ptr<Enemy1>& Obj)override;
 	};
 
 	//--------------------------------------------------------------------------------------
 	//	class SeekNearState : public ObjState<SeekObject>;
 	//	用途: プレイヤーから近いときの移動
 	//--------------------------------------------------------------------------------------
-	class SeekNearState : public ObjState<SeekObject>
+	class SeekNearState : public ObjState<Enemy1>
 	{
 		SeekNearState() {}
 	public:
 		static shared_ptr<SeekNearState> Instance();
-		virtual void Enter(const shared_ptr<SeekObject>& Obj)override;
-		virtual void Execute(const shared_ptr<SeekObject>& Obj)override;
-		virtual void Exit(const shared_ptr<SeekObject>& Obj)override;
+		virtual void Enter(const shared_ptr<Enemy1>& Obj)override;
+		virtual void Execute(const shared_ptr<Enemy1>& Obj)override;
+		virtual void Exit(const shared_ptr<Enemy1>& Obj)override;
 	};
 
 
