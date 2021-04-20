@@ -27,6 +27,9 @@ namespace basecross{
 		//上下スティック変更のモード
 		bool m_UDBaseMode;
 	public:
+
+		MyCamera();
+		virtual ~MyCamera() {}
 	};
 }
 //end basecross
