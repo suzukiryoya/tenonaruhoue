@@ -51,7 +51,7 @@ namespace basecross {
 		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
 
 		//描画するメッシュを設定
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		auto ptrDraw = AddComponent<BcPNTBoneModelDraw>();
 		ptrDraw->SetDiffuse(Col4(1.0f, 1.0f, 1.0f, 1.0f));
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetOwnShadowActive(true);
@@ -148,7 +148,7 @@ namespace basecross {
 		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
 
 		//描画するメッシュを設定
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		auto ptrDraw = AddComponent <BcPNTBoneModelDraw> ();
 		ptrDraw->SetDiffuse(Col4(1.0f, 1.0f, 1.0f, 1.0f));
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetOwnShadowActive(true);
