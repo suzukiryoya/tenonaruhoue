@@ -58,7 +58,7 @@ namespace basecross {
 		}
 
 		void ApplyForce();
-
+		
 		Vec3 GetTargetPos()const;
 
 		virtual ~Enemy1();
