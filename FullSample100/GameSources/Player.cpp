@@ -17,11 +17,7 @@ namespace basecross{
 		m_CelMap(CellMap),
 		m_StartPosition(Position),
 		m_Force(0),
-		m_Mesh(L"Protagonist_Robot_4.bmf"),
-		m_Velocity(0),
-		m_CellIndex(0),
-		m_NextCellIndex(0),
-		m_TargetCellIndex(0)
+		m_Mesh(L"Protagonist_Robot_4.bmf")
 	{
 	}
 
@@ -48,7 +44,6 @@ namespace basecross{
 			AddComponent<PathSearch>(MapPtr);
 		}
 
-		ptrColl->SetDrawActive(true);
 		ptrColl->SetMakedSize(1.5f);
 
 		GetStage()->SetCollisionPerformanceActive(true);
@@ -57,7 +52,7 @@ namespace basecross{
 
 		Mat4x4 SpanMat; // モデルとトランスフォームの間の差分行列
 		SpanMat.affineTransformation(
-			Vec3(1.0f, 1.0f, 1.0f),
+			Vec3(1.0f, 1.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f));
@@ -68,13 +63,13 @@ namespace basecross{
 		ShadowPtr->SetMeshResource(m_Mesh);
 		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
 
-		//文字列をつける
-		auto ptrString = AddComponent<StringSprite>();
-		ptrString->SetText(L"");
-		ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
+		////文字列をつける
+		//auto ptrString = AddComponent<StringSprite>();
+		//ptrString->SetText(L"");
+		//ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
 
 		//描画コンポーネントの設定
-		auto ptrDraw = AddComponent<BcPNTStaticModelDraw>();
+		auto ptrDraw = AddComponent<BcPNTBoneModelDraw>();
 		ptrDraw->SetFogEnabled(true);
 		//描画するメッシュを設定
 		ptrDraw->SetMeshResource(m_Mesh);
@@ -225,25 +220,34 @@ namespace basecross{
 				m_HomingFlag = true;
 			}
 		}
-		//if (other->FindTag(L"FixedBox1"))
-		//{
-		//	auto pos = trans->GetPosition();
+		if (other->FindTag(L"SoundBox"))
+		{
+			auto pos = trans->GetPosition();
 
-		//	m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
+			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 
-		//	auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
-		//	GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
-		//	GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
+			auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
+			GoPointToNowPos.x -= m_Position.x + m_GoPointPos.x;
+			GoPointToNowPos.z -= m_Position.z + m_GoPointPos.z;
 
-		//	GoPointToNowPos.y = -XM_PI;
-		//	m_Rotation.y += GoPointToNowPos.y;
+			//m_Rotation.y += XM_PI;
+			//trans->SetRotation(m_Rotation);
 
-		//	GoPointToNowPos.normalize();
+			GoPointToNowPos.normalize();
 
-		//	//m_Speed += 1.0f;
+			//m_Speed += 1.0f;
 
-		//	m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
-		//}
+			if (GoPointToNowPos.length() <= 6.0f)
+			{
+				m_Position.x += GoPointToNowPos.x * elapsedTime;
+				m_Position.z += GoPointToNowPos.z * elapsedTime;
+
+				m_Position.normalize();
+
+				m_Position += GoPointToNowPos * elapsedTime;
+				m_NowPosZ += m_Position.z * elapsedTime;
+			}
+		}
 		if (other->FindTag(L"Goal"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(true);
