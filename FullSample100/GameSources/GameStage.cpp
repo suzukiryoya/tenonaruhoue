@@ -35,6 +35,7 @@ namespace basecross {
 		vector<wstring> LineVec4;
 		vector<wstring> LineVec5;
 		vector<wstring> LineVec6;
+		vector<wstring> LineVec7;
 
 		m_GameStageCsv.GetSelect(LineVec1, 0, L"Floor");
 		for (auto& v : LineVec1)
@@ -206,6 +207,34 @@ namespace basecross {
 			goal->AddTag(L"Goal");
 			BoxesGroup->IntoGroup(goal);
 		}
+		m_GameStageCsv.GetSelect(LineVec7, 0, L"Start");
+		for (auto& v : LineVec7) {
+			//トークン（カラム）の配列
+			vector<wstring> Tokens;
+			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+			Util::WStrToTokenVector(Tokens, v, L',');
+			//各トークン（カラム）をスケール、回転、位置に読み込む
+			Vec3 Scale(
+				(float)_wtof(Tokens[1].c_str()),
+				(float)_wtof(Tokens[2].c_str()),
+				(float)_wtof(Tokens[3].c_str())
+			);
+			Vec3 Rot;
+			//回転はXM_PIDIV2の文字列になっている場合がある
+			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+			Vec3 Pos(
+				(float)_wtof(Tokens[7].c_str()),
+				(float)_wtof(Tokens[8].c_str()),
+				(float)_wtof(Tokens[9].c_str())
+			);
+
+			auto start = AddGameObject<Start>(Scale, Rot, Pos, 1.0f, 1.0f);
+			start->AddTag(L"Start");
+			BoxesGroup->IntoGroup(start);
+		}
+		
 	}
 
 	void GameStage::CreatePlayer()
