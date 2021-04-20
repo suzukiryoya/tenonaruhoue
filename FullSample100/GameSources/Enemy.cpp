@@ -15,8 +15,8 @@ namespace basecross {
 		m_Position(Position),
 		//m_UPic(UPic),
 		//m_VPic(VPic),
-		m_Mesh(L"Enemy_robot_3.bmf"),
-		m_Texture(L"Tx_Enemy_robot_1.tga")
+		m_Mesh(L"SecurityRobot_Animation_0001.bmf"),
+		m_Texture(L"Tx_SecurityRobot.png")
 	{}
 	Enemy1::~Enemy1() {}
 
@@ -51,7 +51,7 @@ namespace basecross {
 		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
 
 		//描画するメッシュを設定
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		auto ptrDraw = AddComponent<BcPNTBoneModelDraw>();
 		ptrDraw->SetDiffuse(Col4(1.0f, 1.0f, 1.0f, 1.0f));
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetOwnShadowActive(true);
@@ -120,8 +120,8 @@ namespace basecross {
 		m_Position(Position),
 		m_UPic(UPic),
 		m_VPic(VPic),
-		m_Mesh(L"SecurityRobot.bmf"),
-		m_Texture(L"Tx_SecurityRobot.png")
+		m_Mesh(L"Enemy_robot_4.bmf"),
+		m_Texture(L"Tx_Enemy_robot_1.tga")
 	{}
 	Enemy2::~Enemy2() {}
 
@@ -173,7 +173,7 @@ namespace basecross {
 		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
 
 		//描画するメッシュを設定
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		auto ptrDraw = AddComponent <BcPNTBoneModelDraw> ();
 		ptrDraw->SetDiffuse(Col4(1.0f, 1.0f, 1.0f, 1.0f));
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetOwnShadowActive(true);
