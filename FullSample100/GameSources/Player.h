@@ -82,7 +82,7 @@ namespace basecross{
 		wstring m_Mesh;
 
 		//float m_NowPosX;
-		//float m_NowPosZ;
+		float m_NowPosZ;
 		float m_Speed;
 
 		bool m_HomingFlag = false;
