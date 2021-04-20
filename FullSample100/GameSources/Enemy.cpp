@@ -58,23 +58,48 @@ namespace basecross {
 		ptrDraw->SetMeshResource(m_Mesh);
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 		ptrDraw->SetTextureResource(m_Texture);
+		//ステートマシンの構築
+		m_StateMachine.reset(new StateMachine<Enemy1>(GetThis<Enemy1>()));
+		//最初のステートをSeekFarStateに設定
+		m_StateMachine->ChangeState(SeekFarState::Instance());
+
 	}
 
 	void Enemy1::OnUpdate() {
+		m_Force = Vec3(0);
+		//ステートマシンのUpdateを行う
+		//この中でステートの切り替えが行われる
+		m_StateMachine->Update();
+		auto ptrUtil = GetBehavior<UtilBehavior>();
+		ptrUtil->RotToHead(1.0f);
 
 	}
 
 	void Enemy1::OnCollisionEnter(shared_ptr<GameObject>& Other) {
 		if (Other->FindTag(L"SoundBox")) {
-			auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+			//auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 
-			PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
-			auto SoundBoxPos = App::GetApp()->GetScene<Scene>()->GetPosition();
+			//PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
+			//auto SoundBoxPos = App::GetApp()->GetScene<Scene>()->GetPosition();
 
 
 		}
 	}
 
+	Vec3 Enemy1::GetTargetPos()const {
+		auto ptrTarget = GetStage()->GetSharedObject(L"Player");
+		return ptrTarget->GetComponent<Transform>()->GetPosition();
+	}
+
+
+	void Enemy1::ApplyForce() {
+		float elapsedTime = App::GetApp()->GetElapsedTime();
+		m_Velocity += m_Force * elapsedTime;
+		auto ptrTrans = GetComponent<Transform>();
+		auto pos = ptrTrans->GetPosition();
+		pos += m_Velocity * elapsedTime;
+		ptrTrans->SetPosition(pos);
+	}
 
 
 
@@ -158,56 +183,56 @@ namespace basecross {
 	}
 
 
-//	//--------------------------------------------------------------------------------------
-////	プレイヤーから遠いときの移動
-////--------------------------------------------------------------------------------------
-//	shared_ptr<SeekFarState> SeekFarState::Instance() {
-//		static shared_ptr<SeekFarState> instance(new SeekFarState);
-//		return instance;
-//	}
-//	void SeekFarState::Enter(const shared_ptr<SeekObject>& Obj) {
-//	}
-//	void SeekFarState::Execute(const shared_ptr<SeekObject>& Obj) {
-//		auto ptrSeek = Obj->GetBehavior<SeekSteering>();
-//		auto ptrSep = Obj->GetBehavior<SeparationSteering>();
-//		auto force = Obj->GetForce();
-//		force = ptrSeek->Execute(force, Obj->GetVelocity(), Obj->GetTargetPos());
-//		force += ptrSep->Execute(force);
-//		Obj->SetForce(force);
-//		Obj->ApplyForce();
-//		float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
-//		if (f < Obj->GetStateChangeSize()) {
-//			Obj->GetStateMachine()->ChangeState(SeekNearState::Instance());
-//		}
-//	}
-//
-//	void SeekFarState::Exit(const shared_ptr<SeekObject>& Obj) {
-//	}
-//
-//	//--------------------------------------------------------------------------------------
-//	//	プレイヤーから近いときの移動
-//	//--------------------------------------------------------------------------------------
-//	shared_ptr<SeekNearState> SeekNearState::Instance() {
-//		static shared_ptr<SeekNearState> instance(new SeekNearState);
-//		return instance;
-//	}
-//	void SeekNearState::Enter(const shared_ptr<SeekObject>& Obj) {
-//	}
-//	void SeekNearState::Execute(const shared_ptr<SeekObject>& Obj) {
-//		auto ptrArrive = Obj->GetBehavior<ArriveSteering>();
-//		auto ptrSep = Obj->GetBehavior<SeparationSteering>();
-//		auto force = Obj->GetForce();
-//		force = ptrArrive->Execute(force, Obj->GetVelocity(), Obj->GetTargetPos());
-//		force += ptrSep->Execute(force);
-//		Obj->SetForce(force);
-//		Obj->ApplyForce();
-//		float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
-//		if (f >= Obj->GetStateChangeSize()) {
-//			Obj->GetStateMachine()->ChangeState(SeekFarState::Instance());
-//		}
-//	}
-//	void SeekNearState::Exit(const shared_ptr<SeekObject>& Obj) {
-//	}
+	//--------------------------------------------------------------------------------------
+//	プレイヤーから遠いときの移動
+//--------------------------------------------------------------------------------------
+	shared_ptr<SeekFarState> SeekFarState::Instance() {
+		static shared_ptr<SeekFarState> instance(new SeekFarState);
+		return instance;
+	}
+	void SeekFarState::Enter(const shared_ptr<Enemy1>& Obj) {
+	}
+	void SeekFarState::Execute(const shared_ptr<Enemy1>& Obj) {
+		//auto ptrSeek = Obj->GetBehavior<SeekSteering>();
+		//auto ptrSep = Obj->GetBehavior<SeparationSteering>();
+		//auto force = Obj->GetForce();
+		//force = ptrSeek->Execute(force, Obj->GetVelocity(), Obj->GetTargetPos());
+		//force += ptrSep->Execute(force);
+		//Obj->SetForce(force);
+		//Obj->ApplyForce();
+		//float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
+		//if (f < Obj->GetStateChangeSize()) {
+		//	Obj->GetStateMachine()->ChangeState(SeekNearState::Instance());
+		//}
+	}
+
+	void SeekFarState::Exit(const shared_ptr<Enemy1>& Obj) {
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	プレイヤーから近いときの移動
+	//--------------------------------------------------------------------------------------
+	shared_ptr<SeekNearState> SeekNearState::Instance() {
+		static shared_ptr<SeekNearState> instance(new SeekNearState);
+		return instance;
+	}
+	void SeekNearState::Enter(const shared_ptr<Enemy1>& Obj) {
+	}
+	void SeekNearState::Execute(const shared_ptr<Enemy1>& Obj) { 
+		//auto ptrArrive = Obj->GetBehavior<ArriveSteering>();
+		//auto ptrSep = Obj->GetBehavior<SeparationSteering>();
+		//auto force = Obj->GetForce();
+		//force = ptrArrive->Execute(force, Obj->GetVelocity(), Obj->GetTargetPos());
+		//force += ptrSep->Execute(force);
+		//Obj->SetForce(force);
+		//Obj->ApplyForce();
+		//float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
+		//if (f >= Obj->GetStateChangeSize()) {
+		//	Obj->GetStateMachine()->ChangeState(SeekFarState::Instance());
+		//}
+	}
+	void SeekNearState::Exit(const shared_ptr<Enemy1>& Obj) {
+	}
 
 
 }

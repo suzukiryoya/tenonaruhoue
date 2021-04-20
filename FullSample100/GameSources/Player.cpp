@@ -96,7 +96,7 @@ namespace basecross{
 		auto controller = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (controller[0].wPressedButtons & XINPUT_GAMEPAD_A)
 		{
-			SoundBoxSearch();
+			//SoundBoxSearch();
 		}
 
 		playerMove(m_HomingFlag, m_Speed);
@@ -223,8 +223,6 @@ namespace basecross{
 		if (other->FindTag(L"SoundBox"))
 		{
 			auto pos = trans->GetPosition();
-
-			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 
 			auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 			GoPointToNowPos.x -= m_Position.x + m_GoPointPos.x;
