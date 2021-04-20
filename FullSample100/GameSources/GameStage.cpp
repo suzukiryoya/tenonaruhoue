@@ -36,6 +36,7 @@ namespace basecross {
 		vector<wstring> LineVec5;
 		vector<wstring> LineVec6;
 		vector<wstring> LineVec7;
+		vector<wstring> LineVec8;
 
 		m_GameStageCsv.GetSelect(LineVec1, 0, L"Floor");
 		for (auto& v : LineVec1)
@@ -234,7 +235,33 @@ namespace basecross {
 			start->AddTag(L"Start");
 			BoxesGroup->IntoGroup(start);
 		}
-		
+		m_GameStageCsv.GetSelect(LineVec8, 0, L"SoundBlock");
+		for (auto& v : LineVec8) {
+			//トークン（カラム）の配列
+			vector<wstring> Tokens;
+			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+			Util::WStrToTokenVector(Tokens, v, L',');
+			//各トークン（カラム）をスケール、回転、位置に読み込む
+			Vec3 Scale(
+				(float)_wtof(Tokens[1].c_str()),
+				(float)_wtof(Tokens[2].c_str()),
+				(float)_wtof(Tokens[3].c_str())
+			);
+			Vec3 Rot;
+			//回転はXM_PIDIV2の文字列になっている場合がある
+			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+			Vec3 Pos(
+				(float)_wtof(Tokens[7].c_str()),
+				(float)_wtof(Tokens[8].c_str()),
+				(float)_wtof(Tokens[9].c_str())
+			);
+
+			auto soundBlock = AddGameObject<FixedBox>(Scale, Rot, Pos);
+			soundBlock->AddTag(L"SoundBox");
+			BoxesGroup->IntoGroup(soundBlock);
+		}
 	}
 
 	void GameStage::CreatePlayer()
@@ -288,7 +315,7 @@ namespace basecross {
 			wstring MediaDir;
 			App::GetApp()->GetDataDirectory(MediaDir);
 
-			AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,1.0f,0.0f));
+			//AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,1.0f,0.0f));
 			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 0.5f, 0.0f));
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.5f, 0.0f));

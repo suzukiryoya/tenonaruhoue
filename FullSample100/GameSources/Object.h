@@ -41,6 +41,8 @@ namespace basecross {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
+		wstring m_Texture;
+		wstring m_Mesh;
 	public:
 		//\’z‚Æ”jŠü
 		FixedBox(const shared_ptr<Stage>& StagePtr,

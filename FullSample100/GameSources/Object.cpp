@@ -42,7 +42,9 @@ namespace basecross {
         ActivePsObject(StagePtr),
         m_Scale(Scale),
         m_Rotation(Rotation),
-        m_Position(Position)
+        m_Position(Position),
+        m_Texture(L"Tx_SoundingBlock.png"),
+        m_Mesh(L"SoundingBlock01.bmf")
     {
     }
     FixedBox::~FixedBox() {}
@@ -65,11 +67,12 @@ namespace basecross {
 
         //影をつける
         auto ShadowPtr = AddComponent<Shadowmap>();
-        ShadowPtr->SetMeshResource(L"DEFAULT_CUBE");
+        ShadowPtr->SetMeshResource(m_Mesh);
 
-        auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+        auto PtrDraw = AddComponent<BcPNTStaticModelDraw>();
         PtrDraw->SetFogEnabled(true);
-        PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
+        PtrDraw->SetMeshResource(m_Mesh);
+        PtrDraw->SetTextureResource(m_Texture);
         PtrDraw->SetOwnShadowActive(true);
 
         //物理計算ボックス
