@@ -82,7 +82,7 @@ namespace basecross{
 		wstring m_Mesh;
 
 		//float m_NowPosX;
-		float m_NowPosZ;
+		float m_NowPosZ = 0;
 		float m_Speed;
 
 		bool m_HomingFlag = false;
@@ -94,11 +94,11 @@ namespace basecross{
 		weak_ptr<StageCellMap> m_CelMap;
 		vector<CellIndex> m_CellPath;
 		//現在の自分のセルインデックス
-		int m_CellIndex;
+		int m_CellIndex = 0;
 		//めざす（次の）のセルインデックス
-		int m_NextCellIndex;
+		int m_NextCellIndex = 0;
 		//ターゲットのセルインデックス
-		int m_TargetCellIndex;
+		int m_TargetCellIndex = 0;
 	};
 }
 //end basecross
