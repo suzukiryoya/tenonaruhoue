@@ -23,3 +23,5 @@
 #include "GameStage.h"
 #include "TitleStage.h"
 #include "ResultStage.h"
+
+#include "MyCamera.h"
