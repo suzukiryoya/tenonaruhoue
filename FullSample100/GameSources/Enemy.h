@@ -3,7 +3,7 @@
 
 namespace basecross {
 
-	//“G‚P
+	//“G‚P ålŒö‚ğUŒ‚
 	class Enemy1 : public GameObject
 	{
 	private:
@@ -23,6 +23,8 @@ namespace basecross {
 		Vec3 m_Force;
 		//‘¬“x
 		Vec3 m_Velocity;
+		//ƒAƒjƒ[ƒVƒ‡ƒ“—p
+		int m_SaveNum;
 	public:
 		Enemy1(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
@@ -65,12 +67,13 @@ namespace basecross {
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other);
+		void AnimeManager(int num);
 
 		//void OnUpdate();
 
 	};
 
-	//“G‚Q
+	//“G‚Q “G1‚ÆålŒö‚ğUŒ‚
 	class Enemy2 : public GameObject
 	{
 	private:
@@ -81,6 +84,8 @@ namespace basecross {
 		float m_VPic;
 		wstring m_Texture;
 		wstring m_Mesh;
+		//ƒAƒjƒ[ƒVƒ‡ƒ“—p
+		int m_SaveNum;
 
 	public:
 		Enemy2(const shared_ptr<Stage>& StagePtr,
@@ -92,8 +97,8 @@ namespace basecross {
 		);
 		virtual ~Enemy2();
 		virtual void OnCreate()override;
-		//void OnUpdate();
-
+		void OnUpdate();
+		void AnimeManager(int num);
 	};
 	//--------------------------------------------------------------------------------------
 //	class SeekFarState : public ObjState<SeekObject>;

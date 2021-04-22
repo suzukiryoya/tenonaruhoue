@@ -261,42 +261,43 @@ namespace basecross {
 			);
 
 			auto soundBlock = AddGameObject<FixedBox>(Scale, Rot, Pos);
-			soundBlock->AddTag(L"SoundBox");
+			soundBlock->AddTag(L"SoundBlock");
 			BoxesGroup->IntoGroup(soundBlock);
 		}
 		m_GameStageCsv.GetSelect(LineVec9, 0, L"Player");
-		//for (auto& v : LineVec9) {
-		//	//トークン（カラム）の配列
-		//	vector<wstring> Tokens;
-		//	//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
-		//	Util::WStrToTokenVector(Tokens, v, L',');
-		//	//各トークン（カラム）をスケール、回転、位置に読み込む
-		//	Vec3 Scale(
-		//		(float)_wtof(Tokens[1].c_str()),
-		//		(float)_wtof(Tokens[2].c_str()),
-		//		(float)_wtof(Tokens[3].c_str())
-		//	);
-		//	Vec3 Rot;
-		//	//回転はXM_PIDIV2の文字列になっている場合がある
-		//	Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-		//	Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
-		//	Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
-		//	Vec3 Pos(
-		//		(float)_wtof(Tokens[7].c_str()),
-		//		(float)_wtof(Tokens[8].c_str()),
-		//		(float)_wtof(Tokens[9].c_str())
-		//	);
-		//	auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
-		//	auto player = AddGameObject<Player>(Scale, Rot, Pos, ptrCellmap);
-		//	player->AddTag(L"Player");
-		//	BoxesGroup->IntoGroup(player);
-		//}
+		for (auto& v : LineVec9) {
+			//トークン（カラム）の配列
+			vector<wstring> Tokens;
+			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+			Util::WStrToTokenVector(Tokens, v, L',');
+			//各トークン（カラム）をスケール、回転、位置に読み込む
+			Vec3 Scale(
+				(float)_wtof(Tokens[1].c_str()),
+				(float)_wtof(Tokens[2].c_str()),
+				(float)_wtof(Tokens[3].c_str())
+			);
+			Vec3 Rot;
+			//回転はXM_PIDIV2の文字列になっている場合がある
+			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str()) ||
+					(Tokens[5] == L"ーXM_PIDIV2") ? -XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+			Vec3 Pos(
+				(float)_wtof(Tokens[7].c_str()),
+				(float)_wtof(Tokens[8].c_str()),
+				(float)_wtof(Tokens[9].c_str())
+			);
+			auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
+			auto player = AddGameObject<Player>(Scale, Rot, Pos, ptrCellmap);
+			player->AddTag(L"Player");
+			BoxesGroup->IntoGroup(player);
+		}
 	}
 
 	void GameStage::CreatePlayer()
 	{
 		auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
-		auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0, -XM_PIDIV2,0), Vec3(-10.0f,2.0f,5.0f), ptrCellmap);
+		auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0, 90,0), Vec3(-10.0f,2.0f,5.0f), ptrCellmap);
 		//シェア配列にプレイヤーを追加
 		SetSharedGameObject(L"Player", player);
 
@@ -309,6 +310,7 @@ namespace basecross {
 
 		auto Ptr = AddGameObject<StageCellMap>(Vec3(-15.5f, 1.0f, -15.5f), PieceSize, 30, 30);
 		SetSharedGameObject(L"StageCellMap", Ptr);
+		CreateStage();
 		SetCellMapCost();
 	}
 	void GameStage::SetCellMapCost() {
@@ -356,9 +358,8 @@ namespace basecross {
 			m_GameStageCsv.ReadCsv();
 			//ビューとライトの作成
 			CreateViewLight();
-			CreateStage();
 			CreateCellMap();
-			CreatePlayer();
+			//CreatePlayer();
 			App::GetApp()->GetScene<Scene>()->PlayBGM(L"PlayBGM_Towards_the_Future.wav", 0.1f);
 			wstring dataDir;
 			//サンプルのためアセットディレクトリを取得
