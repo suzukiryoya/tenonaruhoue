@@ -69,7 +69,7 @@ namespace basecross{
 				if (exe == L".bmf") {
 					// 例外登録
 					//ボーンモデルの場合
-					if ((fileName == L"Protagonist_Robot_4.bmf") ||
+					if ((fileName == L"Protagonist_Robot_5.bmf") ||
 						(fileName == L"Goal_Spot_2.bmf") ||
 						(fileName == L"SecurityRobot_Animation_0001.bmf") ||
 						(fileName == L"Enemy_robot_4.bmf") ||

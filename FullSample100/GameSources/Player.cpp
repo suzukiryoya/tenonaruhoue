@@ -17,7 +17,7 @@ namespace basecross{
 		m_CelMap(CellMap),
 		m_StartPosition(Position),
 		m_Force(0),
-		m_Mesh(L"Protagonist_Robot_4.bmf")
+		m_Mesh(L"Protagonist_Robot_5.bmf")
 	{
 	}
 
@@ -247,6 +247,9 @@ namespace basecross{
 		}
 		if (other->FindTag(L"Enemy1") || other->FindTag(L"Enemy2"))
 		{
+			auto ptrColl = GetComponent<CollisionObb>();
+			ptrColl->AddExcludeCollisionGameObject(other);
+
 			m_Velocity = Vec3(0);
 			AnimeManager(1);
 		}
