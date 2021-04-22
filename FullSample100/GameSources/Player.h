@@ -36,10 +36,11 @@ namespace basecross{
 		virtual void OnCreate() override; // プレイヤーの作成
 		virtual void OnUpdate() override;
 
-		void playerMove(bool flag, float speed);
+		void playerMove(bool homingFlag, bool soundFlag, float speed);
 		void SoundBoxSearch();
 		void OnCollisionEnter(shared_ptr<GameObject>& other);
 
+		void AnimeManager(int num);
 		void PlayerRestart();			  // プレイヤーのリスポーン
 
 		const Vec3& GetStartPosition()const {
@@ -86,6 +87,10 @@ namespace basecross{
 		float m_Speed;
 
 		bool m_HomingFlag = false;
+		bool m_SoundFlag = false;
+
+		// アニメーション用
+		int m_SaveNum = 0;
 
 		// 経路探索用
 		Vec3 m_StartPosition;

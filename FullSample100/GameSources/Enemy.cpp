@@ -56,6 +56,11 @@ namespace basecross {
 		ptrDraw->SetMeshResource(m_Mesh);
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 		ptrDraw->SetTextureResource(m_Texture);
+		//ptrDraw->AddAnimation(L"Default", 0, 0, true, 1);
+		ptrDraw->AddAnimation(L"Move", 0, 30, true, 25);
+		ptrDraw->AddAnimation(L"Attack", 30, 70, true, 25);
+
+		ptrDraw->ChangeCurrentAnimation(L"Move");
 		//ステートマシンの構築
 		m_StateMachine.reset(new StateMachine<Enemy1>(GetThis<Enemy1>()));
 		//最初のステートをSeekFarStateに設定
@@ -70,7 +75,30 @@ namespace basecross {
 		m_StateMachine->Update();
 		auto ptrUtil = GetBehavior<UtilBehavior>();
 		ptrUtil->RotToHead(1.0f);
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+		ptrDraw->UpdateAnimation(elapsedTime);
+	}
+
+	void Enemy1::AnimeManager(int num)
+	{
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+
+		if (m_SaveNum != num) {
+			switch (num)
+			{
+			case 0:
+				ptrDraw->ChangeCurrentAnimation(L"Move");
+				break;
+			case 1:
+				ptrDraw->ChangeCurrentAnimation(L"Die");
+				break;
+			default:
+				break;
+			}
+			m_SaveNum = num;
+		}
 	}
 
 	void Enemy1::OnCollisionEnter(shared_ptr<GameObject>& Other) {
@@ -177,9 +205,41 @@ namespace basecross {
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->SetMeshResource(m_Mesh);
 		ptrDraw->SetTextureResource(m_Texture);
+		//ptrDraw->AddAnimation(L"Default", 0, 25, true, 1.0f);
+		ptrDraw->AddAnimation(L"Move", 25, 50, true, 25);
+		ptrDraw->AddAnimation(L"Attack", 25, 50, true, 25);
+
+		ptrDraw->ChangeCurrentAnimation(L"Move");
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 	}
 
+	void Enemy2::OnUpdate()
+	{
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
+
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+		ptrDraw->UpdateAnimation(elapsedTime);
+	}
+
+	void Enemy2::AnimeManager(int num)
+	{
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+
+		if (m_SaveNum != num) {
+			switch (num)
+			{
+			case 0:
+				ptrDraw->ChangeCurrentAnimation(L"Move");
+				break;
+			case 1:
+				ptrDraw->ChangeCurrentAnimation(L"Die");
+				break;
+			default:
+				break;
+			}
+			m_SaveNum = num;
+		}
+	}
 
 	//--------------------------------------------------------------------------------------
 //	プレイヤーから遠いときの移動

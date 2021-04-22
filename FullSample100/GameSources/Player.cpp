@@ -52,7 +52,7 @@ namespace basecross{
 
 		Mat4x4 SpanMat; // モデルとトランスフォームの間の差分行列
 		SpanMat.affineTransformation(
-			Vec3(1.0f, 1.0f, 0.0f),
+			Vec3(1.0f, 1.0f, 1.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f));
@@ -70,10 +70,14 @@ namespace basecross{
 
 		//描画コンポーネントの設定
 		auto ptrDraw = AddComponent<BcPNTBoneModelDraw>();
-		ptrDraw->SetFogEnabled(true);
+		//ptrDraw->SetFogEnabled(true);
 		//描画するメッシュを設定
 		ptrDraw->SetMeshResource(m_Mesh);
 		ptrDraw->SetOwnShadowActive(true);
+		//ptrDraw->AddAnimation(L"Wait", 0, 0, true, 1);
+		ptrDraw->AddAnimation(L"Move", 0, 20, true, 25);
+		ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
+		//ptrDraw->ChangeCurrentAnimation(L"Move");
 
 		////描画するテクスチャを設定
 		ptrDraw->SetTextureResource(L"Tx_Protagonist_Robot_2.tga");
@@ -90,19 +94,35 @@ namespace basecross{
 
 	void Player::OnUpdate()
 	{
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+
 		auto trans = GetComponent<Transform>();
 		auto newPos = trans->GetPosition();
+		auto elapsedTime =  App::GetApp()->GetElapsedTime();
 
 		auto controller = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (controller[0].wPressedButtons & XINPUT_GAMEPAD_A)
 		{
+			m_SoundFlag = true;
 			//SoundBoxSearch();
 		}
 
-		playerMove(m_HomingFlag, m_Speed);
+		if (m_SaveNum != 1)
+		{
+			playerMove(m_HomingFlag, m_SoundFlag, m_Speed);
+		}
+		else if (m_SaveNum == 1)
+		{
+			//scene->OnEvent(0); ゲームオーバーのシーンに飛ばす
+
+		}
+
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+		ptrDraw->UpdateAnimation(elapsedTime);
 	}
 
-	void Player::playerMove(bool flag, float speed)
+	void Player::playerMove(bool homingFlag, bool soundFlag, float speed)
 	{
 		if (SeekBehavior(m_GoPointPos) == CellSearchFlg::Failed) {
 			if (SeekBehavior(GetStartPosition()) == CellSearchFlg::Arrived) {
@@ -118,18 +138,20 @@ namespace basecross{
 		//	m_Velocity *= 0.95f;
 		//}
 
-		if (flag == true) // 左方向に移動するとき
+		if (homingFlag == true && soundFlag != true) // 左方向に移動するとき
 		{
 			m_Velocity -= speed * ElapsedTime;
 			m_Position -= m_Velocity * ElapsedTime;
 
+			trans->SetRotation(0, m_Rotation.y, 0);
 
-			////GoPointToNowPos.y = -XM_PI;
-			//m_Rotation.y += GoPointToNowPos.y;
-
-			//GoPointToNowPos.normalize();
-
-			//m_Speed += 1.0f;
+			trans->SetPosition(m_Position.x, 2.0f, m_NowPosZ);
+			m_Speed = 0;
+		}
+		else if (homingFlag != true && soundFlag == true)
+		{
+			m_Velocity -= speed * ElapsedTime;
+			m_Position -= m_Velocity * ElapsedTime;
 
 			trans->SetRotation(0, m_Rotation.y, 0);
 
@@ -137,7 +159,8 @@ namespace basecross{
 
 			m_Speed = 0;
 		}
-		else // 右方向に移動するとき
+		
+		if (homingFlag != true && soundFlag != true)// 右方向に移動するとき
 		{
 			m_Velocity += speed * ElapsedTime;
 			m_Position += m_Velocity * ElapsedTime;
@@ -156,6 +179,8 @@ namespace basecross{
 
 			m_Speed = 0;
 		}
+
+		AnimeManager(0);
 	}
 
 	void Player::SoundBoxSearch()
@@ -177,7 +202,7 @@ namespace basecross{
 
 		GoPointToNowPos.normalize();
 
-		if (GoPointToNowPos.length() <= 6.0f)
+		if (GoPointToNowPos.x == 0)
 		{
 			//m_Position.x = GoPointToNowPos.x * elapsedTime * m_Speed;
 			m_Position.z += GoPointToNowPos.z * elapsedTime;
@@ -198,7 +223,7 @@ namespace basecross{
 		auto trans = GetComponent<Transform>();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-		if (other->FindTag(L"Wall") || other->FindTag(L"Enemy1") || other->FindTag(L"Enemy2"))
+		if (other->FindTag(L"Wall"))
 		{
 			m_GoPointPos = other->GetComponent<Transform>()->GetPosition();
 			m_Rotation.y += XM_PI;
@@ -220,7 +245,12 @@ namespace basecross{
 				m_HomingFlag = true;
 			}
 		}
-		if (other->FindTag(L"SoundBox"))
+		if (other->FindTag(L"Enemy1") || other->FindTag(L"Enemy2"))
+		{
+			m_Velocity = Vec3(0);
+			AnimeManager(1);
+		}
+		if (other->FindTag(L"SoundBox")) // 音の範囲
 		{
 			auto pos = trans->GetPosition();
 
@@ -228,15 +258,23 @@ namespace basecross{
 			GoPointToNowPos.x -= m_Position.x + m_GoPointPos.x;
 			GoPointToNowPos.z -= m_Position.z + m_GoPointPos.z;
 
-			//m_Rotation.y += XM_PI;
-			//trans->SetRotation(m_Rotation);
-
 			GoPointToNowPos.normalize();
-
-			//m_Speed += 1.0f;
 
 			if (GoPointToNowPos.length() <= 6.0f)
 			{
+				//主人公が右方向に進んでいるときに左側から誘導されたとき
+				if (m_HomingFlag == true && m_SoundFlag == true && GoPointToNowPos.x < 0)
+				{
+					m_Rotation.y += XM_PI;
+					trans->SetRotation(m_Rotation);
+				}
+				//主人公が左方向に進んでいるときに右側から誘導されたとき
+				if (m_HomingFlag != true && m_SoundFlag == true && GoPointToNowPos.x > 0)
+				{
+					m_Rotation.y += XM_PI;
+					trans->SetRotation(m_Rotation);
+				}
+
 				m_Position.x += GoPointToNowPos.x * elapsedTime;
 				m_Position.z += GoPointToNowPos.z * elapsedTime;
 
@@ -246,10 +284,35 @@ namespace basecross{
 				m_NowPosZ += m_Position.z * elapsedTime;
 			}
 		}
+		if (other->FindTag(L"SoundBlock")) //　音のなる装置
+		{
+			m_SoundFlag = false;
+		}
 		if (other->FindTag(L"Goal"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(true);
 		}
+	}
+
+    void Player::AnimeManager(int num)
+	{
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+
+		if (m_SaveNum != num) {
+			switch (num)
+			{
+			case 0:
+				ptrDraw->ChangeCurrentAnimation(L"Move");
+				break;
+			case 1:
+				ptrDraw->ChangeCurrentAnimation(L"Die");
+				break;
+			default:
+				break;
+			}
+			m_SaveNum = num;
+		}
+
 	}
 
 	bool Player::Search(const Vec3& TargetPos) {
