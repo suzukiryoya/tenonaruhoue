@@ -91,6 +91,7 @@ namespace basecross{
 
 		// アニメーション用
 		int m_SaveNum = 0;
+		float m_MotionTime = 0;
 
 		// 経路探索用
 		Vec3 m_StartPosition;

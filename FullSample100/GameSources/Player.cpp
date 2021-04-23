@@ -63,21 +63,16 @@ namespace basecross{
 		ShadowPtr->SetMeshResource(m_Mesh);
 		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
 
-		////文字列をつける
-		//auto ptrString = AddComponent<StringSprite>();
-		//ptrString->SetText(L"");
-		//ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
-
 		//描画コンポーネントの設定
 		auto ptrDraw = AddComponent<BcPNTBoneModelDraw>();
 		//ptrDraw->SetFogEnabled(true);
 		//描画するメッシュを設定
 		ptrDraw->SetMeshResource(m_Mesh);
 		ptrDraw->SetOwnShadowActive(true);
-		//ptrDraw->AddAnimation(L"Wait", 0, 0, true, 1);
 		ptrDraw->AddAnimation(L"Move", 0, 20, true, 25);
 		ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
-		//ptrDraw->ChangeCurrentAnimation(L"Move");
+		ptrDraw->AddAnimation(L"Wait", 40, 40, true, 1);
+		ptrDraw->ChangeCurrentAnimation(L"Move");
 
 		////描画するテクスチャを設定
 		ptrDraw->SetTextureResource(L"Tx_Protagonist_Robot_2.tga");
@@ -108,17 +103,21 @@ namespace basecross{
 			//SoundBoxSearch();
 		}
 
-		if (m_SaveNum != 1)
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+
+		if (m_SaveNum == 0)
 		{
 			playerMove(m_HomingFlag, m_SoundFlag, m_Speed);
 		}
 		else if (m_SaveNum == 1)
 		{
-			//scene->OnEvent(0); ゲームオーバーのシーンに飛ばす
-
+			m_MotionTime += elapsedTime;
 		}
 
-		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+		if (m_MotionTime > 1.0f)
+		{
+			AnimeManager(2);
+		}
 		ptrDraw->UpdateAnimation(elapsedTime);
 	}
 
@@ -180,7 +179,6 @@ namespace basecross{
 			m_Speed = 0;
 		}
 
-		AnimeManager(0);
 	}
 
 	void Player::SoundBoxSearch()
@@ -221,7 +219,7 @@ namespace basecross{
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& other)
 	{
 		auto trans = GetComponent<Transform>();
-		float elapsedTime = App::GetApp()->GetElapsedTime();
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
 		if (other->FindTag(L"Wall"))
 		{
@@ -300,6 +298,7 @@ namespace basecross{
     void Player::AnimeManager(int num)
 	{
 		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
 		if (m_SaveNum != num) {
 			switch (num)
@@ -309,6 +308,9 @@ namespace basecross{
 				break;
 			case 1:
 				ptrDraw->ChangeCurrentAnimation(L"Die");
+				break;
+			case 2:
+				ptrDraw->ChangeCurrentAnimation(L"Wait");
 				break;
 			default:
 				break;

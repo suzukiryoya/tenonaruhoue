@@ -296,12 +296,12 @@ namespace basecross {
 
 	void GameStage::CreatePlayer()
 	{
-		auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
-		auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0, 90,0), Vec3(-10.0f,2.0f,5.0f), ptrCellmap);
-		//シェア配列にプレイヤーを追加
-		SetSharedGameObject(L"Player", player);
+		//auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
+		//auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0, 90,0), Vec3(-10.0f,2.0f,5.0f), ptrCellmap);
+		////シェア配列にプレイヤーを追加
+		//SetSharedGameObject(L"Player", player);
 
-		player->AddTag(L"Player");
+		//player->AddTag(L"Player");
 
 	}
 
@@ -359,7 +359,6 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateCellMap();
-			//CreatePlayer();
 			App::GetApp()->GetScene<Scene>()->PlayBGM(L"PlayBGM_Towards_the_Future.wav", 0.1f);
 			wstring dataDir;
 			//サンプルのためアセットディレクトリを取得
