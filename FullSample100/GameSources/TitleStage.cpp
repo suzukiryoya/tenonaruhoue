@@ -26,12 +26,25 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
+	void TitleStage::CreateBackGround() {
+		
+	}
 
+	void TitleStage::CreateUI() {
+		
+	}
+
+	void TitleStage::CreateBGM() {
+		App::GetApp()->GetScene<Scene>()->PlayBGM(L"titleBGM_Electronic_Circuit.wav", 0.1f);
+	}
 
 	void TitleStage::OnCreate() {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
+			CreateBGM();
+			CreateUI();
+			CreateBackGround();
 		}
 		catch (...) {
 			throw;
