@@ -258,10 +258,10 @@ namespace basecross {
 		//force += ptrSep->Execute(force);
 		//Obj->SetForce(force);
 		//Obj->ApplyForce();
-		//float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
-		//if (f < Obj->GetStateChangeSize()) {
-		//	Obj->GetStateMachine()->ChangeState(SeekNearState::Instance());
-		//}
+		float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
+		if (f < Obj->GetStateChangeSize()) {
+			Obj->GetStateMachine()->ChangeState(SeekNearState::Instance());
+		}
 	}
 
 	void SeekFarState::Exit(const shared_ptr<Enemy1>& Obj) {
@@ -284,10 +284,10 @@ namespace basecross {
 		//force += ptrSep->Execute(force);
 		//Obj->SetForce(force);
 		//Obj->ApplyForce();
-		//float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
-		//if (f >= Obj->GetStateChangeSize()) {
-		//	Obj->GetStateMachine()->ChangeState(SeekFarState::Instance());
-		//}
+		float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
+		if (f >= Obj->GetStateChangeSize()) {
+			Obj->GetStateMachine()->ChangeState(SeekFarState::Instance());
+		}
 	}
 	void SeekNearState::Exit(const shared_ptr<Enemy1>& Obj) {
 	}
