@@ -351,7 +351,6 @@ namespace basecross {
 			//AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,1.0f,0.0f));
 			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 0.5f, 0.0f));
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
-			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.5f, 0.0f));
 
 
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage1.csv");
