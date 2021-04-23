@@ -29,7 +29,13 @@ namespace basecross{
 	public:
 
 		MyCamera();
+		//MyCamera(float ArmLen);
 		virtual ~MyCamera() {}
+		virtual void SetEye(const bsm::Vec3& Eye)override;
+		virtual void SetEye(float x, float y, float z)override;
+
+
+		//void UpdateArmLengh();
 	};
 }
 //end basecross
