@@ -4,8 +4,7 @@
 */
 
 #include "stdafx.h"
-#include "StageObject.h"
-//#include "Project.h"
+#include "Project.h"
 
 namespace basecross{
 
@@ -193,6 +192,8 @@ namespace basecross{
 		PtrDraw->SetMeshResource(m_Mesh);
 		PtrDraw->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
+
+		App::GetApp()->GetScene<Scene>()->PlaySE(L"ˆêŠK“ü‚èŒû.wav", 0.2f);
 	}
 
 	//-----------------------------------------------------------------
