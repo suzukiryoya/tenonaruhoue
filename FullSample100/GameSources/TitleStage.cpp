@@ -26,10 +26,6 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
-	void TitleStage::CreateBackGround() {
-		
-	}
-
 	void TitleStage::CreateUI() {
 		
 	}
@@ -44,7 +40,6 @@ namespace basecross {
 			CreateViewLight();
 			CreateBGM();
 			CreateUI();
-			CreateBackGround();
 		}
 		catch (...) {
 			throw;

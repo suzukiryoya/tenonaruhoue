@@ -26,6 +26,10 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
+	void ResultStage::CreateUI() {
+		
+	}
+
 	void ResultStage::CreateBGM() {
 		App::GetApp()->GetScene<Scene>()->PlayBGM(L"ClearBGM.wav", 0.1f);
 	}

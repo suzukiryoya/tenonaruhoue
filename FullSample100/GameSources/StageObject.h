@@ -49,7 +49,7 @@ namespace basecross{
 		//void OnCollisionEnter(shared_ptr<GameObject>& other);
 	};
 	//-----------------------------------------------------------------
-	//  一階入り口
+	//  一階スタート前のドア
 	//-----------------------------------------------------------------
 	class Door : public GameObject {
 		Vec3 m_Scale;
