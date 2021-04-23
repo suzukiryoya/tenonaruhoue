@@ -14,6 +14,7 @@ namespace basecross {
 	class ResultStage : public Stage {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
+		void CreateBGM();
 	public:
 		//\’z‚Æ”jŠü
 		ResultStage() :Stage() {}
