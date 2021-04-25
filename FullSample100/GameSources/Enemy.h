@@ -20,11 +20,14 @@ namespace basecross {
 		Vec3 m_StartPos;
 		float m_StateChangeSize;
 		//フォース
-		Vec3 m_Force;
+		Vec3 m_SoundPos;
 		//速度
 		Vec3 m_Velocity;
 		//アニメーション用
 		int m_SaveNum;
+		std::shared_ptr<basecross::Action> m_ptraction;
+		float m_a;
+		int a = 0;
 	public:
 		Enemy1(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
@@ -41,16 +44,19 @@ namespace basecross {
 		float GetStateChangeSize() const {
 			return m_StateChangeSize;
 		}
-		const Vec3& GetForce()const {
-			return m_Force;
+		const Vec3& GetPosition()const {
+			return m_SoundPos;
 		}
-		void SetForce(const Vec3& f) {
-			m_Force = f;
+		void SetPosition(const Vec3& f) {
+			m_SoundPos = f;
 		}
-		void AddForce(const Vec3& f) {
-			m_Force += f;
+		void ActionClear() {
+			m_ptraction->Stop();
+			m_ptraction->AllActionClear();
 		}
-
+		float GetCount() {
+			return m_a;
+		}
 
 		const Vec3& GetVelocity()const {
 			return m_Velocity;
@@ -60,7 +66,8 @@ namespace basecross {
 		}
 
 		void ApplyForce();
-		
+		void ApplyForce2();
+
 		Vec3 GetTargetPos()const;
 
 		virtual ~Enemy1();
@@ -128,6 +135,17 @@ namespace basecross {
 		virtual void Exit(const shared_ptr<Enemy1>& Obj)override;
 	};
 
+
+
+	class SoundBoxState : public ObjState<Enemy1>
+	{
+		SoundBoxState() {}
+	public:
+		static shared_ptr<SoundBoxState> Instance();
+		virtual void Enter(const shared_ptr<Enemy1>& Obj)override;
+		virtual void Execute(const shared_ptr<Enemy1>& Obj)override;
+		virtual void Exit(const shared_ptr<Enemy1>& Obj)override;
+	};
 
 
 }

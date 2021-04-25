@@ -290,18 +290,20 @@ namespace basecross {
 			auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
 			auto player = AddGameObject<Player>(Scale, Rot, Pos, ptrCellmap);
 			player->AddTag(L"Player");
+			//SetSharedGameObject(L"Player", player);
+
 			BoxesGroup->IntoGroup(player);
 		}
 	}
 
 	void GameStage::CreatePlayer()
 	{
-		auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
-		auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0, 90,0), Vec3(-10.0f,2.0f,5.0f), ptrCellmap);
-		//シェア配列にプレイヤーを追加
-		SetSharedGameObject(L"Player", player);
+		//auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
+		//auto player =  AddGameObject<Player>(Vec3(1.0f), Vec3(0, 90,0), Vec3(-10.0f,2.0f,5.0f), ptrCellmap);
+		////シェア配列にプレイヤーを追加
+		//SetSharedGameObject(L"Player", player);
 
-		player->AddTag(L"Player");
+		//player->AddTag(L"Player");
 
 	}
 
@@ -351,7 +353,7 @@ namespace basecross {
 			//AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,1.0f,0.0f));
 			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 0.5f, 0.0f));
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
-			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.5f, 0.0f));
+			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
 
 
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage1.csv");
@@ -494,9 +496,11 @@ namespace basecross {
 					if (HitTest::SEGMENT_OBB(NearPos, FarPos, Obb)) {
 						auto a=Obb.m_Center;
 						ObjVec.push_back(PsPtr);
-						AddGameObject<TriggerBox>(Vec3(10.0f, 1.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
+						AddGameObject<TriggerBox>(Vec3(10.0f, 2.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
 						SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 						App::GetApp()->GetScene<Scene>()->SetPosition(Vec3(a.x,1.0f,a.z));
+						App::GetApp()->GetScene<Scene>()->SetSoundPosition(Vec3(a.x, 1.0f, a.z));
+
 					}
 				}
 				else if (ColSp) {
