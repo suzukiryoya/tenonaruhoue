@@ -151,6 +151,14 @@ namespace basecross{
 		return m_getposition;
 	}
 
+	Vec3 Scene::SetSoundPosition(Vec3 position) {
+		m_getsoundposition = position;
+		return position;
+	}
+	Vec3 Scene::GetSoundPosition() {
+		return m_getsoundposition;
+	}
+
 	bool Scene::SetCheck(bool check) {
 		m_check = check;
 		return check;

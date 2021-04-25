@@ -152,9 +152,14 @@ namespace basecross {
 
             SetUpdateActive(false);
             SetDrawActive(false);
-
+            DeleteObject(this);
         }
 
+
+    }
+
+    void TriggerBox::OnCollisionEnter(shared_ptr<GameObject>& Other)
+    {
 
     }
 
