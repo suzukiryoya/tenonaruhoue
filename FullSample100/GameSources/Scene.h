@@ -33,7 +33,7 @@ namespace basecross{
 		Vec3 m_getangle;
 		Vec3 m_getposition;
 		Vec3 m_getsoundposition;
-		bool m_check;
+		int m_check;
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -75,8 +75,8 @@ namespace basecross{
 		Vec3 SetSoundPosition(Vec3 position);
 		Vec3 GetSoundPosition();
 
-		bool SetCheck(bool check);
-		bool GetCheck();
+		int SetCheck(int check);
+		int GetCheck();
 
 		//SEÇÃä÷êî
 		void PlaySE(wstring key, float vol) {
