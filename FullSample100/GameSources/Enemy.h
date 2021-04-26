@@ -27,7 +27,10 @@ namespace basecross {
 		int m_SaveNum;
 		std::shared_ptr<basecross::Action> m_ptraction;
 		float m_a;
-		int a = 0;
+		int m_switch = 0;
+		int m_time = 0;
+		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+
 	public:
 		Enemy1(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
@@ -63,6 +66,9 @@ namespace basecross {
 		}
 		void SetVelocity(const Vec3& v) {
 			m_Velocity = v;
+		}
+		void SetTimer() {
+			m_time = 0;
 		}
 
 		void ApplyForce();

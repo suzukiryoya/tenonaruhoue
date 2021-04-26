@@ -139,4 +139,58 @@ namespace basecross {
 
 	};
 
+
+	class GameOverTitle_UI : public UI_Base {
+	public:
+
+		GameOverTitle_UI(const shared_ptr<Stage>& StagePtr,
+			const Vec2& vertex,
+			const Vec3& pos,
+			const Vec3& scale,
+			const int& layer,
+			const Col4& color,
+			const wstring& textures
+		) :
+			UI_Base(
+				StagePtr,
+				vertex,
+				pos,
+				scale,
+				layer,
+				color,
+				textures
+			)
+		{}
+		~GameOverTitle_UI() {}
+
+		virtual void OnCreate() override;
+
+	};
+	class GameOverTitle_UI2 : public UI_Base {
+	public:
+
+		GameOverTitle_UI2(const shared_ptr<Stage>& StagePtr,
+			const Vec2& vertex,
+			const Vec3& pos,
+			const Vec3& scale,
+			const int& layer,
+			const Col4& color,
+			const wstring& textures
+		) :
+			UI_Base(
+				StagePtr,
+				vertex,
+				pos,
+				scale,
+				layer,
+				color,
+				textures
+			)
+		{}
+		~GameOverTitle_UI2() {}
+
+		virtual void OnCreate() override;
+
+	};
+
 }

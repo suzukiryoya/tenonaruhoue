@@ -375,6 +375,54 @@ namespace basecross {
 					Col4(1.0f),
 				    m_StageSelect_image
 				);
+
+			gameover = AddGameObject<GameOverTitle_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(1.5f),
+				10,
+				Col4(1.0f),
+				m_GameOver_image
+				);
+			gameover2 = AddGameObject<GameOverTitle_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(1.5f),
+				10,
+				Col4(1.0f),
+				m_GameOver_image2
+				);
+
+
+			AddGameObject<GameOverTitle_UI>(
+				Vec2(1146.0f, 573.0f),
+				Vec3(-450.0f, -325.0f, 0.0f),
+				Vec3(0.25f),
+				10,
+				Col4(1.0f),
+				m_LStick
+				);
+
+			AddGameObject<GameOverTitle_UI>(
+				Vec2(1146.0f, 573.0f),
+				Vec3(450.0f, -325.0f, 0.0f),
+				Vec3(0.25f),
+				10,
+				Col4(1.0f),
+				m_RStick
+				);
+			AddGameObject<GameOverTitle_UI>(
+				Vec2(1146.0f, 573.0f),
+				Vec3(450.0f, -200.0f, 0.0f),
+				Vec3(0.25f),
+				10,
+				Col4(1.0f),
+				m_Abutton
+				);
+
+
+			gameover->SetDrawActive(false);
+			gameover2->SetDrawActive(false);
 		}
 		catch (...) {
 			throw;
