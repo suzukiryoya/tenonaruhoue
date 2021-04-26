@@ -19,7 +19,9 @@ namespace basecross {
 		void CreateStage();
 		void CreatePlayer();
 
-		wstring m_StageSelect_image,m_StageClear_image;
+		wstring m_StageSelect_image,m_StageClear_image,m_GameOver_image, m_GameOver_image2,m_LStick,m_RStick,m_Abutton;
+		shared_ptr<GameObject> gameover;
+		shared_ptr<GameObject> gameover2;
 
 		Vec3 m_SoundPos;
 
@@ -31,6 +33,12 @@ namespace basecross {
 		GameStage() :Stage(),
 			m_StageSelect_image(L"cursor2.png"),
 			m_StageClear_image(L"GameClear.png"),
+			m_GameOver_image(L"GameOver.png"),
+			m_GameOver_image2(L"GameOver2.png"),
+			m_LStick(L"Analog_Stick.png"),
+			m_RStick(L"Analog_StickR.png"),
+			m_Abutton(L"A_Button.png"),
+
 			m_MousePoint(0, 0)
 		{}
 		virtual ~GameStage() {}

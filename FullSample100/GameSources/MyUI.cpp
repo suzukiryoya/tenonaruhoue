@@ -129,4 +129,11 @@ namespace basecross {
 		Draw();
 	}
 
+	void GameOverTitle_UI::OnCreate() {
+		Draw();
+	}
+	void GameOverTitle_UI2::OnCreate() {
+		Draw();
+	}
+
 }
