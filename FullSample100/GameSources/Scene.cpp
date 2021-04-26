@@ -98,15 +98,17 @@ namespace basecross{
 	//--------------------------------------------------------------------------------------
 	void Scene::OnCreate(){
 		try {
-
-			m_check = false;
+			Col4 Col;
+			Col.set(200.0f / 255.0f, 200.0f / 255.0f, 100.0f / 255.0f, 255.0f / 255.0f);
+			SetClearColor(Col);
+			m_check = 3;
 			//クリアする色を設定
 
 			//リソース作成
 			CreateResourses();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
 
-			SetGameStage(GameStageKey::game);
+			SetGameStage(GameStageKey::title);
 		}
 		catch (...) {
 			throw;
@@ -159,12 +161,12 @@ namespace basecross{
 		return m_getsoundposition;
 	}
 
-	bool Scene::SetCheck(bool check) {
+	int Scene::SetCheck(int check) {
 		m_check = check;
 		return check;
 	}
 
-	bool Scene::GetCheck() {
+	int Scene::GetCheck() {
 		return m_check;
 	}
 

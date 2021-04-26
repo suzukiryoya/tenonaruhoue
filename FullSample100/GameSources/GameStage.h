@@ -30,6 +30,8 @@ namespace basecross {
 
 		//カメラ更新用
 		float m_Speed = 5.0f;
+		float m_time = 0;
+		int m_check = 0;
 		Vec3 m_Eye = Vec3(0.0f, 20.0f, 0.0f);
 		Vec3 m_At = Vec3(0.0f, 0.0f, 15.0f);
 
@@ -37,7 +39,7 @@ namespace basecross {
 		//構築と破棄
 		GameStage() :Stage(),
 			m_StageSelect_image(L"cursor2.png"),
-			m_StageClear_image(L"GameClear.png"),
+			m_StageClear_image(L"StageClear.png"),
 			m_GameOver_image(L"GameOver.png"),
 			m_GameOver_image2(L"GameOver2.png"),
 			m_LStick(L"Analog_Stick.png"),

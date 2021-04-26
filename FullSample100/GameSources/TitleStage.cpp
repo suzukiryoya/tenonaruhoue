@@ -36,14 +36,34 @@ namespace basecross {
 
 	void TitleStage::OnCreate() {
 		try {
+
+
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateBGM();
 			CreateUI();
+			AddGameObject<GameOverTitle_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(2.0f),
+				10,
+				Col4(1.0f),
+				m_title_image
+				);
+
 		}
 		catch (...) {
 			throw;
 		}
+	}
+
+	void TitleStage::OnUpdate() {
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
+		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
+			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
+		}
+
 	}
 
 }

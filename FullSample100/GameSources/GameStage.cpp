@@ -264,36 +264,36 @@ namespace basecross {
 			soundBlock->AddTag(L"SoundBlock");
 			BoxesGroup->IntoGroup(soundBlock);
 		}
-		m_GameStageCsv.GetSelect(LineVec9, 0, L"Player");
-		for (auto& v : LineVec9) {
-			//トークン（カラム）の配列
-			vector<wstring> Tokens;
-			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
-			Util::WStrToTokenVector(Tokens, v, L',');
-			//各トークン（カラム）をスケール、回転、位置に読み込む
-			Vec3 Scale(
-				(float)_wtof(Tokens[1].c_str()),
-				(float)_wtof(Tokens[2].c_str()),
-				(float)_wtof(Tokens[3].c_str())
-			);
-			Vec3 Rot;
-			//回転はXM_PIDIV2の文字列になっている場合がある
-			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str()) ||
-					(Tokens[5] == L"ーXM_PIDIV2") ? -XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
-			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
-			Vec3 Pos(
-				(float)_wtof(Tokens[7].c_str()),
-				(float)_wtof(Tokens[8].c_str()),
-				(float)_wtof(Tokens[9].c_str())
-			);
-			auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
-			auto player = AddGameObject<Player>(Scale, Rot, Pos, ptrCellmap);
-			player->AddTag(L"Player");
-			//SetSharedGameObject(L"Player", player);
+		//m_GameStageCsv.GetSelect(LineVec9, 0, L"Player");
+		//for (auto& v : LineVec9) {
+		//	//トークン（カラム）の配列
+		//	vector<wstring> Tokens;
+		//	//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+		//	Util::WStrToTokenVector(Tokens, v, L',');
+		//	//各トークン（カラム）をスケール、回転、位置に読み込む
+		//	Vec3 Scale(
+		//		(float)_wtof(Tokens[1].c_str()),
+		//		(float)_wtof(Tokens[2].c_str()),
+		//		(float)_wtof(Tokens[3].c_str())
+		//	);
+		//	Vec3 Rot;
+		//	//回転はXM_PIDIV2の文字列になっている場合がある
+		//	Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+		//	Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str()) ||
+		//			(Tokens[5] == L"ーXM_PIDIV2") ? -XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+		//	Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+		//	Vec3 Pos(
+		//		(float)_wtof(Tokens[7].c_str()),
+		//		(float)_wtof(Tokens[8].c_str()),
+		//		(float)_wtof(Tokens[9].c_str())
+		//	);
+		//	auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
+		//	auto player = AddGameObject<Player>(Scale, Rot, Pos, ptrCellmap);
+		//	player->AddTag(L"Player");
+		//	//SetSharedGameObject(L"Player", player);
 
-			BoxesGroup->IntoGroup(player);
-		}
+		//	BoxesGroup->IntoGroup(player);
+		//}
 	}
 
 	void GameStage::CreatePlayer()
@@ -354,7 +354,7 @@ namespace basecross {
 			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 0.5f, 0.0f));
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
-			AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
+			AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
 
 			m_GameStageCsv.SetFileName(MediaDir + L"Stage1.csv");
 			m_GameStageCsv.ReadCsv();
@@ -490,18 +490,34 @@ namespace basecross {
 			OnRButtonEnter();
 		}
 
-		if (Check == true) {
+		if (Check == 0) {
 			AddGameObject<Title_UI>(
 				Vec2(512.0f, 512.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(1.0f),
-				3,
+				Vec3(1.5f),
+				12,
 				Col4(1.0f),
 				m_StageClear_image
 				);
 
-			Check = false;
+			Check = 2;
 		}
+		if (Check == 1) {
+			gameover->SetDrawActive(true);
+
+		}
+
+		m_time += elapsedTime;
+
+
+
+		if (m_time >= 3.0f&&m_check==0) {
+
+		AddGameObject<Enemy2>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
+		m_check = 1;
+		}
+
+
 
 
 	}

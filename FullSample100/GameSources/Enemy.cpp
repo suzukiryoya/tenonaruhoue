@@ -25,6 +25,9 @@ namespace basecross {
 		PtrTransform->SetRotation(m_Rotation);
 		PtrTransform->SetPosition(m_Position);
 
+
+		AddTag(L"Enemy1");
+
 		auto PtrGra = AddComponent<Gravity>();
 
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -105,8 +108,15 @@ namespace basecross {
 	void Enemy1::OnCollisionEnter(shared_ptr<GameObject>& Other) {
 		if (Other->FindTag(L"SoundBox")) {
 		m_StateMachine->ChangeState(SoundBoxState::Instance());
+		}
+
+		if (Other->FindTag(L"Enemy2")) {
+			SetUpdateActive(false);
+			SetDrawActive(false);
+			DeleteObject(this);
 
 		}
+
 	}
 
 	Vec3 Enemy1::GetTargetPos()const {
@@ -157,7 +167,7 @@ namespace basecross {
 
 
 
-		if (m_time >= 1.0f) {
+		if (m_time > 3.0f) {
 			m_StateMachine->ChangeState(SeekNearState::Instance());
 
 		}
@@ -211,16 +221,12 @@ namespace basecross {
 	Enemy2::Enemy2(const shared_ptr<Stage>& StagePtr,
 		const Vec3& Scale,
 		const Vec3& Rotation,
-		const Vec3& Position,
-		float UPic,
-		float VPic
+		const Vec3& Position
 	) :
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position),
-		m_UPic(UPic),
-		m_VPic(VPic),
 		m_Mesh(L"Enemy_robot_4.bmf"),
 		m_Texture(L"Tx_Enemy_robot_1.tga")
 	{}
@@ -241,6 +247,7 @@ namespace basecross {
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
 		GetStage()->SetDrawPerformanceActive(true);
+		AddTag(L"Enemy2");
 
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
@@ -294,6 +301,41 @@ namespace basecross {
 
 		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
 		ptrDraw->UpdateAnimation(elapsedTime);
+		m_time += elapsedTime;
+		auto ptrUtil = GetBehavior<UtilBehavior>();
+		ptrUtil->RotToHead(1.0f);
+		auto Pos = GetComponent<Transform>()->GetPosition();
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto m_Speed = 1.0f;
+		Pos += m_Angle * ElapsedTime * m_Speed;
+		GetComponent<Transform>()->SetPosition(Pos);
+		auto a = Vec3(0.0f, 0.0f, 5.0f);
+		auto b = Vec3(0.0f, 0.0f, -12.0f);
+		if (m_time < 3.0f) {
+			m_Angle = Vec3(0.0f, 0.0f, 0.0f);
+		}
+		else {
+			if (ab == 0) {
+				m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+			}
+		if (a.x - Pos.x<0.1f && a.x - Pos.x > -0.1f && ab == 0) {
+			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+			ab = 1;
+			
+		}
+		if (ab == 1) {
+			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+
+		}
+		if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
+			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+			ab = 0;
+		}
+
+
+
+		}
+
 	}
 
 	void Enemy2::AnimeManager(int num)
@@ -315,6 +357,16 @@ namespace basecross {
 			m_SaveNum = num;
 		}
 	}
+
+	void Enemy2::OnCollisionEnter(shared_ptr<GameObject>& other)
+	{
+		if (other->FindTag(L"Enemy1"))
+		{
+			m_time = 0;
+		}
+
+	}
+
 
 	//--------------------------------------------------------------------------------------
 //	プレイヤーから遠いときの移動
@@ -410,7 +462,7 @@ namespace basecross {
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position),
-		m_Mesh(L"Protagonist_Robot_4.bmf")
+		m_Mesh(L"Protagonist_Robot_5.bmf")
 	{
 	}
 
@@ -449,6 +501,7 @@ namespace basecross {
 		//影の形（メッシュ）を設定
 		ShadowPtr->SetMeshResource(m_Mesh);
 		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
+		AddTag(L"Player");
 
 		////文字列をつける
 		//auto ptrString = AddComponent<StringSprite>();
@@ -479,6 +532,30 @@ namespace basecross {
 		//}
 	}
 	void Playerdummy::OnUpdate() {
+		auto ptrUtil = GetBehavior<UtilBehavior>();
+		ptrUtil->RotToHead(1.0f);
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
+
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+		ptrDraw->UpdateAnimation(elapsedTime);
+
+		auto Pos = GetComponent<Transform>()->GetPosition();
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto m_Speed = 1.0f;
+		Pos += m_Angle * ElapsedTime * m_Speed;
+		GetComponent<Transform>()->SetPosition(Pos);
+
+		auto a = Vec3(0.0f, 0.0f, 5.0f);
+		auto b = Vec3(0.0f, 0.0f, -12.0f);
+		if (a.x - Pos.x<0.1f&& a.x - Pos.x > -0.1f&&ab==0) {
+			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+			ab = 1;
+		}
+		if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
+			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+
+		}
+		
 
 	}
 	void Playerdummy::AnimeManager(int num)
@@ -499,6 +576,23 @@ namespace basecross {
 			}
 			m_SaveNum = num;
 		}
+	}
+
+	void Playerdummy::OnCollisionEnter(shared_ptr<GameObject>& other)
+	{
+		if (other->FindTag(L"Goal"))
+		{
+			App::GetApp()->GetScene<Scene>()->SetCheck(0);
+		}
+		if (other->FindTag(L"Enemy1"))
+		{
+			App::GetApp()->GetScene<Scene>()->SetCheck(1);
+		}
+		if (other->FindTag(L"Enemy2"))
+		{
+			App::GetApp()->GetScene<Scene>()->SetCheck(1);
+		}
+
 	}
 
 }

@@ -16,12 +16,16 @@ namespace basecross {
 		void CreateViewLight();
 		void CreateBGM();
 		void CreateUI();
+		wstring m_title_image;
 	public:
 		//\’z‚Æ”jŠü
-		TitleStage() :Stage() {}
+		TitleStage() :Stage(),
+			m_title_image(L"title.png")
+		{}
 		virtual ~TitleStage() {}
 		//‰Šú‰»
 		virtual void OnCreate()override;
+		virtual void OnUpdate() override;
 	};
 
 

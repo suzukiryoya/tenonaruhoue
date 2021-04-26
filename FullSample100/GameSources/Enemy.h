@@ -28,7 +28,7 @@ namespace basecross {
 		std::shared_ptr<basecross::Action> m_ptraction;
 		float m_a;
 		int m_switch = 0;
-		int m_time = 0;
+		float m_time = 0.0f;
 		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 
 	public:
@@ -99,18 +99,22 @@ namespace basecross {
 		wstring m_Mesh;
 		//アニメーション用
 		int m_SaveNum;
+		float ab = 0;
+
+		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		float m_time=0.0f;
 
 	public:
 		Enemy2(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
 			const Vec3& Rotation,
-			const Vec3& Position,
-			float UPic,
-			float VPic
+			const Vec3& Position
 		);
 		virtual ~Enemy2();
 		virtual void OnCreate()override;
 		void OnUpdate();
+		void OnCollisionEnter(shared_ptr<GameObject>& other);
+
 		void AnimeManager(int num);
 	};
 	//--------------------------------------------------------------------------------------
@@ -162,6 +166,8 @@ namespace basecross {
 		wstring m_Mesh;
 		//アニメーション用
 		int m_SaveNum;
+		float ab = 0;
+		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 
 	public:
 		Playerdummy(const shared_ptr<Stage>& StagePtr,
@@ -173,6 +179,7 @@ namespace basecross {
 		virtual void OnCreate()override;
 		void OnUpdate();
 		void AnimeManager(int num);
+		void OnCollisionEnter(shared_ptr<GameObject>& other);
 
 	};
 }
