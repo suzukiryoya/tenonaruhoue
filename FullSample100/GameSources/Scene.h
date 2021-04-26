@@ -32,6 +32,7 @@ namespace basecross{
 		GameStageKey m_gameStageKey;
 		Vec3 m_getangle;
 		Vec3 m_getposition;
+		Vec3 m_getsoundposition;
 		bool m_check;
 
 	public:
@@ -71,7 +72,9 @@ namespace basecross{
 		Vec3 GetAngle();
 		Vec3 SetPosition(Vec3 position);
 		Vec3 GetPosition();
-		
+		Vec3 SetSoundPosition(Vec3 position);
+		Vec3 GetSoundPosition();
+
 		bool SetCheck(bool check);
 		bool GetCheck();
 

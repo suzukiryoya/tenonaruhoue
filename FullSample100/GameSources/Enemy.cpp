@@ -69,7 +69,7 @@ namespace basecross {
 	}
 
 	void Enemy1::OnUpdate() {
-		m_Force = Vec3(0);
+		//m_Force = Vec3(0);
 		//ステートマシンのUpdateを行う
 		//この中でステートの切り替えが行われる
 		m_StateMachine->Update();
@@ -103,11 +103,7 @@ namespace basecross {
 
 	void Enemy1::OnCollisionEnter(shared_ptr<GameObject>& Other) {
 		if (Other->FindTag(L"SoundBox")) {
-			//auto PtrDraw = AddComponent<BcPNTStaticDraw>();
-
-			//PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
-			//auto SoundBoxPos = App::GetApp()->GetScene<Scene>()->GetPosition();
-
+		m_StateMachine->ChangeState(SoundBoxState::Instance());
 
 		}
 	}
@@ -119,14 +115,79 @@ namespace basecross {
 
 
 	void Enemy1::ApplyForce() {
-		float elapsedTime = App::GetApp()->GetElapsedTime();
-		m_Velocity += m_Force * elapsedTime;
-		auto ptrTrans = GetComponent<Transform>();
-		auto pos = ptrTrans->GetPosition();
-		pos += m_Velocity * elapsedTime;
-		ptrTrans->SetPosition(pos);
+		auto pos = GetComponent<Transform>()->GetPosition();
+		auto posxcount = m_SoundPos.x - pos.x;
+		auto poszcount = m_SoundPos.z - pos.z;
+		auto PtrAction = AddComponent<Action>();
+		//PtrAction->AllActionClear();
+
+
+		if (posxcount < 0)
+		{
+			posxcount = -1 * posxcount;
+		}
+		if (poszcount < 0)
+		{
+			poszcount = -1 * poszcount;
+		}
+
+		PtrAction->AddMoveTo(posxcount, Vec3(m_SoundPos.x,pos.y,pos.z));
+		//PtrAction->AddMoveTo(poszcount, Vec3(m_SoundPos.x, pos.y, m_SoundPos.z));
+		//ループする
+		PtrAction->SetLooped(false);
+		//アクション開始
+		if (PtrAction->IsArrived()) {
+			PtrAction->Stop();
+			PtrAction->AllActionClear();
+
+		}
+
+		PtrAction->Run();
+
+		PtrAction->ReStart();
+
+
+
+
 	}
 
+
+	void Enemy1::ApplyForce2() {
+		auto pos = GetComponent<Transform>()->GetPosition();
+		auto posxcount = m_SoundPos.x - pos.x;
+		auto poszcount = m_SoundPos.z - pos.z;
+		auto PtrAction = AddComponent<Action>();
+		//PtrAction->AllActionClear();
+
+		if (posxcount < 0)
+		{
+			posxcount = -1 * posxcount;
+		}
+		if (poszcount < 0)
+		{
+			poszcount = -1 * poszcount;
+		}
+
+		//PtrAction->AddMoveTo(posxcount, Vec3(m_SoundPos.x,pos.y,pos.z));
+		PtrAction->AddMoveTo(poszcount, Vec3(m_SoundPos.x, pos.y, m_SoundPos.z));
+
+		if (PtrAction->IsArrived()) {
+			PtrAction->Stop();
+			PtrAction->AllActionClear();
+
+		}
+
+
+		//ループする
+		PtrAction->SetLooped(false);
+		//アクション開始
+		PtrAction->Run();
+
+
+
+
+
+	}
 
 
 
@@ -292,6 +353,38 @@ namespace basecross {
 	void SeekNearState::Exit(const shared_ptr<Enemy1>& Obj) {
 	}
 
+
+
+	shared_ptr<SoundBoxState> SoundBoxState::Instance() {
+		static shared_ptr<SoundBoxState> instance(new SoundBoxState);
+		return instance;
+	}
+	void SoundBoxState::Enter(const shared_ptr<Enemy1>& Obj) {
+		auto pos = App::GetApp()->GetScene<Scene>()->GetSoundPosition();
+		Obj->SetPosition(pos);
+		Obj->ApplyForce();
+		//Obj->ApplyForce2();
+
+		Obj->GetStateMachine()->ChangeState(SeekFarState::Instance());
+
+	}
+	void SoundBoxState::Execute(const shared_ptr<Enemy1>& Obj) {
+		//float elapsedTime = App::GetApp()->GetElapsedTime();
+		//float time = 0;
+		//time += elapsedTime;
+
+
+
+		//if (time >= Obj->GetCount()) {
+		//	Obj->ActionClear();
+		//}
+
+
+	}
+	void SoundBoxState::Exit(const shared_ptr<Enemy1>& Obj) {
+		Obj->ApplyForce2();
+
+	}
 
 }
 //end basecross

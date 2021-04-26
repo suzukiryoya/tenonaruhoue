@@ -21,5 +21,17 @@ namespace basecross {
 		m_LRBaseMode(true),
 		m_UDBaseMode(true)
 	{}
+
+	void MyCamera::SetEye(const bsm::Vec3& Eye) {
+		Camera::SetEye(Eye);
+		//UpdateArmLengh();
+	}
+
+	void MyCamera::SetEye(float x, float y, float z) {
+		Camera::SetEye(x, y, z);
+		//UpdateArmLengh();
+	}
+
+
 }
 //end basecross
