@@ -126,34 +126,34 @@ namespace basecross {
 			BoxesGroup->IntoGroup(enemy1);
 		}
 
-		m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
-		for (auto& v : LineVec4)
-		{
-			//トークン（カラム）の配列
-			vector<wstring> Tokens;
-			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
-			Util::WStrToTokenVector(Tokens, v, L',');
-			//各トークン（カラム）をスケール、回転、位置に読み込む
-			Vec3 Scale(
-				(float)_wtof(Tokens[1].c_str()),
-				(float)_wtof(Tokens[2].c_str()),
-				(float)_wtof(Tokens[3].c_str())
-			);
-			Vec3 Rot;
-			//回転はXM_PIDIV2の文字列になっている場合がある
-			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
-			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
-			Vec3 Pos(
-				(float)_wtof(Tokens[7].c_str()),
-				(float)_wtof(Tokens[8].c_str()),
-				(float)_wtof(Tokens[9].c_str())
-			);
+		//m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
+		//for (auto& v : LineVec4)
+		//{
+		//	//トークン（カラム）の配列
+		//	vector<wstring> Tokens;
+		//	//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+		//	Util::WStrToTokenVector(Tokens, v, L',');
+		//	//各トークン（カラム）をスケール、回転、位置に読み込む
+		//	Vec3 Scale(
+		//		(float)_wtof(Tokens[1].c_str()),
+		//		(float)_wtof(Tokens[2].c_str()),
+		//		(float)_wtof(Tokens[3].c_str())
+		//	);
+		//	Vec3 Rot;
+		//	//回転はXM_PIDIV2の文字列になっている場合がある
+		//	Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+		//	Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+		//	Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+		//	Vec3 Pos(
+		//		(float)_wtof(Tokens[7].c_str()),
+		//		(float)_wtof(Tokens[8].c_str()),
+		//		(float)_wtof(Tokens[9].c_str())
+		//	);
 
-			auto enemy2 = AddGameObject<Enemy2>(Scale, Rot, Pos,1.0f, 1.0f);
-			enemy2->AddTag(L"Enemy2");
-			BoxesGroup->IntoGroup(enemy2);
-		}
+		//	auto enemy2 = AddGameObject<Enemy2>(Scale, Rot, Pos,1.0f, 1.0f);
+		//	enemy2->AddTag(L"Enemy2");
+		//	BoxesGroup->IntoGroup(enemy2);
+		//}
 
 		m_GameStageCsv.GetSelect(LineVec5, 0, L"Door");
 		for (auto& v : LineVec5) {
@@ -428,6 +428,40 @@ namespace basecross {
 		}
 	}
 
+	Vec3 GameStage::GetInputState()
+	{
+		Vec3 ret(0, 0, 0);
+		Vec3 angle(0, 0, 0);
+		//コントローラの取得
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		WORD wButtons = 0;
+		if (cntlVec[0].bConnected) {
+			ret.x = cntlVec[0].fThumbRX;
+			ret.z = cntlVec[0].fThumbRY;
+			wButtons = cntlVec[0].wButtons;
+		}
+		float moveX = ret.x;
+		float moveZ = ret.z;
+
+		if (moveX != 0 || moveZ != 0) {
+			float moveLength = 0;	//動いた時のスピード
+			//コントローラの向き計算
+			Vec2 moveVec(moveZ, moveX);
+			float moveSize = moveVec.length();
+			//コントローラの向きから角度を計算
+			float cntlAngle = atan2(moveZ, moveX);
+			//角度からベクトルを作成
+			angle = Vec3(cos(cntlAngle), 0, sin(cntlAngle));
+			//正規化する
+			angle.normalize();
+			//移動サイズを設定。
+			angle *= moveSize;
+			//Y軸は変化させない
+			angle.y = 0;
+		}
+		return angle;
+	}
+
 	void GameStage::OnUpdate()
 	{
 		//キーボード（マウス）の取得
@@ -435,6 +469,15 @@ namespace basecross {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto CursorPos = App::GetApp()->GetScene<Scene>()->GetAngle();
 		auto Check = App::GetApp()->GetScene<Scene>()->GetCheck();
+
+		auto camera = GetView()->GetTargetCamera();
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
+
+		m_Eye += GetInputState() * elapsedTime * m_Speed;
+		m_At += GetInputState() * elapsedTime * m_Speed;
+
+		camera->SetEye(m_Eye);
+		camera->SetAt(m_At);
 
 		m_MousePoint = KeyState.m_MouseClientPoint;
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {

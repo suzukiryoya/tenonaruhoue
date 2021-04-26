@@ -28,6 +28,11 @@ namespace basecross {
 		//マウス位置
 		Point2D<int> m_MousePoint;
 
+		//カメラ更新用
+		float m_Speed = 5.0f;
+		Vec3 m_Eye = Vec3(0.0f, 20.0f, 0.0f);
+		Vec3 m_At = Vec3(0.0f, 0.0f, 15.0f);
+
 	public:
 		//構築と破棄
 		GameStage() :Stage(),
@@ -61,6 +66,9 @@ namespace basecross {
 		void OnLButtonUp();
 		//マウスの右ボタン(押した瞬間)
 		void OnRButtonEnter();
+
+		//カメラを右スティックで移動
+		Vec3 GetInputState();
 
 		//音の鳴った場所取得用
 		void SetSoundPosition(Vec3 pos);

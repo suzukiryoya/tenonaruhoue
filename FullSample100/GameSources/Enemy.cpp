@@ -13,8 +13,8 @@ namespace basecross {
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position),
-		m_Mesh(L"Enemy_robot_4.bmf"),
-		m_Texture(L"Tx_Enemy_robot_1.tga")
+		m_Mesh(L"SecurityRobot_Animation_0001.bmf"),
+		m_Texture(L"Tx_SecurityRobot.png")
 	{}
 	Enemy1::~Enemy1() {}
 
@@ -57,8 +57,9 @@ namespace basecross {
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 		ptrDraw->SetTextureResource(m_Texture);
 		//ptrDraw->AddAnimation(L"Default", 0, 0, true, 1);
-		ptrDraw->AddAnimation(L"Move", 0, 30, true, 25);
-		ptrDraw->AddAnimation(L"Attack", 30, 70, true, 25);
+
+		ptrDraw->AddAnimation(L"Move", 25, 50, true, 25);
+		ptrDraw->AddAnimation(L"Attack", 25, 50, true, 25);
 
 		ptrDraw->ChangeCurrentAnimation(L"Move");
 		//ステートマシンの構築
@@ -220,8 +221,8 @@ namespace basecross {
 		m_Position(Position),
 		m_UPic(UPic),
 		m_VPic(VPic),
-		m_Mesh(L"SecurityRobot_Animation_0001.bmf"),
-		m_Texture(L"Tx_SecurityRobot.png")
+		m_Mesh(L"Enemy_robot_4.bmf"),
+		m_Texture(L"Tx_Enemy_robot_1.tga")
 	{}
 	Enemy2::~Enemy2() {}
 
@@ -279,9 +280,9 @@ namespace basecross {
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->SetMeshResource(m_Mesh);
 		ptrDraw->SetTextureResource(m_Texture);
+		ptrDraw->AddAnimation(L"Move", 0, 30, true, 25);
+		ptrDraw->AddAnimation(L"Attack", 30, 70, true, 25);
 		//ptrDraw->AddAnimation(L"Default", 0, 25, true, 1.0f);
-		ptrDraw->AddAnimation(L"Move", 25, 50, true, 25);
-		ptrDraw->AddAnimation(L"Attack", 25, 50, true, 25);
 
 		ptrDraw->ChangeCurrentAnimation(L"Move");
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
