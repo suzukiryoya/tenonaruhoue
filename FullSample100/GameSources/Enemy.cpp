@@ -400,5 +400,105 @@ namespace basecross {
 
 	}
 
+
+	Playerdummy::Playerdummy(const shared_ptr<Stage>& StagePtr,
+		const Vec3& Scale,
+		const Vec3& Rotation,
+		const Vec3& Position
+	): GameObject(StagePtr),
+		m_Scale(Scale),
+		m_Rotation(Rotation),
+		m_Position(Position),
+		m_Mesh(L"Protagonist_Robot_4.bmf")
+	{
+	}
+
+	Playerdummy::~Playerdummy()
+	{
+	}
+
+	void Playerdummy::OnCreate()
+	{
+		//初期位置などの設定
+		auto PtrTrans = GetComponent<Transform>();
+		PtrTrans->SetScale(m_Scale);
+		PtrTrans->SetRotation(m_Rotation);
+		PtrTrans->SetPosition(m_Position);
+
+
+		//CollisionObb衝突判定を付ける
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetAfterCollision(AfterCollision::None);
+
+		ptrColl->SetMakedSize(1.5f);
+
+		GetStage()->SetCollisionPerformanceActive(true);
+		GetStage()->SetUpdatePerformanceActive(true);
+		GetStage()->SetDrawPerformanceActive(true);
+
+		Mat4x4 SpanMat; // モデルとトランスフォームの間の差分行列
+		SpanMat.affineTransformation(
+			Vec3(1.0f, 1.0f, 1.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f));
+
+		//影をつける（シャドウマップを描画する）
+		auto ShadowPtr = AddComponent<Shadowmap>();
+		//影の形（メッシュ）を設定
+		ShadowPtr->SetMeshResource(m_Mesh);
+		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
+
+		////文字列をつける
+		//auto ptrString = AddComponent<StringSprite>();
+		//ptrString->SetText(L"");
+		//ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
+
+		//描画コンポーネントの設定
+		auto ptrDraw = AddComponent<BcPNTBoneModelDraw>();
+		//ptrDraw->SetFogEnabled(true);
+		//描画するメッシュを設定
+		ptrDraw->SetMeshResource(m_Mesh);
+		ptrDraw->SetOwnShadowActive(true);
+		//ptrDraw->AddAnimation(L"Wait", 0, 0, true, 1);
+		ptrDraw->AddAnimation(L"Move", 0, 20, true, 25);
+		//ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
+		//ptrDraw->ChangeCurrentAnimation(L"Move");
+
+		////描画するテクスチャを設定
+		ptrDraw->SetTextureResource(L"Tx_Protagonist_Robot_2.tga");
+
+		//カメラを得る
+		//auto ptrCamera = dynamic_pointer_cast<Camera>(OnGetDrawCamera());
+		//if (ptrCamera) {
+		//	//MyCameraである
+		//	//MyCameraに注目するオブジェクト（プレイヤー）の設定
+		//	//ptrCamera->SetTargetObject(GetThis<GameObject>());
+		//	//ptrCamera->SetTargetToAt(GetComponent<Transform>()->GetPosition());
+		//}
+	}
+	void Playerdummy::OnUpdate() {
+
+	}
+	void Playerdummy::AnimeManager(int num)
+	{
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+
+		if (m_SaveNum != num) {
+			switch (num)
+			{
+			case 0:
+				ptrDraw->ChangeCurrentAnimation(L"Move");
+				break;
+			case 1:
+				ptrDraw->ChangeCurrentAnimation(L"Die");
+				break;
+			default:
+				break;
+			}
+			m_SaveNum = num;
+		}
+	}
+
 }
 //end basecross

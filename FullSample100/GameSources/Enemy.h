@@ -154,5 +154,26 @@ namespace basecross {
 	};
 
 
+	class Playerdummy : public GameObject
+	{
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
+		wstring m_Mesh;
+		//アニメーション用
+		int m_SaveNum;
+
+	public:
+		Playerdummy(const shared_ptr<Stage>& StagePtr,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position
+		);
+		virtual ~Playerdummy();
+		virtual void OnCreate()override;
+		void OnUpdate();
+		void AnimeManager(int num);
+
+	};
 }
 //end basecross
