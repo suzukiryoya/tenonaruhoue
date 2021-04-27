@@ -126,6 +126,9 @@ namespace basecross{
 		case GameStageKey::title:
 			ResetActiveStage<TitleStage>();
 			break;
+		case GameStageKey::stageSelect:
+			ResetActiveStage<SelectStage>();
+			break;
 		case GameStageKey::game:
 			ResetActiveStage<GameStage>();
 			break;
