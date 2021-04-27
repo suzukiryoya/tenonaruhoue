@@ -516,10 +516,6 @@ namespace basecross {
 		AddGameObject<Enemy2>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
 		m_check = 1;
 		}
-
-
-
-
 	}
 
 	void GameStage::GetMouseRay(Vec3& Near, Vec3& Far) {
