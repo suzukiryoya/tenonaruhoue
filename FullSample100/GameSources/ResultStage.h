@@ -16,15 +16,18 @@ namespace basecross {
 		void CreateViewLight();
 		void CreateBGM();
 		void CreateUI();
+
+		wstring m_Texture;
+
 	public:
 		//\’z‚Æ”jŠü
 		ResultStage() :Stage() {}
 		virtual ~ResultStage() {}
 		//‰Šú‰»
 		virtual void OnCreate()override;
+		virtual void OnUpdate()override;
+		void GameOverStage(wstring texture);
 	};
-
-
 }
 //end basecross
 

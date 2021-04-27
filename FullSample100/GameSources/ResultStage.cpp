@@ -34,6 +34,11 @@ namespace basecross {
 		App::GetApp()->GetScene<Scene>()->PlayBGM(L"ClearBGM.wav", 0.1f);
 	}
 
+	void ResultStage::OnUpdate()
+	{
+
+	}
+
 	void ResultStage::OnCreate() {
 		try {
 			//ビューとライトの作成

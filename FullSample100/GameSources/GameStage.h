@@ -77,9 +77,6 @@ namespace basecross {
 		Vec3 GetSoundPosition();
 
 	};
-
-
-
 }
 //end basecross
 
