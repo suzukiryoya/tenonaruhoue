@@ -30,17 +30,12 @@ namespace basecross {
 		
 	}
 
-	void TitleStage::CreateBGM() {
-		App::GetApp()->GetScene<Scene>()->PlayBGM(L"titleBGM_Electronic_Circuit.wav", 0.1f);
-	}
-
 	void TitleStage::OnCreate() {
 		try {
 
 
 			//ビューとライトの作成
 			CreateViewLight();
-			CreateBGM();
 			CreateUI();
 			AddGameObject<GameOverTitle_UI>(
 				Vec2(512.0f, 512.0f),
@@ -55,6 +50,16 @@ namespace basecross {
 		catch (...) {
 			throw;
 		}
+
+		//BGM
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		m_BGM = XAPtr->Start(L"titleBGM_Electronic_Circuit.wav",XAUDIO2_LOOP_INFINITE,0.1f);
+	}
+
+	//BGM停止
+	void TitleStage::OnDestroy() {
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		XAPtr->Stop(m_BGM);
 	}
 
 	void TitleStage::OnUpdate() {
@@ -63,7 +68,6 @@ namespace basecross {
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
 		}
-
 	}
 
 }

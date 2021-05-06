@@ -14,9 +14,11 @@ namespace basecross {
 	class TitleStage : public Stage {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
-		void CreateBGM();
 		void CreateUI();
 		wstring m_title_image;
+
+		//BGM
+		shared_ptr<SoundItem>m_BGM;
 	public:
 		//\’z‚Æ”jŠü
 		TitleStage() :Stage(),
@@ -26,6 +28,7 @@ namespace basecross {
 		//‰Šú‰»
 		virtual void OnCreate()override;
 		virtual void OnUpdate() override;
+		virtual void OnDestroy();
 	};
 
 
