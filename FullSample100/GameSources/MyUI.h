@@ -10,7 +10,7 @@ namespace basecross {
 		Col4 m_color;
 		int m_layer;
 		wstring m_textures;
-
+		
 	public:
 
 		UI_Base(const shared_ptr<Stage>& StagePtr,
@@ -32,6 +32,7 @@ namespace basecross {
 		{}
 		~UI_Base() {}
 		void Draw();
+		
 
 	};
 
@@ -192,5 +193,35 @@ namespace basecross {
 		virtual void OnCreate() override;
 
 	};
+	class Select_UI : public UI_Base {
+		bool m_Selected;
+	public:
+		Select_UI(const shared_ptr<Stage>& StagePtr,
+			const Vec2& vertex,
+			const Vec3& pos,
+			const Vec3& scale,
+			const int& layer,
+			const Col4& color,
+			const wstring& textures
+		) :
+			UI_Base(
+				StagePtr,
+				vertex,
+				pos,
+				scale,
+				layer,
+				color,
+				textures
+			)
+		{}
+		~Select_UI() {}
 
+		virtual void OnCreate() override;
+		bool IsSelect() const {
+			return m_Selected;
+		}
+		void SetSelect(bool b) {
+			m_Selected = b;
+		}
+	};
 }
