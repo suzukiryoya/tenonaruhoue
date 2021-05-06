@@ -361,7 +361,9 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateCellMap();
-			App::GetApp()->GetScene<Scene>()->PlayBGM(L"PlayBGM_Towards_the_Future.wav", 0.1f);
+			auto bgm = App::GetApp()->GetXAudio2Manager();
+			m_bgm = bgm->Start(L"PlayBGM_Towards_the_Future.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
+			//App::GetApp()->GetScene<Scene>()->PlayBGM(L"PlayBGM_Towards_the_Future.wav", 0.1f);
 			wstring dataDir;
 			//サンプルのためアセットディレクトリを取得
 			App::GetApp()->GetAssetsDirectory(dataDir);
@@ -462,8 +464,28 @@ namespace basecross {
 		return angle;
 	}
 
+	void GameStage::ClearBGM() {
+
+		auto app = App::GetApp;
+		auto scene = app()->GetScene<Scene>();
+		auto bgm = App::GetApp()->GetXAudio2Manager();
+
+		m_bgm = bgm->Start(L"ClearBGM.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
+		//scene->PlayBGM(L"ClearBGM.wav", 0.1f);
+	}
+
 	void GameStage::OnUpdate()
 	{
+		//BGM更新用
+		auto check = App::GetApp()->GetScene<Scene>()->GetCheck();
+
+		if (check == 1)
+		{
+			auto bgm = App::GetApp()->GetXAudio2Manager();
+			bgm->Stop(m_bgm);
+			ClearBGM();
+		}
+
 		//キーボード（マウス）の取得
 		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();

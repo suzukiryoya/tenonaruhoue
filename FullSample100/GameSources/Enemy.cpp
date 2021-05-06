@@ -13,7 +13,7 @@ namespace basecross {
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position),
-		m_Mesh(L"SecurityRobot_Animation_0001.bmf"),
+		m_Mesh(L"SecurityRobot_Animation_0002.bmf"),
 		m_Texture(L"Tx_SecurityRobot.png")
 	{}
 	Enemy1::~Enemy1() {}
@@ -61,8 +61,8 @@ namespace basecross {
 		ptrDraw->SetTextureResource(m_Texture);
 		//ptrDraw->AddAnimation(L"Default", 0, 0, true, 1);
 
-		ptrDraw->AddAnimation(L"Move", 25, 50, true, 25);
-		ptrDraw->AddAnimation(L"Attack", 25, 50, true, 25);
+		ptrDraw->AddAnimation(L"Move", 25, 30, true, 25);
+		ptrDraw->AddAnimation(L"Die",  51, 70, true, 6);
 
 		ptrDraw->ChangeCurrentAnimation(L"Move");
 		//ステートマシンの構築
@@ -83,6 +83,11 @@ namespace basecross {
 
 		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
 		ptrDraw->UpdateAnimation(elapsedTime);
+
+		if (m_SaveNum == 1)
+		{
+			m_DieTime += elapsedTime;
+		}
 	}
 
 	void Enemy1::AnimeManager(int num)
@@ -111,10 +116,14 @@ namespace basecross {
 		}
 
 		if (Other->FindTag(L"Enemy2")) {
-			SetUpdateActive(false);
-			SetDrawActive(false);
-			DeleteObject(this);
+			AnimeManager(1);
 
+			if (m_DieTime > 1.0f)
+			{
+				SetUpdateActive(false);
+				SetDrawActive(false);
+				DeleteObject(this);
+			}
 		}
 
 	}

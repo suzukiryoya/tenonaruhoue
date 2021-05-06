@@ -30,7 +30,7 @@ namespace basecross {
 		int m_switch = 0;
 		float m_time = 0.0f;
 		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
-
+		float m_DieTime = 0;
 	public:
 		Enemy1(const shared_ptr<Stage>& StagePtr,
 			const Vec3& Scale,
