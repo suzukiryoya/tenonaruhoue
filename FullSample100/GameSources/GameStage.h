@@ -25,6 +25,9 @@ namespace basecross {
 
 		Vec3 m_SoundPos;
 
+		//BGM更新用
+		shared_ptr<SoundItem> m_bgm;
+
 		//マウス位置
 		Point2D<int> m_MousePoint;
 
@@ -58,6 +61,11 @@ namespace basecross {
 		Point2D<int> GetMousePoint()const {
 			return m_MousePoint;
 		}
+
+		//BGM更新用
+		void ClearBGM();
+		void GameOverBGM();
+
 		//マウスとカメラのレイの取得
 		void GetMouseRay(Vec3& Near, Vec3& Far);
 		//マウスによるオブジェクト選択のクリア

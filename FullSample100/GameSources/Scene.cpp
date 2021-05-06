@@ -71,7 +71,7 @@ namespace basecross{
 					//É{Å[ÉìÉÇÉfÉãÇÃèÍçá
 					if ((fileName == L"Protagonist_Robot_5.bmf") ||
 						(fileName == L"Goal_Spot_2.bmf") ||
-						(fileName == L"SecurityRobot_Animation_0001.bmf") ||
+						(fileName == L"SecurityRobot_Animation_0002.bmf") ||
 						(fileName == L"Enemy_robot_4.bmf") ||
 						(fileName == L"Door_Animation.bmf")
 					) 
