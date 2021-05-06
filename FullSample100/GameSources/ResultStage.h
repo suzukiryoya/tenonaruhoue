@@ -19,14 +19,17 @@ namespace basecross {
 
 		wstring m_Texture;
 
+		vector<UI_Base> m_Select;
+
 	public:
 		//\’z‚Æ”jŠü
-		ResultStage() :Stage() {}
+		ResultStage() :Stage()
+		{}
 		virtual ~ResultStage() {}
 		//‰Šú‰»
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
-		void GameOverStage(wstring texture);
+		void GameOverScene(wstring texture);
 	};
 }
 //end basecross

@@ -31,7 +31,14 @@ namespace basecross {
 	}
 
 	void ResultStage::CreateBGM() {
-		App::GetApp()->GetScene<Scene>()->PlayBGM(L"ClearBGM.wav", 0.1f);
+	    auto scene = App::GetApp()->GetScene<Scene>();
+		scene->StopBGM();
+		scene->PlayBGM(L"ClearBGM.wav", 0.1f);
+	}
+
+	void ResultStage::GameOverScene(wstring texture)
+	{
+		
 	}
 
 	void ResultStage::OnUpdate()
