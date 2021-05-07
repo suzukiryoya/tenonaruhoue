@@ -344,6 +344,9 @@ namespace basecross {
 
 	void GameStage::OnCreate() {
 		try {
+
+			App::GetApp()->GetScene<Scene>()->SetUpdateBool(false);
+
 			//•¨—ŒvZ—LŒø
 			SetPhysicsActive(true);
 
