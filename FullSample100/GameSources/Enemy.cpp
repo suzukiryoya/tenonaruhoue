@@ -592,6 +592,14 @@ namespace basecross {
 		if (other->FindTag(L"Goal"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(0);
+			
+			auto ptrColl = GetComponent<CollisionObb>();
+			ptrColl->AddExcludeCollisionGameObject(other);
+			
+
+			SetUpdateActive(false);
+			//SetDrawActive(false);
+			//DeleteObject(this);
 		}
 		if (other->FindTag(L"Enemy1"))
 		{

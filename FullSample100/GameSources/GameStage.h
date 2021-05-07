@@ -27,6 +27,8 @@ namespace basecross {
 
 		//BGM更新用
 		shared_ptr<SoundItem> m_bgm;
+		int m_ClearCheck = 0;
+		int m_GameOverCheck = 1;
 
 		//マウス位置
 		Point2D<int> m_MousePoint;
