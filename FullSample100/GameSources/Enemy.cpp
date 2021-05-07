@@ -88,6 +88,14 @@ namespace basecross {
 		{
 			m_DieTime += elapsedTime;
 		}
+
+
+		auto UpdateCheck = App::GetApp()->GetScene<Scene>()->GetUpdateBool();
+		if (UpdateCheck == true) {
+			SetUpdateActive(false);
+
+		}
+
 	}
 
 	void Enemy1::AnimeManager(int num)
@@ -307,6 +315,7 @@ namespace basecross {
 	void Enemy2::OnUpdate()
 	{
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
+		auto UpdateCheck= App::GetApp()->GetScene<Scene>()->GetUpdateBool();
 
 		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
 		ptrDraw->UpdateAnimation(elapsedTime);
@@ -342,6 +351,10 @@ namespace basecross {
 		}
 
 
+
+		}
+		if (UpdateCheck == true) {
+			SetUpdateActive(false);
 
 		}
 
@@ -611,15 +624,23 @@ namespace basecross {
 		if (other->FindTag(L"Enemy1"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(1);
+			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
+
 			AnimeManager(1);
 		}
 		if (other->FindTag(L"Enemy2"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(1);
+			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
+
 			AnimeManager(1);
 		}
 
 	}
+
+
+
+
 
 }
 //end basecross

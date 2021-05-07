@@ -102,6 +102,7 @@ namespace basecross{
 			Col.set(200.0f / 255.0f, 200.0f / 255.0f, 100.0f / 255.0f, 255.0f / 255.0f);
 			SetClearColor(Col);
 			m_check = 3;
+			m_UpdateCheck = false;
 			//クリアする色を設定
 
 			//リソース作成
@@ -171,6 +172,15 @@ namespace basecross{
 
 	int Scene::GetCheck() {
 		return m_check;
+	}
+
+	bool Scene::SetUpdateBool(bool check) {
+		m_UpdateCheck = check;
+		return check;
+	}
+
+	bool Scene::GetUpdateBool() {
+		return m_UpdateCheck;
 	}
 
 }

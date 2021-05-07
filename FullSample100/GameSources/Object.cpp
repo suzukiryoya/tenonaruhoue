@@ -353,5 +353,77 @@ namespace basecross {
 		PsPtr->SetDrawActive(true);
 	}
 
+
+	//構築と破棄
+	LineEffect::LineEffect(const shared_ptr<Stage>& StagePtr,
+		const Vec3& Scale,
+		const Vec3& Rotation,
+		const Vec3& Position
+	) :
+		GameObject(StagePtr),
+		m_Scale(Scale),
+		m_Rotation(Rotation),
+		m_Position(Position)
+	{}
+
+
+
+	//初期化
+	void LineEffect::OnCreate() {
+		auto PtrTransform = GetComponent<Transform>();
+		PtrTransform->SetScale(m_Scale);
+		PtrTransform->SetRotation(m_Rotation);
+		PtrTransform->SetPosition(m_Position);
+
+		//タグをつける
+		AddTag(L"SoundBox");
+		//影をつける（シャドウマップを描画する）
+		auto ShadowPtr = AddComponent<Shadowmap>();
+		//影の形（メッシュ）を設定
+		ShadowPtr->SetMeshResource(L"DEFAULT_CUBE");
+		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+		PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		PtrDraw->SetFogEnabled(true);
+		PtrDraw->SetOwnShadowActive(true);
+		PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
+
+		auto ptrString = AddComponent<StringSprite>();
+
+
+
+	}
+
+	//更新
+	void LineEffect::OnUpdate() {
+		auto ptrUtil = GetBehavior<UtilBehavior>();
+		ptrUtil->RotToHead(1.0f);
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
+
+		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
+		ptrDraw->UpdateAnimation(elapsedTime);
+
+		auto Pos = GetComponent<Transform>()->GetPosition();
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto m_Speed = 1.0f;
+		//Pos += m_Angle * ElapsedTime * m_Speed;
+		GetComponent<Transform>()->SetPosition(Pos);
+
+		//auto a = Vec3(0.0f, 0.0f, 5.0f);
+		//auto b = Vec3(0.0f, 0.0f, -12.0f);
+		//if (a.x - Pos.x<0.1f && a.x - Pos.x > -0.1f && ab == 0) {
+		//	m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+		//	ab = 1;
+		//}
+		//if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
+		//	m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+
+		//}
+
+
+	}
+
+
+
+
 }
 //end basecross
