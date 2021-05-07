@@ -37,8 +37,8 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateUI();
-			AddGameObject<GameOverTitle_UI>(
-				Vec2(512.0f, 512.0f),
+			AddGameObject<Title_UI>(
+				Vec2(640.0f, 500.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(2.0f),
 				10,

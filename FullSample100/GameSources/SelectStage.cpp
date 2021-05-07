@@ -51,7 +51,14 @@ namespace basecross {
 				Col4(1.0f),
 				m_Select_image
 				);
-			
+			AddGameObject<Select_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(100.0f, 240.0f, 1.0f),
+				Vec3(2.0f),
+				11,
+				Col4(1.0f),
+				m_Stage1
+				);
 			auto StageNumSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			switch (StageNumSet)
 			{
