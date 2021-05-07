@@ -51,6 +51,62 @@ namespace basecross {
 				Col4(1.0f),
 				m_Select_image
 				);
+			
+			auto StageNumSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
+			switch (StageNumSet)
+			{
+			case 0:
+				AddGameObject<Select_UI>(
+					Vec2(512.0f, 512.0f),
+					Vec3(100.0f, 240.0f, 1.0f),
+					Vec3(2.0f),
+					11,
+					Col4(1.0f),
+					m_Stage1
+					);
+				break;
+			case 2:
+				AddGameObject<Select_UI>(
+					Vec2(512.0f, 512.0f),
+					Vec3(100.0f, 240.0f, 1.0f),
+					Vec3(2.0f),
+					11,
+					Col4(1.0f),
+					m_Stage2
+					);
+				break;
+			case 3:
+				AddGameObject<Select_UI>(
+					Vec2(512.0f, 512.0f),
+					Vec3(100.0f, 240.0f, 1.0f),
+					Vec3(2.0f),
+					11,
+					Col4(1.0f),
+					m_Stage3
+					);
+				break;
+			case 4:
+				AddGameObject<Select_UI>(
+					Vec2(512.0f, 512.0f),
+					Vec3(100.0f, 240.0f, 1.0f),
+					Vec3(2.0f),
+					11,
+					Col4(1.0f),
+					m_Stage4
+					);
+				break;
+			case 5:
+				AddGameObject<Select_UI>(
+					
+					Vec2(512.0f, 512.0f),
+					Vec3(100.0f, 240.0f, 1.0f),
+					Vec3(2.0f),
+					11,
+					Col4(1.0f),
+					m_Stage5
+					);
+				break;
+			}
 		}
 		catch (...) {
 			throw;
@@ -83,7 +139,6 @@ namespace basecross {
 					m_StageNum++;
 					m_ControlLock = true;
 				}
-				ChangeSelect(m_StageNum);
 			}
 			// 左移動
 			else if (cntlVec[0].fThumbLX <= -0.8f) {
@@ -91,7 +146,6 @@ namespace basecross {
 					m_StageNum--;
 					m_ControlLock = true;
 				}
-				ChangeSelect(m_StageNum);
 			}
 		}
 		// スティックが一定以上倒されていない場合

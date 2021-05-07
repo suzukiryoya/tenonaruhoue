@@ -17,11 +17,21 @@ namespace basecross {
 		bool m_ControlLock;
 
 		wstring m_Select_image;
+		wstring m_Stage1;
+		wstring m_Stage2;
+		wstring m_Stage3;
+		wstring m_Stage4;
+		wstring m_Stage5;
 		shared_ptr<SoundItem>m_BGM;
 	public:
 		//\’z‚Æ”jŠü
 		SelectStage() :Stage(),
-			m_Select_image(L"Choice screen background_2.png")
+			m_Select_image(L"Choice screen background_2.png"),
+			m_Stage1(L"FirstStage.png"),
+			m_Stage2(L"SecondStage.png"),
+			m_Stage3(L"ThirdStage.png"),
+			m_Stage4(L"FourthStage.png"),
+			m_Stage5(L"FifthStage.png")
 		{}
 		virtual ~SelectStage() {}
 		//‰Šú‰»
