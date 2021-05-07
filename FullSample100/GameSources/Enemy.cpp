@@ -126,7 +126,7 @@ namespace basecross {
 		if (Other->FindTag(L"Enemy2")) {
 			AnimeManager(1);
 
-			if (m_DieTime > 1.0f)
+			if (m_DieTime > 0.5f)
 			{
 				SetUpdateActive(false);
 				SetDrawActive(false);
@@ -616,6 +616,7 @@ namespace basecross {
 			auto ptrColl = GetComponent<CollisionObb>();
 			ptrColl->AddExcludeCollisionGameObject(other);
 			
+			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 
 			SetUpdateActive(false);
 			//SetDrawActive(false);
