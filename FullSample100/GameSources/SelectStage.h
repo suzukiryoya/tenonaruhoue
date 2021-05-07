@@ -16,12 +16,12 @@ namespace basecross {
 		int m_StageNum = 0;
 		bool m_ControlLock;
 
-		wstring m_title_image;
+		wstring m_Select_image;
 		shared_ptr<SoundItem>m_BGM;
 	public:
 		//\’z‚Æ”jŠü
 		SelectStage() :Stage(),
-			m_title_image(L"title.png")
+			m_Select_image(L"Choice screen background_2.png")
 		{}
 		virtual ~SelectStage() {}
 		//‰Šú‰»
