@@ -34,6 +34,7 @@ namespace basecross{
 		Vec3 m_getposition;
 		Vec3 m_getsoundposition;
 		int m_check;
+		int m_snum;
 		bool m_UpdateCheck;
 	public:
 		//--------------------------------------------------------------------------------------
@@ -77,6 +78,9 @@ namespace basecross{
 
 		int SetCheck(int check);
 		int GetCheck();
+
+		int SetStageNum(int Snum);
+		int GetStageNum();
 
 		bool SetUpdateBool(bool check);
 		bool GetUpdateBool();

@@ -67,6 +67,7 @@ namespace basecross {
 		// ステージへ
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
+			App::GetApp()->GetScene<Scene>()->SetStageNum(m_StageNum);
 			XAPtr->Stop(m_BGM);
 		}
 		// タイトルに戻る
