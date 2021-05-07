@@ -354,7 +354,7 @@ namespace basecross {
 			App::GetApp()->GetDataDirectory(MediaDir);
 
 			//AddGameObject<FixedBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,1.0f,0.0f));
-			AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 0.5f, 0.0f));
+			//AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 0.5f, 0.0f));
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
 			AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
@@ -393,7 +393,7 @@ namespace basecross {
 			wstring strMovie = dataDir + L"cursor.png";
 			AddGameObject<Clear>(
 					Vec2(512.0f, 512.0f),
-					Vec3(0.0f, 200.0f, 0.0f),
+					Vec3(0.0f, 240.0f, 0.0f),
 					Vec3(0.2f),
 					10,
 					Col4(1.0f),
@@ -438,13 +438,12 @@ namespace basecross {
 			AddGameObject<GameOverTitle_UI>(
 				Vec2(1146.0f, 573.0f),
 				Vec3(450.0f, -200.0f, 0.0f),
-				Vec3(0.25f),
+				Vec3(0.5f),
 				10,
 				Col4(1.0f),
 				m_Abutton
 				);
-
-
+			
 			gameover->SetDrawActive(false);
 			gameover2->SetDrawActive(false);
 		}
@@ -489,15 +488,20 @@ namespace basecross {
 
 	void GameStage::GameClearScene()
 	{
-		GameClearBGM();
-	}
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 
-	void GameStage::GameClearBGM() 
-	{
-		auto bgm = App::GetApp()->GetXAudio2Manager();
+		if (cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_A)
+		{
+			auto StageNum = App::GetApp()->GetScene<Scene>()->GetStageNum();
+			StageNum += 1;
 
-		m_bgm = bgm->Start(L"ClearBGM.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
-		//scene->PlayBGM(L"ClearBGM.wav", 0.1f);
+			App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
+			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
+		}
+		else if(cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_B)
+		{
+			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
+		}
 	}
 
 	void GameStage::GameOverScene()
@@ -510,13 +514,6 @@ namespace basecross {
 		{
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
 		}
-	}
-
-	void GameStage::GameOverBGM()
-	{
-		auto bgm = App::GetApp()->GetXAudio2Manager();
-
-		m_bgm = bgm->Start(L"GameOver.wav", 1, 1.0f);
 	}
 
 	void GameStage::OnUpdate()
@@ -561,9 +558,26 @@ namespace basecross {
 				Col4(1.0f),
 				m_StageClear_image
 				);
+
+			AddGameObject<Title_UI>(
+				Vec2(324.0f, 324.0f),
+				Vec3(-300.0f, 50.0f, 0.0f),
+				Vec3(1.25f),
+				15,
+				Col4(1.0f),
+				m_NextStageText_image
+				);
+			AddGameObject<Title_UI>(
+				Vec2(324.0f, 324.0f),
+				Vec3(300.0f, 50.0f, 0.0f),
+				Vec3(1.25f),
+				15,
+				Col4(1.0f),
+				m_TitleBackText_image2
+				);
 			//ƒNƒŠƒABGM—p
 			bgm->Stop(m_bgm);
-			GameClearScene();
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"ClearBGM.wav", 0.1f);
 			//
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
@@ -572,6 +586,14 @@ namespace basecross {
 			bgm->Stop(m_bgm);
 			App::GetApp()->GetScene<Scene>()->PlaySE(L"GameOver.wav", 1.0f);
 			//
+			AddGameObject<Title_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(0.0f, 80.0f, 0.0f),
+				Vec3(1.5f),
+				15,
+				Col4(1.0f),
+				m_TitleBackText_image1
+				);
 			gameover->SetDrawActive(true);
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
@@ -580,6 +602,9 @@ namespace basecross {
 		}
 
 		if (m_ClearCheck == Check) {
+			
+			m_GameClearFlag = true;
+			
 			//AddGameObject<Title_UI>(
 			//	Vec2(512.0f, 512.0f),
 			//	Vec3(0.0f, 0.0f, 0.0f),
@@ -600,6 +625,14 @@ namespace basecross {
 			m_GameOverFlag = true;
 			//
 			//gameover->SetDrawActive(true);
+		}
+
+		if (m_GameClearFlag == true)
+		{
+			GameClearScene();
+		}
+		else if (m_GameClearFlag == false)
+		{
 		}
 
 		if (m_GameOverFlag == true)

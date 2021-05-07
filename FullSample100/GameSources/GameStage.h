@@ -19,7 +19,7 @@ namespace basecross {
 		void CreateStage();
 		void CreatePlayer();
 
-		wstring m_StageSelect_image,m_StageClear_image,m_GameOver_image, m_GameOver_image2,m_LStick,m_RStick,m_Abutton;
+		wstring m_StageSelect_image,m_StageClear_image,m_GameOver_image, m_GameOver_image2,m_LStick,m_RStick,m_Abutton,m_NextStageText_image,m_TitleBackText_image1, m_TitleBackText_image2;
 		shared_ptr<GameObject> gameover;
 		shared_ptr<GameObject> gameover2;
 
@@ -27,6 +27,7 @@ namespace basecross {
 
 		//ステージ選択用
 		int m_SelectNum = 0;
+		bool m_GameClearFlag = false;
 		bool m_GameOverFlag = false; 
 
 		//BGM更新用
@@ -53,8 +54,10 @@ namespace basecross {
 			m_GameOver_image2(L"GameOver2.png"),
 			m_LStick(L"Analog_Stick.png"),
 			m_RStick(L"Analog_StickR.png"),
-			m_Abutton(L"A_Button.png"),
-
+			m_Abutton(L"A_Button_3.png"),
+			m_NextStageText_image(L"A_Button_4.png"),
+			m_TitleBackText_image1(L"TitleText.png"),
+			m_TitleBackText_image2(L"B_Button.png"),
 			m_MousePoint(0, 0)
 		{}
 		virtual ~GameStage() {}
