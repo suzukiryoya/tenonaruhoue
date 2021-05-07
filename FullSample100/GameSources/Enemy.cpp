@@ -523,9 +523,8 @@ namespace basecross {
 		//描画するメッシュを設定
 		ptrDraw->SetMeshResource(m_Mesh);
 		ptrDraw->SetOwnShadowActive(true);
-		//ptrDraw->AddAnimation(L"Wait", 0, 0, true, 1);
 		ptrDraw->AddAnimation(L"Move", 0, 20, true, 25);
-		//ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
+		ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
 		//ptrDraw->ChangeCurrentAnimation(L"Move");
 
 		////描画するテクスチャを設定
@@ -565,7 +564,15 @@ namespace basecross {
 
 		}
 		
+		if (m_SaveNum == 1)
+		{
+			m_MotionTime += elapsedTime;
+		}
 
+		if (m_MotionTime > 1.0f)
+		{
+			SetUpdateActive(false);
+		}
 	}
 	void Playerdummy::AnimeManager(int num)
 	{
@@ -604,10 +611,12 @@ namespace basecross {
 		if (other->FindTag(L"Enemy1"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(1);
+			AnimeManager(1);
 		}
 		if (other->FindTag(L"Enemy2"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(1);
+			AnimeManager(1);
 		}
 
 	}

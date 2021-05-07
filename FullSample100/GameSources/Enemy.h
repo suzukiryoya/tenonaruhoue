@@ -168,6 +168,7 @@ namespace basecross {
 		int m_SaveNum;
 		float ab = 0;
 		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		float m_MotionTime = 0;
 
 	public:
 		Playerdummy(const shared_ptr<Stage>& StagePtr,

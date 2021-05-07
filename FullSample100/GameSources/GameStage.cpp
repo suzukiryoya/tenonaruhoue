@@ -464,12 +464,19 @@ namespace basecross {
 		return angle;
 	}
 
-	void GameStage::ClearBGM() {
-
+	void GameStage::ClearBGM() 
+	{
 		auto bgm = App::GetApp()->GetXAudio2Manager();
 
 		m_bgm = bgm->Start(L"ClearBGM.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
 		//scene->PlayBGM(L"ClearBGM.wav", 0.1f);
+	}
+
+	void GameStage::GameOverBGM()
+	{
+		auto bgm = App::GetApp()->GetXAudio2Manager();
+
+		m_bgm = bgm->Start(L"GameOver.wav", 1, 1.0f);
 	}
 
 	void GameStage::OnUpdate()
@@ -521,9 +528,11 @@ namespace basecross {
 			break;
 		case 1:
 			//ゲームオーバーBGM用
-
+			bgm->Stop(m_bgm);
+			GameOverBGM();
 			//
 			gameover->SetDrawActive(true);
+			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
 		case 2:
 			break;
