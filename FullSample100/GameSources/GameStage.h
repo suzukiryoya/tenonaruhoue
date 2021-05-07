@@ -25,6 +25,10 @@ namespace basecross {
 
 		Vec3 m_SoundPos;
 
+		//ステージ選択用
+		int m_SelectNum = 0;
+		bool m_GameOverFlag = false; 
+
 		//BGM更新用
 		shared_ptr<SoundItem> m_bgm;
 		int m_ClearCheck = 0;
@@ -64,8 +68,12 @@ namespace basecross {
 			return m_MousePoint;
 		}
 
-		//BGM更新用
-		void ClearBGM();
+		//ゲームクリア用
+		void GameClearScene();
+		void GameClearBGM();
+
+		//ゲームオーバー
+		void GameOverScene();
 		void GameOverBGM();
 
 		//マウスとカメラのレイの取得
