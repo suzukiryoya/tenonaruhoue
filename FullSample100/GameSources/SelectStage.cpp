@@ -37,15 +37,11 @@ namespace basecross {
 		}
 	}
 
-	void SelectStage::CreateBGM() {
-		App::GetApp()->GetScene<Scene>()->PlayBGM(L"ClearBGM.wav", 0.1f);
-	}
 
 	void SelectStage::OnCreate() {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
-			CreateBGM();
 			CreateUI();
 			AddGameObject<Select_UI>(
 				Vec2(512.0f, 512.0f),
@@ -59,18 +55,24 @@ namespace basecross {
 		catch (...) {
 			throw;
 		}
+
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		m_BGM = XAPtr->Start(L"Select.wav", 0.1f);
 	}
 
 	void SelectStage::OnUpdate() {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
 
 		// ステージへ
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
+			XAPtr->Stop(m_BGM);
 		}
 		// タイトルに戻る
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
+			XAPtr->Stop(m_BGM);
 		}
 
 		if (!m_ControlLock) {
