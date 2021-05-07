@@ -489,11 +489,16 @@ namespace basecross {
 	void GameStage::GameClearScene()
 	{
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		//BGM用
+		auto bgm = App::GetApp()->GetXAudio2Manager();
+		//
 
 		if (cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_A)
 		{
 			auto StageNum = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			StageNum += 1;
+
+			bgm->Stop(m_bgm);
 
 			App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
@@ -504,6 +509,12 @@ namespace basecross {
 		}
 	}
 
+	void GameStage::GameClearBGM()
+	{
+		auto bgm = App::GetApp()->GetXAudio2Manager();
+		m_bgm = bgm->Start(L"ClearBGM.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
+	}
+
 	void GameStage::GameOverScene()
 	{
 		//GameOverBGM();
@@ -512,7 +523,7 @@ namespace basecross {
 
 		if (cntlVec[0].wPressedButtons)
 		{
-			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
+			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 		}
 	}
 
@@ -577,7 +588,8 @@ namespace basecross {
 				);
 			//クリアBGM用
 			bgm->Stop(m_bgm);
-			App::GetApp()->GetScene<Scene>()->PlaySE(L"ClearBGM.wav", 0.1f);
+			GameClearBGM();
+			//App::GetApp()->GetScene<Scene>()->PlaySE(L"ClearBGM.wav", 0.1f);
 			//
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
