@@ -183,14 +183,13 @@ namespace basecross{
 		return m_UpdateCheck;
 	}
 
-	int Scene::SetStageNum(int Snum) {
+	int Scene::SetStageNum(int Snum){
 		m_snum = Snum;
 		return Snum;
 	}
 
-	int Scene::GetStageNum() {
+	int Scene::GetStageNum()	{
 		return m_snum;
 	}
-
 }
 //end basecross
