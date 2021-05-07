@@ -356,7 +356,27 @@ namespace basecross {
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
 			AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
 
-			m_GameStageCsv.SetFileName(MediaDir + L"Stage1.csv");
+			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
+			switch (csvSet)
+			{
+			case 1:
+				m_GameStageCsv.SetFileName(MediaDir + L"Stage1.csv");
+				break;
+			case 2:
+				m_GameStageCsv.SetFileName(MediaDir + L"Stage2.csv");
+				break;
+			case 3:
+				m_GameStageCsv.SetFileName(MediaDir + L"Stage3.csv");
+				break;
+			case 4:
+				m_GameStageCsv.SetFileName(MediaDir + L"Stage4.csv");
+				break;
+			case 5:
+				m_GameStageCsv.SetFileName(MediaDir + L"Stage5.csv");
+				break;
+			}
+
+			
 			m_GameStageCsv.ReadCsv();
 			//ビューとライトの作成
 			CreateViewLight();
