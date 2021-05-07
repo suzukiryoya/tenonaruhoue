@@ -466,8 +466,6 @@ namespace basecross {
 
 	void GameStage::ClearBGM() {
 
-		auto app = App::GetApp;
-		auto scene = app()->GetScene<Scene>();
 		auto bgm = App::GetApp()->GetXAudio2Manager();
 
 		m_bgm = bgm->Start(L"ClearBGM.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
@@ -476,22 +474,11 @@ namespace basecross {
 
 	void GameStage::OnUpdate()
 	{
-		//BGM更新用
-		auto check = App::GetApp()->GetScene<Scene>()->GetCheck();
-
-		if (check == 1)
-		{
-			auto bgm = App::GetApp()->GetXAudio2Manager();
-			bgm->Stop(m_bgm);
-			ClearBGM();
-		}
-
 		//キーボード（マウス）の取得
 		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto CursorPos = App::GetApp()->GetScene<Scene>()->GetAngle();
 		auto Check = App::GetApp()->GetScene<Scene>()->GetCheck();
-
 		auto camera = GetView()->GetTargetCamera();
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
@@ -512,7 +499,12 @@ namespace basecross {
 			OnRButtonEnter();
 		}
 
-		if (Check == 0) {
+		//クリアBGM用
+		auto bgm = App::GetApp()->GetXAudio2Manager();
+
+		switch (Check)
+		{
+		case 0:
 			AddGameObject<Title_UI>(
 				Vec2(512.0f, 512.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
@@ -522,12 +514,44 @@ namespace basecross {
 				m_StageClear_image
 				);
 
-			Check = 2;
-		}
-		if (Check == 1) {
-			gameover->SetDrawActive(true);
+			bgm->Stop(m_bgm);
+			ClearBGM();
+			//
+			App::GetApp()->GetScene<Scene>()->SetCheck(2);
+			break;
+		case 1:
+			//ゲームオーバーBGM用
 
+			//
+			gameover->SetDrawActive(true);
+			break;
+		case 2:
+			break;
 		}
+
+		//if (m_ClearCheck == Check) {
+		//	AddGameObject<Title_UI>(
+		//		Vec2(512.0f, 512.0f),
+		//		Vec3(0.0f, 0.0f, 0.0f),
+		//		Vec3(1.5f),
+		//		12,
+		//		Col4(1.0f),
+		//		m_StageClear_image
+		//		);
+
+		//	//クリアBGM用
+		//	auto bgm = App::GetApp()->GetXAudio2Manager();
+		//	bgm->Stop(m_bgm);
+		//	ClearBGM();
+		//	//
+		//	Check = 2;
+		//}
+		//else if (m_GameOverCheck == Check) {
+		//	//ゲームオーバーBGM用
+		//	
+		//	//
+		//	gameover->SetDrawActive(true);
+		//}
 
 		m_time += elapsedTime;
 
