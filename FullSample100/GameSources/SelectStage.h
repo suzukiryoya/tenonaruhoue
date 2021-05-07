@@ -9,7 +9,6 @@ namespace basecross {
 	class SelectStage : public Stage {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
-		void CreateBGM();
 		void CreateUI();
 
 		void ChangeSelect(int num);
@@ -18,6 +17,7 @@ namespace basecross {
 		bool m_ControlLock;
 
 		wstring m_title_image;
+		shared_ptr<SoundItem>m_BGM;
 	public:
 		//\’z‚Æ”jŠü
 		SelectStage() :Stage(),
