@@ -379,8 +379,8 @@ namespace basecross {
 
 			gameover = AddGameObject<GameOverTitle_UI>(
 				Vec2(512.0f, 512.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(1.5f),
+				Vec3(0.0f, 8.0f, 0.0f),
+				Vec3(1.3f),
 				10,
 				Col4(1.0f),
 				m_GameOver_image
@@ -464,12 +464,29 @@ namespace basecross {
 		return angle;
 	}
 
-	void GameStage::ClearBGM() 
+	void GameStage::GameClearScene()
+	{
+		GameClearBGM();
+	}
+
+	void GameStage::GameClearBGM() 
 	{
 		auto bgm = App::GetApp()->GetXAudio2Manager();
 
 		m_bgm = bgm->Start(L"ClearBGM.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
 		//scene->PlayBGM(L"ClearBGM.wav", 0.1f);
+	}
+
+	void GameStage::GameOverScene()
+	{
+		//GameOverBGM();
+
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
+		if (cntlVec[0].wPressedButtons)
+		{
+			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
+		}
 	}
 
 	void GameStage::GameOverBGM()
@@ -506,8 +523,9 @@ namespace basecross {
 			OnRButtonEnter();
 		}
 
-		//クリアBGM用
+		//BGM用
 		auto bgm = App::GetApp()->GetXAudio2Manager();
+		//
 
 		switch (Check)
 		{
@@ -520,16 +538,16 @@ namespace basecross {
 				Col4(1.0f),
 				m_StageClear_image
 				);
-
+			//クリアBGM用
 			bgm->Stop(m_bgm);
-			ClearBGM();
+			GameClearScene();
 			//
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
 		case 1:
 			//ゲームオーバーBGM用
 			bgm->Stop(m_bgm);
-			GameOverBGM();
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"GameOver.wav", 1.0f);
 			//
 			gameover->SetDrawActive(true);
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
@@ -538,33 +556,38 @@ namespace basecross {
 			break;
 		}
 
-		//if (m_ClearCheck == Check) {
-		//	AddGameObject<Title_UI>(
-		//		Vec2(512.0f, 512.0f),
-		//		Vec3(0.0f, 0.0f, 0.0f),
-		//		Vec3(1.5f),
-		//		12,
-		//		Col4(1.0f),
-		//		m_StageClear_image
-		//		);
+		if (m_ClearCheck == Check) {
+			//AddGameObject<Title_UI>(
+			//	Vec2(512.0f, 512.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(1.5f),
+			//	12,
+			//	Col4(1.0f),
+			//	m_StageClear_image
+			//	);
 
-		//	//クリアBGM用
-		//	auto bgm = App::GetApp()->GetXAudio2Manager();
-		//	bgm->Stop(m_bgm);
-		//	ClearBGM();
-		//	//
-		//	Check = 2;
-		//}
-		//else if (m_GameOverCheck == Check) {
-		//	//ゲームオーバーBGM用
-		//	
-		//	//
-		//	gameover->SetDrawActive(true);
-		//}
+			////クリアBGM用
+			//auto bgm = App::GetApp()->GetXAudio2Manager();
+			//bgm->Stop(m_bgm);
+			////
+			//Check = 2;
+		}
+		else if (m_GameOverCheck == Check) {
+			//ゲームオーバー用
+			m_GameOverFlag = true;
+			//
+			//gameover->SetDrawActive(true);
+		}
+
+		if (m_GameOverFlag == true)
+		{
+			GameOverScene();
+		}
+		else if (m_GameOverFlag == false)
+		{
+		}
 
 		m_time += elapsedTime;
-
-
 
 		if (m_time >= 3.0f&&m_check==0) {
 
