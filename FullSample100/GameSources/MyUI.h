@@ -10,7 +10,6 @@ namespace basecross {
 		Col4 m_color;
 		int m_layer;
 		wstring m_textures;
-		
 	public:
 
 		UI_Base(const shared_ptr<Stage>& StagePtr,
@@ -32,8 +31,13 @@ namespace basecross {
 		{}
 		~UI_Base() {}
 		void Draw();
-		
 
+		//m_pos更新用
+		void SetUpdatePosition(Vec3 updatePos);
+		Vec3 GetUpdatePosition()
+		{
+			return m_pos;
+		}
 	};
 
 	class Clear : public UI_Base {
@@ -140,6 +144,36 @@ namespace basecross {
 
 	};
 
+	//ゲームクリアUI用
+	class GameClear_UI : public UI_Base {
+
+		Vec3 m_UpdatePosition = Vec3(0);
+
+	public:
+
+		GameClear_UI(const shared_ptr<Stage>& StagePtr,
+			const Vec2& vertex,
+			const Vec3& pos,
+			const Vec3& scale,
+			const int& layer,
+			const Col4& color,
+			const wstring& texttuers
+		) :
+			UI_Base(
+				StagePtr,
+				vertex,
+				pos,
+				scale,
+				layer,
+				color,
+				texttuers
+			)
+		{}
+
+		~GameClear_UI() {}
+
+		virtual void OnCreate() override;
+	};
 
 	class GameOverTitle_UI : public UI_Base {
 	public:
