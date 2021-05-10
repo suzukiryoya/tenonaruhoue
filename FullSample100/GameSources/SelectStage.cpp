@@ -59,7 +59,39 @@ namespace basecross {
 				Col4(1.0f),
 				m_Stage1
 				);
-			auto StageNumSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
+			AddGameObject<Select_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(100.0f, 100.0f, 1.0f),
+				Vec3(2.0f),
+				11,
+				Col4(1.0f),
+				m_Stage2
+				);
+			AddGameObject<Select_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(100.0f, -40.0f, 1.0f),
+				Vec3(2.0f),
+				11,
+				Col4(1.0f),
+				m_Stage3
+				);
+			AddGameObject<Select_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(100.0f, -180.0f, 1.0f),
+				Vec3(2.0f),
+				11,
+				Col4(1.0f),
+				m_Stage4
+				);
+			AddGameObject<Select_UI>(
+				Vec2(512.0f, 512.0f),
+				Vec3(100.0f, -320.0f, 1.0f),
+				Vec3(2.0f),
+				11,
+				Col4(1.0f),
+				m_Stage5
+				);
+			/*auto StageNumSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			switch (StageNumSet)
 			{
 			case 0:
@@ -113,7 +145,7 @@ namespace basecross {
 					m_Stage5
 					);
 				break;
-			}
+			}*/
 		}
 		catch (...) {
 			throw;
