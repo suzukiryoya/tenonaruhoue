@@ -30,6 +30,12 @@ namespace basecross {
 
 	}
 
+	//m_pos更新用
+	void UI_Base::SetUpdatePosition(Vec3 updatePosition){
+		m_pos = updatePosition;
+		Draw();
+	}
+	//
 
 	void Clear::OnCreate() {
 		Draw();
@@ -126,6 +132,11 @@ namespace basecross {
 	}
 
 	void Title_UI::OnCreate() {
+		Draw();
+	}
+
+	//ゲームクリアUI用
+	void GameClear_UI::OnCreate(){
 		Draw();
 	}
 

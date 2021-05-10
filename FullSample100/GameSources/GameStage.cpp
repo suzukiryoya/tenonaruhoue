@@ -493,7 +493,21 @@ namespace basecross {
 		auto bgm = App::GetApp()->GetXAudio2Manager();
 		//
 
-		if (cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_A)
+		if (cntlVec[0].fThumbLX >= 0.8f)
+		{
+			m_RedMask->SetUpdatePosition(Vec3(300.0f, 50.0f, 0.0f));
+		}
+		else if (cntlVec[0].fThumbLX <= -0.8f)
+		{
+			m_RedMask->SetUpdatePosition(Vec3(-300.0f, 50.0f, 0.0f));
+
+		}
+		else if (cntlVec[0].fThumbLX >= 0.8f && cntlVec[0].fThumbLX <= -0.8f)
+		{
+
+		}
+
+		if (cntlVec[0].wPressedButtons && m_RedMaskPos_1 == m_RedMask->GetUpdatePosition())
 		{
 			auto StageNum = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			StageNum += 1;
@@ -503,10 +517,25 @@ namespace basecross {
 			App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
 		}
-		else if(cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_B)
+		else if (cntlVec[0].wPressedButtons && m_RedMaskPos_2 == m_RedMask->GetUpdatePosition())
 		{
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 		}
+
+		//if (cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_A)
+		//{
+		//	auto StageNum = App::GetApp()->GetScene<Scene>()->GetStageNum();
+		//	StageNum += 1;
+
+		//	bgm->Stop(m_bgm);
+
+		//	App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
+		//	App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
+		//}
+		//else if(cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_B)
+		//{
+		//	App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
+		//}
 	}
 
 	void GameStage::GameClearBGM()
@@ -560,7 +589,7 @@ namespace basecross {
 
 		switch (Check)
 		{
-		case 0:
+		case 0: //クリア用
 			AddGameObject<Title_UI>(
 				Vec2(512.0f, 512.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
@@ -586,18 +615,24 @@ namespace basecross {
 				Col4(1.0f),
 				m_TitleBackText_image2
 				);
-			//クリアBGM用
+			m_RedMask = AddGameObject<GameClear_UI>(
+				Vec2(324.0f, 216.0f),
+				Vec3(-300.0f, 50.0f, 0.0f),
+				Vec3(1.25f),
+				15,
+				Col4(1.0f),
+				m_Red120_image
+				);
 			bgm->Stop(m_bgm);
 			GameClearBGM();
 			//App::GetApp()->GetScene<Scene>()->PlaySE(L"ClearBGM.wav", 0.1f);
-			//
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
-		case 1:
-			//ゲームオーバーBGM用
+		case 1: //ゲームオーバー用
+			
 			bgm->Stop(m_bgm);
 			App::GetApp()->GetScene<Scene>()->PlaySE(L"GameOver.wav", 1.0f);
-			//
+
 			AddGameObject<Title_UI>(
 				Vec2(512.0f, 512.0f),
 				Vec3(0.0f, 80.0f, 0.0f),
@@ -616,21 +651,6 @@ namespace basecross {
 		if (m_ClearCheck == Check) {
 			
 			m_GameClearFlag = true;
-			
-			//AddGameObject<Title_UI>(
-			//	Vec2(512.0f, 512.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(1.5f),
-			//	12,
-			//	Col4(1.0f),
-			//	m_StageClear_image
-			//	);
-
-			////クリアBGM用
-			//auto bgm = App::GetApp()->GetXAudio2Manager();
-			//bgm->Stop(m_bgm);
-			////
-			//Check = 2;
 		}
 		else if (m_GameOverCheck == Check) {
 			//ゲームオーバー用
