@@ -156,6 +156,10 @@ namespace basecross {
 		Vec3 m_Position;
 
 	public:
+
+		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		float ab = 0;
+
 		//\’z‚Æ”jŠü
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -179,6 +183,7 @@ namespace basecross {
 		virtual void OnCreate() override;
 		//XV
 		virtual void OnUpdate() override;
+		void OnCollisionEnter(shared_ptr<GameObject>& other);
 
 	};
 

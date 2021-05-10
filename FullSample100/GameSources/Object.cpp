@@ -145,10 +145,18 @@ namespace basecross {
     void TriggerBox::OnUpdate() {
         float elapsedTime = App::GetApp()->GetElapsedTime();
         time += elapsedTime;
+		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 
+		if (time >= 1.0f&&2.0f>=time) {
+			PtrDraw->SetDiffuse(Col4(0.5f, 0.5f, 0.0f, 0.1f));
 
+		}
+		else if (time >= 2.0f && 3.0f >= time) {
 
-        if (time >= 3.0f) {
+			PtrDraw->SetDiffuse(Col4(1.0f, 0.0f, 0.0f, 0.1f));
+
+		}
+        else if (time >= 3.0f) {
 
             SetUpdateActive(false);
             SetDrawActive(false);
@@ -376,7 +384,6 @@ namespace basecross {
 		PtrTransform->SetPosition(m_Position);
 
 		//タグをつける
-		AddTag(L"SoundBox");
 		//影をつける（シャドウマップを描画する）
 		auto ShadowPtr = AddComponent<Shadowmap>();
 		//影の形（メッシュ）を設定
@@ -385,7 +392,9 @@ namespace basecross {
 		PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		PtrDraw->SetFogEnabled(true);
 		PtrDraw->SetOwnShadowActive(true);
-		PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
+		PtrDraw->SetColorAndAlpha(Col4(0.5f, 0.7f, 0.9f, 1.0f));
+		auto PtrColl = AddComponent<CollisionObb>();
+		PtrColl->SetAfterCollision(AfterCollision::None);
 
 		auto ptrString = AddComponent<StringSprite>();
 
@@ -399,25 +408,35 @@ namespace basecross {
 		ptrUtil->RotToHead(1.0f);
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
-		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
-		ptrDraw->UpdateAnimation(elapsedTime);
 
 		auto Pos = GetComponent<Transform>()->GetPosition();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto m_Speed = 1.0f;
-		//Pos += m_Angle * ElapsedTime * m_Speed;
+		auto m_Speed = 25.0f;
+		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 
-		//auto a = Vec3(0.0f, 0.0f, 5.0f);
-		//auto b = Vec3(0.0f, 0.0f, -12.0f);
-		//if (a.x - Pos.x<0.1f && a.x - Pos.x > -0.1f && ab == 0) {
-		//	m_Angle = Vec3(0.0f, 0.0f, -1.0f);
-		//	ab = 1;
-		//}
-		//if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
-		//	m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		auto a = Vec3(0.0f, 0.0f, 5.0f);
+		auto b = Vec3(0.0f, 0.0f, -12.0f);
+		if (a.x - Pos.x<0.5f && a.x - Pos.x > -0.5f && ab == 0) {
+			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+			ab = 1;
+		}
+		if (b.z - Pos.z<0.5f && b.z - Pos.z > -0.5f && ab == 1) {
+			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 
-		//}
+		}
+
+
+	}
+
+	void LineEffect::OnCollisionEnter(shared_ptr<GameObject>& other) {
+		if (other->FindTag(L"Goal"))
+		{
+			GetStage()->AddGameObject<LineEffect>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 0.8f, 5.0f));
+			SetUpdateActive(false);
+			SetDrawActive(false);
+
+		}
 
 
 	}

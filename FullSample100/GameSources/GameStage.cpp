@@ -12,6 +12,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
+
 		const Vec3 eye(0.0f, 20.0f, -5.0f);
 		const Vec3 at(0.0f,0.0f,0.0f);
 		auto PtrView = CreateView<SingleView>();
@@ -358,6 +359,8 @@ namespace basecross {
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
 			AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
+			AddGameObject<LineEffect>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 0.8f, 5.0f));
+
 
 			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			switch (csvSet)
@@ -678,6 +681,7 @@ namespace basecross {
 		m_time += elapsedTime;
 
 		if (m_time >= 3.0f&&m_check==0) {
+		AddGameObject<LineEffect>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 0.8f, 5.0f));
 
 		AddGameObject<Enemy2>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
 		m_check = 1;
