@@ -519,6 +519,8 @@ namespace basecross {
 		}
 		else if (cntlVec[0].wPressedButtons && m_RedMaskPos_2 == m_RedMask->GetUpdatePosition())
 		{
+			bgm->Stop(m_bgm);
+
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 		}
 
@@ -547,10 +549,7 @@ namespace basecross {
 	void GameStage::GameOverScene()
 	{
 		//GameOverBGM();
-
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-
-		if (cntlVec[0].wPressedButtons)
+		if (m_GameOverSceneTime > 3.0f)
 		{
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 		}
@@ -633,14 +632,14 @@ namespace basecross {
 			bgm->Stop(m_bgm);
 			App::GetApp()->GetScene<Scene>()->PlaySE(L"GameOver.wav", 1.0f);
 
-			AddGameObject<Title_UI>(
-				Vec2(512.0f, 512.0f),
-				Vec3(0.0f, 80.0f, 0.0f),
-				Vec3(1.5f),
-				15,
-				Col4(1.0f),
-				m_TitleBackText_image1
-				);
+			//AddGameObject<Title_UI>(
+			//	Vec2(512.0f, 512.0f),
+			//	Vec3(0.0f, 80.0f, 0.0f),
+			//	Vec3(1.5f),
+			//	15,
+			//	Col4(1.0f),
+			//	m_TitleBackText_image1
+			//	);
 			gameover->SetDrawActive(true);
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
@@ -669,6 +668,7 @@ namespace basecross {
 
 		if (m_GameOverFlag == true)
 		{
+			m_GameOverSceneTime += elapsedTime;
 			GameOverScene();
 		}
 		else if (m_GameOverFlag == false)
