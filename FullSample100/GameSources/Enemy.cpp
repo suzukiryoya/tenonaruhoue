@@ -582,8 +582,9 @@ namespace basecross {
 			m_MotionTime += elapsedTime;
 		}
 
-		if (m_MotionTime > 1.0f)
+		if (m_MotionTime > 0.9f)
 		{
+			App::GetApp()->GetScene<Scene>()->SetCheck(1);
 			SetUpdateActive(false);
 		}
 	}
@@ -609,6 +610,8 @@ namespace basecross {
 
 	void Playerdummy::OnCollisionEnter(shared_ptr<GameObject>& other)
 	{
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
+
 		if (other->FindTag(L"Goal"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(0);
@@ -624,14 +627,12 @@ namespace basecross {
 		}
 		if (other->FindTag(L"Enemy1"))
 		{
-			App::GetApp()->GetScene<Scene>()->SetCheck(1);
 			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 
 			AnimeManager(1);
 		}
 		if (other->FindTag(L"Enemy2"))
 		{
-			App::GetApp()->GetScene<Scene>()->SetCheck(1);
 			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 
 			AnimeManager(1);

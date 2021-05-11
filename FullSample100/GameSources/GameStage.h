@@ -20,7 +20,8 @@ namespace basecross {
 		void CreatePlayer();
 
 		wstring m_StageSelect_image,m_StageClear_image,m_GameOver_image, m_GameOver_image2,m_LStick,m_RStick,m_Abutton,m_NextStageText_image,m_TitleBackText_image1, m_TitleBackText_image2,m_Red120_image;
-		shared_ptr<GameObject> gameover;
+		//shared_ptr<GameObject> gameover;
+		shared_ptr<GameOverTitle_UI> gameover;
 		shared_ptr<GameObject> gameover2;
 
 		Vec3 m_SoundPos;
@@ -32,7 +33,9 @@ namespace basecross {
 		bool m_GameClearFlag = false;
 		bool m_GameOverFlag = false; 
 		shared_ptr<GameClear_UI> m_RedMask;
+		shared_ptr<GameOverTitle_UI> m_TextUI;
 		float m_GameOverSceneTime = 0;
+		Col4 m_TestColor = Col4(0, 0, 0, 1.0f);
 
 		//BGMçXêVóp
 		shared_ptr<SoundItem> m_bgm;

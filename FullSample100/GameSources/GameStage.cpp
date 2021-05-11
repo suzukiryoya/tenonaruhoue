@@ -30,17 +30,18 @@ namespace basecross {
 	void GameStage::CreateStage() {
 		auto BoxesGroup = CreateSharedObjectGroup(L"StageObject");
 
-		vector<wstring> LineVec1;
-		vector<wstring> LineVec2;
-		vector<wstring> LineVec3;
-		vector<wstring> LineVec4;
-		vector<wstring> LineVec5;
-		vector<wstring> LineVec6;
-		vector<wstring> LineVec7;
-		vector<wstring> LineVec8;
-		vector<wstring> LineVec9;
+		vector<wstring> LineVec1;  //床
+		vector<wstring> LineVec2;  //
+		vector<wstring> LineVec3;  //
+		vector<wstring> LineVec4;  //
+		vector<wstring> LineVec5;  //
+		vector<wstring> LineVec6;  // 
+		vector<wstring> LineVec7;  //
+		vector<wstring> LineVec8;  // 
+		vector<wstring> LineVec9;  //
+		vector<wstring> LineVec10; //
 
-
+		//床
 		m_GameStageCsv.GetSelect(LineVec1, 0, L"Floor");
 		for (auto& v : LineVec1)
 		{
@@ -68,7 +69,7 @@ namespace basecross {
 			auto floor = AddGameObject<Floor>(Scale, Rot, Pos, 1.0f, 1.0f);
 			BoxesGroup->IntoGroup(floor);
 		}
-
+		//壁
 		m_GameStageCsv.GetSelect(LineVec2, 0, L"Wall");
 		for (auto& v : LineVec2)
 		{
@@ -97,7 +98,7 @@ namespace basecross {
 			wall->AddTag(L"Wall");
 			BoxesGroup->IntoGroup(wall);
 		}
-
+		//敵1
 		m_GameStageCsv.GetSelect(LineVec3, 0, L"Enemy1");
 		for (auto& v : LineVec3)
 		{
@@ -126,7 +127,7 @@ namespace basecross {
 			enemy1->AddTag(L"Enemy1");
 			BoxesGroup->IntoGroup(enemy1);
 		}
-
+		//敵2
 		//m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
 		//for (auto& v : LineVec4)
 		//{
@@ -155,7 +156,7 @@ namespace basecross {
 		//	enemy2->AddTag(L"Enemy2");
 		//	BoxesGroup->IntoGroup(enemy2);
 		//}
-
+		//扉
 		m_GameStageCsv.GetSelect(LineVec5, 0, L"Door");
 		for (auto& v : LineVec5) {
 			//トークン（カラム）の配列
@@ -183,7 +184,7 @@ namespace basecross {
 			door->AddTag(L"Door");
 			BoxesGroup->IntoGroup(door);
 		}
-
+		//ゴール
 		m_GameStageCsv.GetSelect(LineVec6, 0, L"Goal");
 		for (auto& v : LineVec6) {
 			//トークン（カラム）の配列
@@ -211,6 +212,7 @@ namespace basecross {
 			goal->AddTag(L"Goal");
 			BoxesGroup->IntoGroup(goal);
 		}
+		//スタート
 		m_GameStageCsv.GetSelect(LineVec7, 0, L"Start");
 		for (auto& v : LineVec7) {
 			//トークン（カラム）の配列
@@ -238,6 +240,7 @@ namespace basecross {
 			start->AddTag(L"Start");
 			BoxesGroup->IntoGroup(start);
 		}
+		//サウンドブロック
 		m_GameStageCsv.GetSelect(LineVec8, 0, L"SoundBlock");
 		for (auto& v : LineVec8) {
 			//トークン（カラム）の配列
@@ -265,6 +268,7 @@ namespace basecross {
 			soundBlock->AddTag(L"SoundBlock");
 			BoxesGroup->IntoGroup(soundBlock);
 		}
+		//プレイヤー
 		//m_GameStageCsv.GetSelect(LineVec9, 0, L"Player");
 		//for (auto& v : LineVec9) {
 		//	//トークン（カラム）の配列
@@ -768,7 +772,8 @@ namespace basecross {
 					if (HitTest::SEGMENT_OBB(NearPos, FarPos, Obb)) {
 						auto a=Obb.m_Center;
 						ObjVec.push_back(PsPtr);
-						AddGameObject<TriggerBox>(Vec3(10.0f, 2.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
+						//AddGameObject<TriggerBox>(Vec3(10.0f, 2.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
+						AddGameObject<TriggerBox2>(Vec3(2.0f, 2.0f, 2.0f), Vec3(0), Vec3(a.x, 1.0f, a.z));
 						SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 						App::GetApp()->GetScene<Scene>()->SetPosition(Vec3(a.x,1.0f,a.z));
 						App::GetApp()->GetScene<Scene>()->SetSoundPosition(Vec3(a.x, 1.0f, a.z));

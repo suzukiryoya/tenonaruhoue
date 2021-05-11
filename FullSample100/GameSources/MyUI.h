@@ -38,6 +38,8 @@ namespace basecross {
 		{
 			return m_pos;
 		}
+
+		void SetUpdateDiffuse(Col4 updateDiffuse);
 	};
 
 	class Clear : public UI_Base {
