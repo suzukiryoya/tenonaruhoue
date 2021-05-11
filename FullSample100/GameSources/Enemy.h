@@ -80,6 +80,7 @@ namespace basecross {
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other);
+		virtual void OnCollisionExit(shared_ptr<GameObject>& Other);
 		void AnimeManager(int num);
 
 		//void OnUpdate();
