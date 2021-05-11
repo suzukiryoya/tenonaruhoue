@@ -35,6 +35,12 @@ namespace basecross {
 		m_pos = updatePosition;
 		Draw();
 	}
+
+	void UI_Base::SetUpdateDiffuse(Col4 updateDiffuse)
+	{
+		m_color = updateDiffuse;
+		Draw();
+	}
 	//
 
 	void Clear::OnCreate() {
