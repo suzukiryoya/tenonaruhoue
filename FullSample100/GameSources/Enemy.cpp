@@ -135,6 +135,11 @@ namespace basecross {
 		}
 
 	}
+	void Enemy1::OnCollisionExit(shared_ptr<GameObject>& Other) {
+		if (Other->FindTag(L"SoundBox")) {
+			m_switch = 0;
+		}
+	}
 
 	Vec3 Enemy1::GetTargetPos()const {
 		auto ptrTarget = GetStage()->GetSharedObject(L"Player");
@@ -324,7 +329,7 @@ namespace basecross {
 		ptrUtil->RotToHead(1.0f);
 		auto Pos = GetComponent<Transform>()->GetPosition();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto m_Speed = 1.0f;
+		auto m_Speed = 1.5f;
 		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 		auto a = Vec3(0.0f, 0.0f, 5.0f);
