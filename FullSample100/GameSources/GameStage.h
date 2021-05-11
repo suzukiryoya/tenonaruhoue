@@ -32,6 +32,7 @@ namespace basecross {
 		bool m_GameClearFlag = false;
 		bool m_GameOverFlag = false; 
 		shared_ptr<GameClear_UI> m_RedMask;
+		float m_GameOverSceneTime = 0;
 
 		//BGMXV—p
 		shared_ptr<SoundItem> m_bgm;
