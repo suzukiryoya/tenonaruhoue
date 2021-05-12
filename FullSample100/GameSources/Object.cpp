@@ -240,9 +240,15 @@ namespace basecross {
         auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 
 		auto PtrTransform = GetComponent<Transform>();
-		m_Scale.x += 0.5f * elapsedTime * m_Speed;
-		m_Scale.z += 0.5f * elapsedTime * m_Speed;
+		m_Scale.x += 1.0f * elapsedTime * m_Speed;
+		m_Scale.z += 1.0f * elapsedTime * m_Speed;
 		PtrTransform->SetScale(m_Scale);
+
+		if (m_Scale.x >= 10.0f && m_Scale.z >= 10.0f)
+		{
+			m_Scale.x = 10.0f;
+			m_Scale.z = 10.0f;
+		}
 
         if (time >= 1.0f && 2.0f >= time) {
             PtrDraw->SetDiffuse(Col4(0.5f, 0.5f, 0.0f, 0.1f));
