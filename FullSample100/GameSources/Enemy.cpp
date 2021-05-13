@@ -334,8 +334,10 @@ namespace basecross {
 		GetComponent<Transform>()->SetPosition(Pos);
 		auto a = Vec3(0.0f, 0.0f, 5.0f);
 		auto b = Vec3(0.0f, 0.0f, -12.0f);
-		if (m_time < 3.0f) {
+		if (m_time < 3.0f && m_MotionTime > 3.0f) {
 			m_Angle = Vec3(0.0f, 0.0f, 0.0f);
+			m_MotionTime = 0;
+			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 		}
 		else {
 			if (ab == 0) {
@@ -360,9 +362,13 @@ namespace basecross {
 		}
 		if (UpdateCheck == true) {
 			SetUpdateActive(false);
-
 		}
 
+		if (m_SaveNum == 2)
+		{
+			AnimeManager(2);
+			m_MotionTime += elapsedTime;
+		}
 	}
 
 	void Enemy2::AnimeManager(int num)
@@ -378,6 +384,9 @@ namespace basecross {
 			case 1:
 				ptrDraw->ChangeCurrentAnimation(L"Die");
 				break;
+			case 2:
+				ptrDraw->ChangeCurrentAnimation(L"Attack");
+				break;
 			default:
 				break;
 			}
@@ -389,9 +398,15 @@ namespace basecross {
 	{
 		if (other->FindTag(L"Enemy1"))
 		{
-			m_time = 0;
+			AnimeManager(2);
+			//m_time = 0;
 		}
 
+		if (other->FindTag(L"Player"))
+		{
+			AnimeManager(2);
+			//m_time = 0;
+		}
 	}
 
 
@@ -638,7 +653,7 @@ namespace basecross {
 		}
 		if (other->FindTag(L"Enemy2"))
 		{
-			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
+			//App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 
 			AnimeManager(1);
 		}

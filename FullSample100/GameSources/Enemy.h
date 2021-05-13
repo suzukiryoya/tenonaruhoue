@@ -101,6 +101,7 @@ namespace basecross {
 		//アニメーション用
 		int m_SaveNum;
 		float ab = 0;
+		float m_MotionTime = 0;
 
 		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 		float m_time=0.0f;
