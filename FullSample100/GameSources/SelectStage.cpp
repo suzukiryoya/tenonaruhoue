@@ -173,23 +173,23 @@ namespace basecross {
 
 		if (!m_ControlLock) {
 			// 右移動
-			if (cntlVec[0].fThumbLX >= 0.8f) {
-				if (m_StageNum != 5) {
-					m_StageNum++;
+			if (cntlVec[0].fThumbLY >= 0.8f) {
+				if (m_StageNum != 1) {
+					m_StageNum--;
 					m_ControlLock = true;
 				}
 			}
 			// 左移動
-			else if (cntlVec[0].fThumbLX <= -0.8f) {
-				if (m_StageNum != 1) {
-					m_StageNum--;
+			else if (cntlVec[0].fThumbLY <= -0.8f) {
+				if (m_StageNum != 5) {
+					m_StageNum++;
 					m_ControlLock = true;
 				}
 			}
 		}
 		// スティックが一定以上倒されていない場合
 		else {
-			if (cntlVec[0].fThumbLX < 0.8f && cntlVec[0].fThumbLX > -0.8f) {
+			if (cntlVec[0].fThumbLY < 0.8f && cntlVec[0].fThumbLY > -0.8f) {
 				m_ControlLock = false;
 			}
 		}
