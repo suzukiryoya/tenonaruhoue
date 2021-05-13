@@ -135,6 +135,11 @@ namespace basecross {
 		}
 
 	}
+	void Enemy1::OnCollisionExit(shared_ptr<GameObject>& Other) {
+		if (Other->FindTag(L"SoundBox")) {
+			m_switch = 0;
+		}
+	}
 
 	Vec3 Enemy1::GetTargetPos()const {
 		auto ptrTarget = GetStage()->GetSharedObject(L"Player");
@@ -324,7 +329,7 @@ namespace basecross {
 		ptrUtil->RotToHead(1.0f);
 		auto Pos = GetComponent<Transform>()->GetPosition();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto m_Speed = 1.0f;
+		auto m_Speed = 1.5f;
 		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 		auto a = Vec3(0.0f, 0.0f, 5.0f);
@@ -582,8 +587,9 @@ namespace basecross {
 			m_MotionTime += elapsedTime;
 		}
 
-		if (m_MotionTime > 1.0f)
+		if (m_MotionTime > 0.9f)
 		{
+			App::GetApp()->GetScene<Scene>()->SetCheck(1);
 			SetUpdateActive(false);
 		}
 	}
@@ -609,6 +615,8 @@ namespace basecross {
 
 	void Playerdummy::OnCollisionEnter(shared_ptr<GameObject>& other)
 	{
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
+
 		if (other->FindTag(L"Goal"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(0);
@@ -624,14 +632,12 @@ namespace basecross {
 		}
 		if (other->FindTag(L"Enemy1"))
 		{
-			App::GetApp()->GetScene<Scene>()->SetCheck(1);
 			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 
 			AnimeManager(1);
 		}
 		if (other->FindTag(L"Enemy2"))
 		{
-			App::GetApp()->GetScene<Scene>()->SetCheck(1);
 			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 
 			AnimeManager(1);

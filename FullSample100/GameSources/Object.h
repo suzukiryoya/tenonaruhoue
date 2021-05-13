@@ -87,6 +87,30 @@ namespace basecross {
 
 	};
 
+	//実験
+	class TriggerBox2 : public GameObject {
+
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
+
+		float m_UPic = 1.0f;
+		float m_VPic = 1.0f;
+		float m_Speed = 8.5f;
+		float time;
+	public:
+		//構築と破棄
+		TriggerBox2(const shared_ptr<Stage>& StagePtr,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position
+		);
+		virtual ~TriggerBox2();
+		//初期化
+		virtual void OnCreate() override;
+		virtual void OnUpdate() override;
+	};
+
 	//--------------------------------------------------------------------------------------
 	///	プレイヤー
 	//--------------------------------------------------------------------------------------
@@ -156,6 +180,10 @@ namespace basecross {
 		Vec3 m_Position;
 
 	public:
+
+		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		float ab = 0;
+
 		//構築と破棄
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -179,6 +207,7 @@ namespace basecross {
 		virtual void OnCreate() override;
 		//更新
 		virtual void OnUpdate() override;
+		void OnCollisionEnter(shared_ptr<GameObject>& other);
 
 	};
 

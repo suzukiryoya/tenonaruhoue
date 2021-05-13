@@ -12,6 +12,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
+
 		const Vec3 eye(0.0f, 20.0f, -5.0f);
 		const Vec3 at(0.0f,0.0f,0.0f);
 		auto PtrView = CreateView<SingleView>();
@@ -29,17 +30,18 @@ namespace basecross {
 	void GameStage::CreateStage() {
 		auto BoxesGroup = CreateSharedObjectGroup(L"StageObject");
 
-		vector<wstring> LineVec1;
-		vector<wstring> LineVec2;
-		vector<wstring> LineVec3;
-		vector<wstring> LineVec4;
-		vector<wstring> LineVec5;
-		vector<wstring> LineVec6;
-		vector<wstring> LineVec7;
-		vector<wstring> LineVec8;
-		vector<wstring> LineVec9;
+		vector<wstring> LineVec1;  //床
+		vector<wstring> LineVec2;  //
+		vector<wstring> LineVec3;  //
+		vector<wstring> LineVec4;  //
+		vector<wstring> LineVec5;  //
+		vector<wstring> LineVec6;  // 
+		vector<wstring> LineVec7;  //
+		vector<wstring> LineVec8;  // 
+		vector<wstring> LineVec9;  //
+		vector<wstring> LineVec10; //
 
-
+		//床
 		m_GameStageCsv.GetSelect(LineVec1, 0, L"Floor");
 		for (auto& v : LineVec1)
 		{
@@ -67,7 +69,7 @@ namespace basecross {
 			auto floor = AddGameObject<Floor>(Scale, Rot, Pos, 1.0f, 1.0f);
 			BoxesGroup->IntoGroup(floor);
 		}
-
+		//壁
 		m_GameStageCsv.GetSelect(LineVec2, 0, L"Wall");
 		for (auto& v : LineVec2)
 		{
@@ -96,7 +98,7 @@ namespace basecross {
 			wall->AddTag(L"Wall");
 			BoxesGroup->IntoGroup(wall);
 		}
-
+		//敵1
 		m_GameStageCsv.GetSelect(LineVec3, 0, L"Enemy1");
 		for (auto& v : LineVec3)
 		{
@@ -125,7 +127,7 @@ namespace basecross {
 			enemy1->AddTag(L"Enemy1");
 			BoxesGroup->IntoGroup(enemy1);
 		}
-
+		//敵2
 		//m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
 		//for (auto& v : LineVec4)
 		//{
@@ -154,7 +156,7 @@ namespace basecross {
 		//	enemy2->AddTag(L"Enemy2");
 		//	BoxesGroup->IntoGroup(enemy2);
 		//}
-
+		//扉
 		m_GameStageCsv.GetSelect(LineVec5, 0, L"Door");
 		for (auto& v : LineVec5) {
 			//トークン（カラム）の配列
@@ -182,7 +184,7 @@ namespace basecross {
 			door->AddTag(L"Door");
 			BoxesGroup->IntoGroup(door);
 		}
-
+		//ゴール
 		m_GameStageCsv.GetSelect(LineVec6, 0, L"Goal");
 		for (auto& v : LineVec6) {
 			//トークン（カラム）の配列
@@ -210,6 +212,7 @@ namespace basecross {
 			goal->AddTag(L"Goal");
 			BoxesGroup->IntoGroup(goal);
 		}
+		//スタート
 		m_GameStageCsv.GetSelect(LineVec7, 0, L"Start");
 		for (auto& v : LineVec7) {
 			//トークン（カラム）の配列
@@ -237,6 +240,7 @@ namespace basecross {
 			start->AddTag(L"Start");
 			BoxesGroup->IntoGroup(start);
 		}
+		//サウンドブロック
 		m_GameStageCsv.GetSelect(LineVec8, 0, L"SoundBlock");
 		for (auto& v : LineVec8) {
 			//トークン（カラム）の配列
@@ -264,6 +268,7 @@ namespace basecross {
 			soundBlock->AddTag(L"SoundBlock");
 			BoxesGroup->IntoGroup(soundBlock);
 		}
+		//プレイヤー
 		//m_GameStageCsv.GetSelect(LineVec9, 0, L"Player");
 		//for (auto& v : LineVec9) {
 		//	//トークン（カラム）の配列
@@ -358,6 +363,8 @@ namespace basecross {
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
 			AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
+			AddGameObject<LineEffect>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 0.8f, 5.0f));
+
 
 			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			switch (csvSet)
@@ -493,7 +500,21 @@ namespace basecross {
 		auto bgm = App::GetApp()->GetXAudio2Manager();
 		//
 
-		if (cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_A)
+		if (cntlVec[0].fThumbLX >= 0.8f)
+		{
+			m_RedMask->SetUpdatePosition(Vec3(300.0f, 50.0f, 0.0f));
+		}
+		else if (cntlVec[0].fThumbLX <= -0.8f)
+		{
+			m_RedMask->SetUpdatePosition(Vec3(-300.0f, 50.0f, 0.0f));
+
+		}
+		else if (cntlVec[0].fThumbLX >= 0.8f && cntlVec[0].fThumbLX <= -0.8f)
+		{
+
+		}
+
+		if (cntlVec[0].wPressedButtons && m_RedMaskPos_1 == m_RedMask->GetUpdatePosition())
 		{
 			auto StageNum = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			StageNum += 1;
@@ -503,10 +524,27 @@ namespace basecross {
 			App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
 		}
-		else if(cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_B)
+		else if (cntlVec[0].wPressedButtons && m_RedMaskPos_2 == m_RedMask->GetUpdatePosition())
 		{
+			bgm->Stop(m_bgm);
+
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 		}
+
+		//if (cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_A)
+		//{
+		//	auto StageNum = App::GetApp()->GetScene<Scene>()->GetStageNum();
+		//	StageNum += 1;
+
+		//	bgm->Stop(m_bgm);
+
+		//	App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
+		//	App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
+		//}
+		//else if(cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_B)
+		//{
+		//	App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
+		//}
 	}
 
 	void GameStage::GameClearBGM()
@@ -518,10 +556,7 @@ namespace basecross {
 	void GameStage::GameOverScene()
 	{
 		//GameOverBGM();
-
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-
-		if (cntlVec[0].wPressedButtons)
+		if (m_GameOverSceneTime > 3.0f)
 		{
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 		}
@@ -560,7 +595,7 @@ namespace basecross {
 
 		switch (Check)
 		{
-		case 0:
+		case 0: //クリア用
 			AddGameObject<Title_UI>(
 				Vec2(512.0f, 512.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
@@ -586,26 +621,32 @@ namespace basecross {
 				Col4(1.0f),
 				m_TitleBackText_image2
 				);
-			//クリアBGM用
+			m_RedMask = AddGameObject<GameClear_UI>(
+				Vec2(324.0f, 216.0f),
+				Vec3(-300.0f, 50.0f, 0.0f),
+				Vec3(1.25f),
+				15,
+				Col4(1.0f),
+				m_Red120_image
+				);
 			bgm->Stop(m_bgm);
 			GameClearBGM();
 			//App::GetApp()->GetScene<Scene>()->PlaySE(L"ClearBGM.wav", 0.1f);
-			//
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
-		case 1:
-			//ゲームオーバーBGM用
+		case 1: //ゲームオーバー用
+			
 			bgm->Stop(m_bgm);
 			App::GetApp()->GetScene<Scene>()->PlaySE(L"GameOver.wav", 1.0f);
-			//
-			AddGameObject<Title_UI>(
-				Vec2(512.0f, 512.0f),
-				Vec3(0.0f, 80.0f, 0.0f),
-				Vec3(1.5f),
-				15,
-				Col4(1.0f),
-				m_TitleBackText_image1
-				);
+
+			//AddGameObject<Title_UI>(
+			//	Vec2(512.0f, 512.0f),
+			//	Vec3(0.0f, 80.0f, 0.0f),
+			//	Vec3(1.5f),
+			//	15,
+			//	Col4(1.0f),
+			//	m_TitleBackText_image1
+			//	);
 			gameover->SetDrawActive(true);
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
@@ -616,21 +657,6 @@ namespace basecross {
 		if (m_ClearCheck == Check) {
 			
 			m_GameClearFlag = true;
-			
-			//AddGameObject<Title_UI>(
-			//	Vec2(512.0f, 512.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(1.5f),
-			//	12,
-			//	Col4(1.0f),
-			//	m_StageClear_image
-			//	);
-
-			////クリアBGM用
-			//auto bgm = App::GetApp()->GetXAudio2Manager();
-			//bgm->Stop(m_bgm);
-			////
-			//Check = 2;
 		}
 		else if (m_GameOverCheck == Check) {
 			//ゲームオーバー用
@@ -649,6 +675,7 @@ namespace basecross {
 
 		if (m_GameOverFlag == true)
 		{
+			m_GameOverSceneTime += elapsedTime;
 			GameOverScene();
 		}
 		else if (m_GameOverFlag == false)
@@ -658,6 +685,7 @@ namespace basecross {
 		m_time += elapsedTime;
 
 		if (m_time >= 3.0f&&m_check==0) {
+		AddGameObject<LineEffect>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 0.8f, 5.0f));
 
 		AddGameObject<Enemy2>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
 		m_check = 1;
@@ -744,7 +772,8 @@ namespace basecross {
 					if (HitTest::SEGMENT_OBB(NearPos, FarPos, Obb)) {
 						auto a=Obb.m_Center;
 						ObjVec.push_back(PsPtr);
-						AddGameObject<TriggerBox>(Vec3(10.0f, 2.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
+						//AddGameObject<TriggerBox>(Vec3(10.0f, 2.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
+						AddGameObject<TriggerBox2>(Vec3(2.0f, 2.0f, 2.0f), Vec3(0), Vec3(a.x, 1.0f, a.z));
 						SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 						App::GetApp()->GetScene<Scene>()->SetPosition(Vec3(a.x,1.0f,a.z));
 						App::GetApp()->GetScene<Scene>()->SetSoundPosition(Vec3(a.x, 1.0f, a.z));

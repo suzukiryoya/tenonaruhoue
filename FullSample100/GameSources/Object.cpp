@@ -145,10 +145,18 @@ namespace basecross {
     void TriggerBox::OnUpdate() {
         float elapsedTime = App::GetApp()->GetElapsedTime();
         time += elapsedTime;
+		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 
+		if (time >= 1.0f&&2.0f>=time) {
+			PtrDraw->SetDiffuse(Col4(0.5f, 0.5f, 0.0f, 0.1f));
 
+		}
+		else if (time >= 2.0f && 3.0f >= time) {
 
-        if (time >= 3.0f) {
+			PtrDraw->SetDiffuse(Col4(1.0f, 0.0f, 0.0f, 0.1f));
+
+		}
+        else if (time >= 3.0f) {
 
             SetUpdateActive(false);
             SetDrawActive(false);
@@ -163,7 +171,104 @@ namespace basecross {
 
     }
 
-	//--------------------------------------------------------------------------------------
+	TriggerBox2::TriggerBox2(const shared_ptr<Stage>& StagePtr,
+        const Vec3& Scale,
+        const Vec3& Rotation,
+        const Vec3& Position
+    ) :
+        GameObject(StagePtr),
+        m_Scale(Scale),
+        m_Rotation(Rotation),
+        m_Position(Position)
+    {
+    }
+    TriggerBox2::~TriggerBox2() {}
+
+    void TriggerBox2::OnCreate() {
+        auto PtrTransform = GetComponent<Transform>();
+        PtrTransform->SetScale(m_Scale);
+        PtrTransform->SetRotation(m_Rotation);
+        PtrTransform->SetPosition(m_Position);
+
+        //タグをつける
+        AddTag(L"SoundBox");
+
+        auto PtrColl = AddComponent<CollisionObb>();
+        //PtrColl->SetDrawActive(true);
+        PtrColl->SetFixed(true);
+        ////衝突判定はNoneにする
+        PtrColl->SetAfterCollision(AfterCollision::None);
+
+		vector<VertexPositionNormalTexture> vertices;
+		vector<uint16_t> indices;
+		MeshUtill::CreateTorus(1.0f,0.1f,12,vertices, indices);
+		float UCount = m_Scale.x / m_UPic;
+		float VCount = m_Scale.z / m_VPic;
+		for (size_t i = 0; i < vertices.size(); i++) {
+			if (vertices[i].textureCoordinate.x >= 1.0f) {
+				vertices[i].textureCoordinate.x = UCount;
+			}
+			if (vertices[i].textureCoordinate.y >= 1.0f) {
+				float FrontBetween = bsm::angleBetweenNormals(vertices[i].normal, Vec3(0, 1, 0));
+				float BackBetween = bsm::angleBetweenNormals(vertices[i].normal, Vec3(0, -1, 0));
+				if (FrontBetween < 0.01f || BackBetween < 0.01f) {
+					vertices[i].textureCoordinate.y = VCount;
+				}
+			}
+		}
+
+        //影をつける（シャドウマップを描画する）
+        auto ShadowPtr = AddComponent<Shadowmap>();
+        //影の形（メッシュ）を設定
+        //ShadowPtr->SetMeshResource(L"DEFAULT_TORUS");
+		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+		PtrDraw->CreateOriginalMesh(vertices, indices);
+		PtrDraw->SetOriginalMeshUse(true);
+		PtrDraw->SetMeshResource(L"DEFAULT_TORUS");
+		PtrDraw->SetFogEnabled(true);
+        PtrDraw->SetOwnShadowActive(true);
+        //PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
+        //PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
+		PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 1.0f));
+
+        App::GetApp()->GetScene<Scene>()->PlaySE(L"SoundMachine.wav", 0.1f);
+    }
+
+    void TriggerBox2::OnUpdate() {
+        float elapsedTime = App::GetApp()->GetElapsedTime();
+        time += elapsedTime;
+        auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+
+		auto PtrTransform = GetComponent<Transform>();
+		m_Scale.x += 1.0f * elapsedTime * m_Speed;
+		m_Scale.z += 1.0f * elapsedTime * m_Speed;
+		PtrTransform->SetScale(m_Scale);
+
+		if (m_Scale.x >= 10.0f && m_Scale.z >= 10.0f)
+		{
+			m_Scale.x = 10.0f;
+			m_Scale.z = 10.0f;
+		}
+
+        if (time >= 1.0f && 2.0f >= time) {
+            PtrDraw->SetDiffuse(Col4(0.5f, 0.5f, 0.0f, 0.1f));
+
+        }
+        else if (time >= 2.0f && 3.0f >= time) {
+
+            PtrDraw->SetDiffuse(Col4(1.0f, 0.0f, 0.0f, 0.1f));
+
+        }
+        else if (time >= 3.0f) {
+
+            SetUpdateActive(false);
+            SetDrawActive(false);
+            DeleteObject(this);
+        }
+    }
+		
+
+//--------------------------------------------------------------------------------------
 //	class Player : public GameObject;
 //	用途: プレイヤー
 //--------------------------------------------------------------------------------------
@@ -376,7 +481,6 @@ namespace basecross {
 		PtrTransform->SetPosition(m_Position);
 
 		//タグをつける
-		AddTag(L"SoundBox");
 		//影をつける（シャドウマップを描画する）
 		auto ShadowPtr = AddComponent<Shadowmap>();
 		//影の形（メッシュ）を設定
@@ -385,7 +489,9 @@ namespace basecross {
 		PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		PtrDraw->SetFogEnabled(true);
 		PtrDraw->SetOwnShadowActive(true);
-		PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
+		PtrDraw->SetColorAndAlpha(Col4(0.5f, 0.7f, 0.9f, 1.0f));
+		auto PtrColl = AddComponent<CollisionObb>();
+		PtrColl->SetAfterCollision(AfterCollision::None);
 
 		auto ptrString = AddComponent<StringSprite>();
 
@@ -399,25 +505,35 @@ namespace basecross {
 		ptrUtil->RotToHead(1.0f);
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
-		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
-		ptrDraw->UpdateAnimation(elapsedTime);
 
 		auto Pos = GetComponent<Transform>()->GetPosition();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto m_Speed = 1.0f;
-		//Pos += m_Angle * ElapsedTime * m_Speed;
+		auto m_Speed = 25.0f;
+		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 
-		//auto a = Vec3(0.0f, 0.0f, 5.0f);
-		//auto b = Vec3(0.0f, 0.0f, -12.0f);
-		//if (a.x - Pos.x<0.1f && a.x - Pos.x > -0.1f && ab == 0) {
-		//	m_Angle = Vec3(0.0f, 0.0f, -1.0f);
-		//	ab = 1;
-		//}
-		//if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
-		//	m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		auto a = Vec3(0.0f, 0.0f, 5.0f);
+		auto b = Vec3(0.0f, 0.0f, -12.0f);
+		if (a.x - Pos.x<0.5f && a.x - Pos.x > -0.5f && ab == 0) {
+			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+			ab = 1;
+		}
+		if (b.z - Pos.z<0.5f && b.z - Pos.z > -0.5f && ab == 1) {
+			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 
-		//}
+		}
+
+
+	}
+
+	void LineEffect::OnCollisionEnter(shared_ptr<GameObject>& other) {
+		if (other->FindTag(L"Goal"))
+		{
+			GetStage()->AddGameObject<LineEffect>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 0.8f, 5.0f));
+			SetUpdateActive(false);
+			SetDrawActive(false);
+
+		}
 
 
 	}
