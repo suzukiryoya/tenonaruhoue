@@ -51,9 +51,18 @@ namespace basecross {
 				Col4(1.0f),
 				m_Select_image
 				);
+			m_Cursor_UI = AddGameObject<Select_UI>(
+				Vec2(80.0f, 80.0f),
+				Vec3(-125.0f, 300.0f, 0.0f),
+				Vec3(2.0f),
+				10,
+				Col4(1.0f, 1.0f, 1.0f, 1.0f),
+				m_Cursor_image
+				);
+
 			AddGameObject<Select_UI>(
 				Vec2(512.0f, 512.0f),
-				Vec3(100.0f, 240.0f, 1.0f),
+				Vec3(200.0f, 240.0f, 1.0f),
 				Vec3(2.0f),
 				11,
 				Col4(1.0f),
@@ -61,7 +70,7 @@ namespace basecross {
 				);
 			AddGameObject<Select_UI>(
 				Vec2(512.0f, 512.0f),
-				Vec3(100.0f, 100.0f, 1.0f),
+				Vec3(200.0f, 100.0f, 1.0f),
 				Vec3(2.0f),
 				11,
 				Col4(1.0f),
@@ -69,7 +78,7 @@ namespace basecross {
 				);
 			AddGameObject<Select_UI>(
 				Vec2(512.0f, 512.0f),
-				Vec3(100.0f, -40.0f, 1.0f),
+				Vec3(200.0f, -40.0f, 1.0f),
 				Vec3(2.0f),
 				11,
 				Col4(1.0f),
@@ -77,7 +86,7 @@ namespace basecross {
 				);
 			AddGameObject<Select_UI>(
 				Vec2(512.0f, 512.0f),
-				Vec3(100.0f, -180.0f, 1.0f),
+				Vec3(200.0f, -180.0f, 1.0f),
 				Vec3(2.0f),
 				11,
 				Col4(1.0f),
@@ -85,7 +94,7 @@ namespace basecross {
 				);
 			AddGameObject<Select_UI>(
 				Vec2(512.0f, 512.0f),
-				Vec3(100.0f, -320.0f, 1.0f),
+				Vec3(200.0f, -320.0f, 1.0f),
 				Vec3(2.0f),
 				11,
 				Col4(1.0f),
@@ -172,17 +181,29 @@ namespace basecross {
 		}
 
 		if (!m_ControlLock) {
-			// 右移動
+			// 上移動
 			if (cntlVec[0].fThumbLY >= 0.8f) {
 				if (m_StageNum != 1) {
 					m_StageNum--;
+
+					//カーソル移動更新
+					m_CursorPos = m_Cursor_UI->GetUpdatePosition();
+					m_CursorPos += Vec3(0.0f, 140.0f, 0.0f);
+					m_Cursor_UI->SetUpdatePosition(m_CursorPos);
+
 					m_ControlLock = true;
 				}
 			}
-			// 左移動
+			// 下移動
 			else if (cntlVec[0].fThumbLY <= -0.8f) {
 				if (m_StageNum != 5) {
 					m_StageNum++;
+
+					//カーソル移動更新
+					m_CursorPos = m_Cursor_UI->GetUpdatePosition();
+					m_CursorPos += Vec3(0.0f, -140.0f, 0.0f);
+					m_Cursor_UI->SetUpdatePosition(m_CursorPos);
+
 					m_ControlLock = true;
 				}
 			}

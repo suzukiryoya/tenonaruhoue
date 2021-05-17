@@ -579,7 +579,7 @@ namespace basecross {
 		camera->SetAt(m_At);
 
 		m_MousePoint = KeyState.m_MouseClientPoint;
-		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
+		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && m_SoundFlag == true) {
 			OnLButtonEnter();
 		}
 		else if (KeyState.m_bUpKeyTbl[VK_LBUTTON]) {
@@ -770,6 +770,11 @@ namespace basecross {
 				if (ColObb) {
 					auto Obb = ColObb->GetObb();
 					if (HitTest::SEGMENT_OBB(NearPos, FarPos, Obb)) {
+						
+						App::GetApp()->GetScene<Scene>()->SetSoundFlag(false);
+						
+						m_SoundFlag = App::GetApp()->GetScene<Scene>()->GetSoundFlag();
+
 						auto a=Obb.m_Center;
 						ObjVec.push_back(PsPtr);
 						//AddGameObject<TriggerBox>(Vec3(10.0f, 2.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
@@ -777,7 +782,6 @@ namespace basecross {
 						SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 						App::GetApp()->GetScene<Scene>()->SetPosition(Vec3(a.x,1.0f,a.z));
 						App::GetApp()->GetScene<Scene>()->SetSoundPosition(Vec3(a.x, 1.0f, a.z));
-
 					}
 				}
 				else if (ColSp) {
