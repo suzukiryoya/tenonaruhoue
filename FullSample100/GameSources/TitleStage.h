@@ -16,13 +16,15 @@ namespace basecross {
 		void CreateViewLight();
 		void CreateUI();
 		wstring m_title_image;
+		wstring m_Push_image;
 
 		//BGM
 		shared_ptr<SoundItem>m_BGM;
 	public:
 		//\’z‚Æ”jŠü
 		TitleStage() :Stage(),
-			m_title_image(L"title.png")
+			m_title_image(L"title.png"),
+			m_Push_image(L"ButtonPush.png")
 		{}
 		virtual ~TitleStage() {}
 		//‰Šú‰»

@@ -32,20 +32,26 @@ namespace basecross {
 
 	void TitleStage::OnCreate() {
 		try {
-
-
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateUI();
 			AddGameObject<Title_UI>(
 				Vec2(640.0f, 500.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(0.0f, -75.0f, 0.0f),
 				Vec3(2.0f),
 				10,
 				Col4(1.0f),
 				m_title_image
 				);
 
+			AddGameObject<Title_UI>(
+				Vec2(640.0f, 500.0f),
+				Vec3(0.0f, -250.0f, 0.0f),
+				Vec3(1.3f),
+				10,
+				Col4(1.0f),
+				m_Push_image
+				);
 		}
 		catch (...) {
 			throw;
