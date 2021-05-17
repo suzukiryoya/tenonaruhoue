@@ -42,6 +42,9 @@ namespace basecross {
 		int m_ClearCheck = 0;
 		int m_GameOverCheck = 1;
 
+		//音の管理用
+		bool m_SoundFlag = true;
+
 		//マウス位置
 		Point2D<int> m_MousePoint;
 

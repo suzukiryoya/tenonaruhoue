@@ -27,7 +27,6 @@ namespace basecross{
 		void FindFile(wstring dir);
 		shared_ptr<SoundItem> m_bgm;
 
-
 		wstring m_stageKey[GameStageKey::Max];
 		GameStageKey m_gameStageKey;
 		Vec3 m_getangle;
@@ -36,6 +35,10 @@ namespace basecross{
 		int m_check;
 		int m_snum;
 		bool m_UpdateCheck;
+
+		//âπÇÃä«óùóp
+		bool m_SoundFlag = true;
+
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -104,6 +107,16 @@ namespace basecross{
 			bgm->Stop(m_bgm);
 		}
 
+		//âπÇÃä«óùóp
+		bool GetSoundFlag()
+		{
+			return m_SoundFlag;
+		};
+
+		void SetSoundFlag(bool soundFlag)
+		{
+			m_SoundFlag = soundFlag;
+		}
 
 	};
 

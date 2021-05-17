@@ -13,10 +13,15 @@ namespace basecross {
 
 		void ChangeSelect(int num);
 		vector<shared_ptr<Select_UI>> m_Select;
+		//カーソル移動用
+		shared_ptr<Select_UI> m_Cursor_UI;
+		Vec3 m_CursorPos = Vec3(0);
+
 		int m_StageNum = 0;
 		bool m_ControlLock;
 
 		wstring m_Select_image;
+		wstring m_Cursor_image;
 		wstring m_Stage1;
 		wstring m_Stage2;
 		wstring m_Stage3;
@@ -26,7 +31,8 @@ namespace basecross {
 	public:
 		//構築と破棄
 		SelectStage() :Stage(),
-			m_Select_image(L"Choice screen background_2.png"),
+			m_Select_image(L"Choice_screen_background_3.png"),
+			m_Cursor_image(L"Selection_triangle.png"),
 			m_Stage1(L"FirstStage.png"),
 			m_Stage2(L"SecondStage.png"),
 			m_Stage3(L"ThirdStage.png"),

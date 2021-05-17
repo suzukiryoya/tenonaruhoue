@@ -261,6 +261,8 @@ namespace basecross {
         }
         else if (time >= 3.0f) {
 
+			App::GetApp()->GetScene<Scene>()->SetSoundFlag(true);
+
             SetUpdateActive(false);
             SetDrawActive(false);
             DeleteObject(this);
