@@ -269,36 +269,36 @@ namespace basecross {
 			BoxesGroup->IntoGroup(soundBlock);
 		}
 		//プレイヤー
-		//m_GameStageCsv.GetSelect(LineVec9, 0, L"Player");
-		//for (auto& v : LineVec9) {
-		//	//トークン（カラム）の配列
-		//	vector<wstring> Tokens;
-		//	//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
-		//	Util::WStrToTokenVector(Tokens, v, L',');
-		//	//各トークン（カラム）をスケール、回転、位置に読み込む
-		//	Vec3 Scale(
-		//		(float)_wtof(Tokens[1].c_str()),
-		//		(float)_wtof(Tokens[2].c_str()),
-		//		(float)_wtof(Tokens[3].c_str())
-		//	);
-		//	Vec3 Rot;
-		//	//回転はXM_PIDIV2の文字列になっている場合がある
-		//	Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-		//	Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str()) ||
-		//			(Tokens[5] == L"ーXM_PIDIV2") ? -XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
-		//	Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
-		//	Vec3 Pos(
-		//		(float)_wtof(Tokens[7].c_str()),
-		//		(float)_wtof(Tokens[8].c_str()),
-		//		(float)_wtof(Tokens[9].c_str())
-		//	);
-		//	auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
-		//	auto player = AddGameObject<Player>(Scale, Rot, Pos, ptrCellmap);
-		//	player->AddTag(L"Player");
-		//	//SetSharedGameObject(L"Player", player);
+		m_GameStageCsv.GetSelect(LineVec9, 0, L"Player");
+		for (auto& v : LineVec9) {
+			//トークン（カラム）の配列
+			vector<wstring> Tokens;
+			//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
+			Util::WStrToTokenVector(Tokens, v, L',');
+			//各トークン（カラム）をスケール、回転、位置に読み込む
+			Vec3 Scale(
+				(float)_wtof(Tokens[1].c_str()),
+				(float)_wtof(Tokens[2].c_str()),
+				(float)_wtof(Tokens[3].c_str())
+			);
+			Vec3 Rot;
+			//回転はXM_PIDIV2の文字列になっている場合がある
+			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str()) ||
+					(Tokens[5] == L"ーXM_PIDIV2") ? -XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
+			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
+			Vec3 Pos(
+				(float)_wtof(Tokens[7].c_str()),
+				(float)_wtof(Tokens[8].c_str()),
+				(float)_wtof(Tokens[9].c_str())
+			);
+			auto ptrCellmap = GetSharedGameObject<StageCellMap>(L"StageCellMap");
+			auto player = AddGameObject<Playerdummy>(Scale, Rot, Pos);
+			player->AddTag(L"Player");
+			//SetSharedGameObject(L"Player", player);
 
-		//	BoxesGroup->IntoGroup(player);
-		//}
+			BoxesGroup->IntoGroup(player);
+		}
 	}
 
 	void GameStage::CreatePlayer()
@@ -362,7 +362,7 @@ namespace basecross {
 			//AddGameObject<Kakuninn>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 0.5f, 0.0f));
 			AddGameObject<ActivePsBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 3.0f, 0.0f));
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
-			AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
+			//AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
 			AddGameObject<LineEffect>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 0.8f, 5.0f));
 
 
@@ -426,26 +426,26 @@ namespace basecross {
 
 
 			AddGameObject<GameOverTitle_UI>(
-				Vec2(1146.0f, 573.0f),
+				Vec2(512.0f, 512.0f),
 				Vec3(-450.0f, -325.0f, 0.0f),
-				Vec3(0.25f),
+				Vec3(1.0f),
 				10,
 				Col4(1.0f),
 				m_LStick
 				);
 
 			AddGameObject<GameOverTitle_UI>(
-				Vec2(1146.0f, 573.0f),
+				Vec2(512.0f, 512.0f),
 				Vec3(450.0f, -325.0f, 0.0f),
-				Vec3(0.25f),
+				Vec3(1.0f),
 				10,
 				Col4(1.0f),
 				m_RStick
 				);
 			AddGameObject<GameOverTitle_UI>(
-				Vec2(1146.0f, 573.0f),
-				Vec3(450.0f, -200.0f, 0.0f),
-				Vec3(0.5f),
+				Vec2(512.0f, 512.0f),
+				Vec3(450.0f, -150.0f, 0.0f),
+				Vec3(1.0f),
 				10,
 				Col4(1.0f),
 				m_Abutton
@@ -502,19 +502,18 @@ namespace basecross {
 
 		if (cntlVec[0].fThumbLX >= 0.8f)
 		{
-			m_RedMask->SetUpdatePosition(Vec3(300.0f, 50.0f, 0.0f));
+			m_Cursor->SetUpdatePosition(Vec3(100.0f, 50.0f, 0.0f));
 		}
 		else if (cntlVec[0].fThumbLX <= -0.8f)
 		{
-			m_RedMask->SetUpdatePosition(Vec3(-300.0f, 50.0f, 0.0f));
-
+			m_Cursor->SetUpdatePosition(Vec3(-550.0f, 50.0f, 0.0f));
 		}
 		else if (cntlVec[0].fThumbLX >= 0.8f && cntlVec[0].fThumbLX <= -0.8f)
 		{
 
 		}
 
-		if (cntlVec[0].wPressedButtons && m_RedMaskPos_1 == m_RedMask->GetUpdatePosition())
+		if (cntlVec[0].wPressedButtons && m_RedMaskPos_1 == m_Cursor->GetUpdatePosition())
 		{
 			auto StageNum = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			StageNum += 1;
@@ -524,7 +523,7 @@ namespace basecross {
 			App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
 		}
-		else if (cntlVec[0].wPressedButtons && m_RedMaskPos_2 == m_RedMask->GetUpdatePosition())
+		else if (cntlVec[0].wPressedButtons && m_RedMaskPos_2 == m_Cursor->GetUpdatePosition())
 		{
 			bgm->Stop(m_bgm);
 
@@ -579,6 +578,9 @@ namespace basecross {
 		camera->SetAt(m_At);
 
 		m_MousePoint = KeyState.m_MouseClientPoint;
+
+		m_SoundFlag = App::GetApp()->GetScene<Scene>()->GetSoundFlag();
+
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && m_SoundFlag == true) {
 			OnLButtonEnter();
 		}
@@ -621,13 +623,13 @@ namespace basecross {
 				Col4(1.0f),
 				m_TitleBackText_image2
 				);
-			m_RedMask = AddGameObject<GameClear_UI>(
-				Vec2(324.0f, 216.0f),
-				Vec3(-300.0f, 50.0f, 0.0f),
-				Vec3(1.25f),
+			m_Cursor = AddGameObject<GameClear_UI>(
+				Vec2(80.0f),
+				Vec3(-525.0f, 50.0f, 0.0f),
+				Vec3(2.0f),
 				15,
 				Col4(1.0f),
-				m_Red120_image
+				m_Cursor_image
 				);
 			bgm->Stop(m_bgm);
 			GameClearBGM();

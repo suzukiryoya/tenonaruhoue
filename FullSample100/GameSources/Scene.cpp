@@ -129,6 +129,7 @@ namespace basecross{
 			break;
 		case GameStageKey::stageSelect:
 			ResetActiveStage<SelectStage>();
+			SetSoundFlag(true);
 			break;
 		case GameStageKey::game:
 			ResetActiveStage<GameStage>();

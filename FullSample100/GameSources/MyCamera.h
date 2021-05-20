@@ -37,5 +37,28 @@ namespace basecross{
 
 		//void UpdateArmLengh();
 	};
+
+	//class StartCamera :public Camera
+	//{
+	//	float m_RadY;
+	//	float m_RadXZ;
+	//	//カメラを下げる下限角度
+	//	float m_CameraUnderRot;
+	//	//腕の長さの設定
+	//	float m_ArmLen;
+	//	float m_MaxArm;
+	//	float m_MinArm;
+	//	//回転スピード
+	//	float m_RotSpeed;
+	//	//ズームスピード
+	//	float m_ZoomSpeed;
+
+	//public:
+
+	//	StartCamera();
+	//	virtual ~StartCamera() {}
+	//	void OnUpdate();
+	//	void SetEye(const bsm::Vec3& Eye)override;
+	//};
 }
 //end basecross

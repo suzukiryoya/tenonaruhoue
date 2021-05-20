@@ -52,11 +52,11 @@ namespace basecross {
 				m_Select_image
 				);
 			m_Cursor_UI = AddGameObject<Select_UI>(
-				Vec2(80.0f, 80.0f),
+				Vec2(80.0f),
 				Vec3(-125.0f, 300.0f, 0.0f),
 				Vec3(2.0f),
 				10,
-				Col4(1.0f, 1.0f, 1.0f, 1.0f),
+				Col4(1.0f),
 				m_Cursor_image
 				);
 

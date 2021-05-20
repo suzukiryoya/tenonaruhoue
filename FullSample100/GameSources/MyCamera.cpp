@@ -32,6 +32,21 @@ namespace basecross {
 		//UpdateArmLengh();
 	}
 
+	//StartCamera::StartCamera() :
+	//	Camera(),
+	//	m_RadY(0.5f),
+	//	m_RadXZ(0.0f),
+	//	m_CameraUnderRot(0.1f),
+	//	m_ArmLen(5.0f),
+	//	m_MaxArm(20.0f),
+	//	m_MinArm(2.0f),
+	//	m_RotSpeed(1.0f),
+	//	m_ZoomSpeed(0.1f)
+	//{
+	//};
 
+	//void StartCamera::SetEye(const bsm::Vec3& Eye) {
+	//
+	//};
 }
 //end basecross
