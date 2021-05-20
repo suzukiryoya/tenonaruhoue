@@ -231,7 +231,7 @@ namespace basecross {
         //PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
 		PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 1.0f));
 
-        App::GetApp()->GetScene<Scene>()->PlaySE(L"SoundMachine.wav", 0.1f);
+        App::GetApp()->GetScene<Scene>()->PlaySE(L"SoundMachine.wav", 0.5f);
     }
 
     void TriggerBox2::OnUpdate() {

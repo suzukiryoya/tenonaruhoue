@@ -19,7 +19,7 @@ namespace basecross {
 		void CreateStage();
 		void CreatePlayer();
 
-		wstring m_StageSelect_image,m_StageClear_image,m_GameOver_image, m_GameOver_image2,m_LStick,m_RStick,m_Abutton,m_NextStageText_image,m_TitleBackText_image1, m_TitleBackText_image2,m_Cursor_image;
+		wstring m_StageSelect_image,m_StageClear_image,m_GameOver_image, m_GameOver_image2,m_LStick,m_RStick,m_Abutton,m_NextStageText_image,m_TitleBackText_image1, m_TitleBackText_image2,m_Cursor_image,m_Brack_image;
 		//shared_ptr<GameObject> gameover;
 		shared_ptr<GameOverTitle_UI> gameover;
 		shared_ptr<GameObject> gameover2;
@@ -28,8 +28,8 @@ namespace basecross {
 
 		//ステージ選択用
 		int m_SelectNum = 0;
-		Vec3 m_RedMaskPos_1 = Vec3(-550.0f, 50.0f, 0.0f);
-		Vec3 m_RedMaskPos_2 = Vec3(100.0f, 50.0f, 0.0f);
+		Vec3 m_RedMaskPos_1 = Vec3(-525.0f, -200.0f, 0.0f);
+		Vec3 m_RedMaskPos_2 = Vec3(75.0f, -200.0f, 0.0f);
 		bool m_GameClearFlag = false;
 		bool m_GameOverFlag = false; 
 		shared_ptr<GameClear_UI> m_Cursor;
@@ -65,10 +65,11 @@ namespace basecross {
 			m_LStick(L"カーソルの移動.png"),
 			m_RStick(L"カメラ移動.png"),
 			m_Abutton(L"装置の起動.png"),
-			m_NextStageText_image(L"A_Button_5.png"),
+			m_NextStageText_image(L"次のステージへ.png"),
 			m_TitleBackText_image1(L"TitleText.png"),
-			m_TitleBackText_image2(L"B_Button_1.png"),
+			m_TitleBackText_image2(L"タイトルに戻る.png"),
 			m_Cursor_image(L"Selection_triangle.png"),
+			m_Brack_image(L"black.jpg"),
 			m_MousePoint(0, 0)
 		{}
 		virtual ~GameStage() {}

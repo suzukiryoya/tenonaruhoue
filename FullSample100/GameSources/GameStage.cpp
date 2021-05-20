@@ -502,11 +502,13 @@ namespace basecross {
 
 		if (cntlVec[0].fThumbLX >= 0.8f)
 		{
-			m_Cursor->SetUpdatePosition(Vec3(100.0f, 50.0f, 0.0f));
+			m_Cursor->SetUpdatePosition(Vec3(m_RedMaskPos_2));
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01a.wav", 0.1f);
 		}
 		else if (cntlVec[0].fThumbLX <= -0.8f)
 		{
-			m_Cursor->SetUpdatePosition(Vec3(-550.0f, 50.0f, 0.0f));
+			m_Cursor->SetUpdatePosition(Vec3(m_RedMaskPos_1));
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01a.wav", 0.1f);
 		}
 		else if (cntlVec[0].fThumbLX >= 0.8f && cntlVec[0].fThumbLX <= -0.8f)
 		{
@@ -519,6 +521,7 @@ namespace basecross {
 			StageNum += 1;
 
 			bgm->Stop(m_bgm);
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01b.wav", 0.1f);
 
 			App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
@@ -526,6 +529,7 @@ namespace basecross {
 		else if (cntlVec[0].wPressedButtons && m_RedMaskPos_2 == m_Cursor->GetUpdatePosition())
 		{
 			bgm->Stop(m_bgm);
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01b.wav", 0.1f);
 
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 		}
@@ -600,8 +604,8 @@ namespace basecross {
 		case 0: //ÉNÉäÉAóp
 			AddGameObject<Title_UI>(
 				Vec2(512.0f, 512.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(1.5f),
+				Vec3(0.0f, 120.0f, 0.0f),
+				Vec3(1.0f),
 				12,
 				Col4(1.0f),
 				m_StageClear_image
@@ -609,7 +613,7 @@ namespace basecross {
 
 			AddGameObject<Title_UI>(
 				Vec2(324.0f, 324.0f),
-				Vec3(-300.0f, 50.0f, 0.0f),
+				Vec3(-300.0f, -200.0f, 0.0f),
 				Vec3(1.25f),
 				15,
 				Col4(1.0f),
@@ -617,7 +621,7 @@ namespace basecross {
 				);
 			AddGameObject<Title_UI>(
 				Vec2(324.0f, 324.0f),
-				Vec3(300.0f, 50.0f, 0.0f),
+				Vec3(300.0f, -200.0f, 0.0f),
 				Vec3(1.25f),
 				15,
 				Col4(1.0f),
@@ -625,11 +629,19 @@ namespace basecross {
 				);
 			m_Cursor = AddGameObject<GameClear_UI>(
 				Vec2(80.0f),
-				Vec3(-525.0f, 50.0f, 0.0f),
+				Vec3(m_RedMaskPos_1),
 				Vec3(2.0f),
 				15,
 				Col4(1.0f),
 				m_Cursor_image
+				);
+			AddGameObject<GameClear_UI>(
+				Vec2(1920.0f, 1080.0f),
+				Vec3(0.0f),
+				Vec3(1.0f),
+				10,
+				Col4(1.0f,1.0f,1.0f,0.85f),
+				m_Brack_image
 				);
 			bgm->Stop(m_bgm);
 			GameClearBGM();

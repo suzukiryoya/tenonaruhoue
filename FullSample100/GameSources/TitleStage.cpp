@@ -59,7 +59,7 @@ namespace basecross {
 
 		//BGM
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
-		m_BGM = XAPtr->Start(L"titleBGM_Electronic_Circuit.wav",XAUDIO2_LOOP_INFINITE,0.1f);
+		m_BGM = XAPtr->Start(L"titleBGM_Electronic_Circuit.wav",XAUDIO2_LOOP_INFINITE,0.15f);
 	}
 
 	//BGMí‚é~

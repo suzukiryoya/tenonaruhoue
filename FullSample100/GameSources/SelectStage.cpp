@@ -161,7 +161,7 @@ namespace basecross {
 		}
 
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
-		m_BGM = XAPtr->Start(L"Select.wav", 0.1f);
+		m_BGM = XAPtr->Start(L"Select.wav", 1.0f);
 	}
 
 	void SelectStage::OnUpdate() {
@@ -173,11 +173,13 @@ namespace basecross {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
 			App::GetApp()->GetScene<Scene>()->SetStageNum(m_StageNum);
 			XAPtr->Stop(m_BGM);
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01b.wav", 0.1f);
 		}
 		// ƒ^ƒCƒgƒ‹‚É–ß‚é
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 			XAPtr->Stop(m_BGM);
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01b.wav", 0.1f);
 		}
 
 		if (!m_ControlLock) {
@@ -192,6 +194,7 @@ namespace basecross {
 					m_Cursor_UI->SetUpdatePosition(m_CursorPos);
 
 					m_ControlLock = true;
+					App::GetApp()->GetScene<Scene>()->PlaySE(L"button01a.wav", 0.1f);
 				}
 			}
 			// ‰ºˆÚ“®
@@ -205,6 +208,7 @@ namespace basecross {
 					m_Cursor_UI->SetUpdatePosition(m_CursorPos);
 
 					m_ControlLock = true;
+					App::GetApp()->GetScene<Scene>()->PlaySE(L"button01a.wav", 0.1f);
 				}
 			}
 		}
