@@ -540,6 +540,47 @@ namespace basecross {
 
 	}
 
+    CheckPointBox::CheckPointBox(const shared_ptr<Stage>& StagePtr,
+        const Vec3& Scale,
+        const Vec3& Rotation,
+        const Vec3& Position
+    ) :
+        GameObject(StagePtr),
+        m_Scale(Scale),
+        m_Rotation(Rotation),
+        m_Position(Position)
+    {
+    }
+    CheckPointBox::~CheckPointBox() {}
+
+    void CheckPointBox::OnCreate() {
+        auto PtrTransform = GetComponent<Transform>();
+        PtrTransform->SetScale(m_Scale);
+        PtrTransform->SetRotation(m_Rotation);
+        PtrTransform->SetPosition(m_Position);
+
+        //タグをつける
+        AddTag(L"CheckPointBox");
+
+        auto PtrColl = AddComponent<CollisionObb>();
+        //PtrColl->SetDrawActive(true);
+        PtrColl->SetFixed(true);
+        ////衝突判定はNoneにする
+        PtrColl->SetAfterCollision(AfterCollision::None);
+
+        //影をつける（シャドウマップを描画する）
+        auto ShadowPtr = AddComponent<Shadowmap>();
+        //影の形（メッシュ）を設定
+        ShadowPtr->SetMeshResource(L"DEFAULT_CUBE");
+        auto PtrDraw = AddComponent<BcPNTStaticDraw>();
+        PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
+        PtrDraw->SetFogEnabled(true);
+        PtrDraw->SetOwnShadowActive(true);
+        PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.0f));
+        PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
+
+        App::GetApp()->GetScene<Scene>()->PlaySE(L"SoundMachine.wav", 0.1f);
+    }
 
 
 

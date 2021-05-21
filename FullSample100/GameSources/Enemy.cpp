@@ -329,7 +329,7 @@ namespace basecross {
 		ptrUtil->RotToHead(1.0f);
 		auto Pos = GetComponent<Transform>()->GetPosition();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto m_Speed = 1.5f;
+		auto m_Speed = 1.0f;
 		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 		auto a = Vec3(0.0f, 0.0f, 5.0f);
@@ -588,10 +588,10 @@ namespace basecross {
 
 		auto a = Vec3(0.0f, 0.0f, 5.0f);
 		auto b = Vec3(0.0f, 0.0f, -12.0f);
-		if (a.x - Pos.x<0.1f&& a.x - Pos.x > -0.1f&&ab==0) {
-			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
-			ab = 1;
-		}
+		//if (a.x - Pos.x<0.1f&& a.x - Pos.x > -0.1f&&ab==0) {
+		//	m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+		//	ab = 1;
+		//}
 		if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
 			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 
@@ -631,7 +631,10 @@ namespace basecross {
 	void Playerdummy::OnCollisionEnter(shared_ptr<GameObject>& other)
 	{
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
+		if (other->FindTag(L"CheckPointBox")) {
+			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 
+		}
 		if (other->FindTag(L"Goal"))
 		{
 			App::GetApp()->GetScene<Scene>()->SetCheck(0);
