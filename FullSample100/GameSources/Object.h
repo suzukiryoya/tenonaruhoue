@@ -211,4 +211,22 @@ namespace basecross {
 
 	};
 
+	class CheckPointBox : public GameObject {
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
+
+		float time;
+	public:
+		//\’z‚Æ”jŠü
+		CheckPointBox(const shared_ptr<Stage>& StagePtr,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position
+		);
+		virtual ~CheckPointBox();
+		//‰Šú‰»
+		virtual void OnCreate() override;
+	};
+
 }
