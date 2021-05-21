@@ -364,6 +364,7 @@ namespace basecross {
 			AddGameObject<Enemy1>(Vec3(1.0f), Vec3(0.0f), Vec3(4.0f, 1.2f, 0.0f));
 			AddGameObject<Playerdummy>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 1.2f, 5.0f));
 			AddGameObject<LineEffect>(Vec3(1.0f), Vec3(0.0f), Vec3(-8.0f, 0.8f, 5.0f));
+			AddGameObject<CheckPointBox>(Vec3(1.0f), Vec3(0.0f), Vec3(0.0f, 0.0f, 5.0f));
 
 
 			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
