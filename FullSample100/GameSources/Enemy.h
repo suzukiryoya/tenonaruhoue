@@ -169,8 +169,10 @@ namespace basecross {
 		//アニメーション用
 		int m_SaveNum;
 		float ab = 0;
-		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		Vec3 m_Angle = Vec3(0.0f, 0.0f, 0.0f);
 		float m_MotionTime = 0;
+		int m_CheckPointCount = 0;
+
 
 	public:
 		Playerdummy(const shared_ptr<Stage>& StagePtr,

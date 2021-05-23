@@ -329,7 +329,7 @@ namespace basecross {
 		ptrUtil->RotToHead(1.0f);
 		auto Pos = GetComponent<Transform>()->GetPosition();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto m_Speed = 1.0f;
+		auto m_Speed = 1.5f;
 		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 		auto a = Vec3(0.0f, 0.0f, 5.0f);
@@ -558,10 +558,30 @@ namespace basecross {
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->AddAnimation(L"Move", 0, 20, true, 25);
 		ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
-		//ptrDraw->ChangeCurrentAnimation(L"Move");
+		//ptrDraw->ChangeCurrentAnimation(L"Move");		
+		Quat spanQtXm(Vec3(0, 1.0, 0), 90.0f);
+		auto qt = GetComponent<Transform>()->GetQuaternion();
+		qt *= spanQtXm;
+		GetComponent<Transform>()->SetQuaternion(qt);
+		m_CheckPointCount = 0;
 
 		////描画するテクスチャを設定
 		ptrDraw->SetTextureResource(L"Tx_Protagonist_Robot_2.tga");
+
+
+		auto CreateCheck = App::GetApp()->GetScene<Scene>()->GetStageNum();
+		switch (CreateCheck) {
+		case 1:
+			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+			break;
+		case 2:
+			m_Angle = Vec3(-1.0f, 0.0f, 0.0f);
+			break;
+		case 3:
+			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+			break;
+
+		}
 
 		//カメラを得る
 		//auto ptrCamera = dynamic_pointer_cast<Camera>(OnGetDrawCamera());
@@ -586,17 +606,17 @@ namespace basecross {
 		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 
-		auto a = Vec3(0.0f, 0.0f, 5.0f);
-		auto b = Vec3(0.0f, 0.0f, -12.0f);
-		//if (a.x - Pos.x<0.1f&& a.x - Pos.x > -0.1f&&ab==0) {
-		//	m_Angle = Vec3(0.0f, 0.0f, -1.0f);
-		//	ab = 1;
-		//}
-		if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
-			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		//auto a = Vec3(0.0f, 0.0f, 5.0f);
+		//auto b = Vec3(0.0f, 0.0f, -12.0f);
+		////if (a.x - Pos.x<0.1f&& a.x - Pos.x > -0.1f&&ab==0) {
+		////	m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+		////	ab = 1;
+		////}
+		//if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
+		//	m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 
-		}
-		
+		//}
+		//
 		if (m_SaveNum == 1)
 		{
 			m_MotionTime += elapsedTime;
@@ -632,8 +652,22 @@ namespace basecross {
 	{
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 		if (other->FindTag(L"CheckPointBox")) {
-			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
+			switch (csvSet) {
+			case 1:
+				if (m_CheckPointCount == 0) {
+					GetComponent<Transform>()->SetRotation(0.0f, 0.0f, 0.0f);
 
+					m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+					m_CheckPointCount = 1;
+				}
+				else if (m_CheckPointCount == 1) {
+					m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+
+				}
+				break;
+
+			}
 		}
 		if (other->FindTag(L"Goal"))
 		{
