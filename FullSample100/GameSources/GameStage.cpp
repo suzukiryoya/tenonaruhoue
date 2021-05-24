@@ -200,7 +200,8 @@ namespace basecross {
 			Vec3 Rot;
 			//âÒì]ÇÕXM_PIDIV2ÇÃï∂éöóÒÇ…Ç»Ç¡ÇƒÇ¢ÇÈèÍçáÇ™Ç†ÇÈ
 			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PI : (float)_wtof(Tokens[5].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str()) ||
+					(Tokens[5] == L"XM_PI") ? XM_PI : (float)_wtof(Tokens[5].c_str());
 			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
 			Vec3 Pos(
 				(float)_wtof(Tokens[7].c_str()),
@@ -228,7 +229,8 @@ namespace basecross {
 			Vec3 Rot;
 			//âÒì]ÇÕXM_PIDIV2ÇÃï∂éöóÒÇ…Ç»Ç¡ÇƒÇ¢ÇÈèÍçáÇ™Ç†ÇÈ
 			Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PI : (float)_wtof(Tokens[5].c_str());
+			Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str()) ||
+					(Tokens[5] == L"XM_PI") ? XM_PI : (float)_wtof(Tokens[5].c_str());
 			Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
 			Vec3 Pos(
 				(float)_wtof(Tokens[7].c_str()),
