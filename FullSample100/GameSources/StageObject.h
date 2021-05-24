@@ -111,6 +111,5 @@ namespace basecross{
 		virtual ~Start();
 		virtual void OnCreate();
 	};
-
 }
 //end basecross
