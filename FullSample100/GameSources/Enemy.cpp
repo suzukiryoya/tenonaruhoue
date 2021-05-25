@@ -329,7 +329,7 @@ namespace basecross {
 		ptrUtil->RotToHead(1.0f);
 		auto Pos = GetComponent<Transform>()->GetPosition();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto m_Speed = 1.5f;
+		auto m_Speed = 1.0f;
 		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 		auto a = Vec3(0.0f, 0.0f, 5.0f);
@@ -559,7 +559,7 @@ namespace basecross {
 		ptrDraw->AddAnimation(L"Move", 0, 20, true, 25);
 		ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
 		//ptrDraw->ChangeCurrentAnimation(L"Move");		
-		Quat spanQtXm(Vec3(0, 1.0, 0), 90.0f);
+		Quat spanQtXm(Vec3(0, 1.0, 0), 77.0f);
 		auto qt = GetComponent<Transform>()->GetQuaternion();
 		qt *= spanQtXm;
 		GetComponent<Transform>()->SetQuaternion(qt);
