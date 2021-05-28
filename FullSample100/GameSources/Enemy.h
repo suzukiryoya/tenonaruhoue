@@ -100,10 +100,13 @@ namespace basecross {
 		wstring m_Mesh;
 		//アニメーション用
 		int m_SaveNum;
-		float ab = 0;
+		float a = 0;
+
 		float m_MotionTime = 0;
 
 		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+		Vec3 m_AngleSave;
+		int m_MoveCheck;
 		float m_time=0.0f;
 		int m_CheckPointCount = 0;
 		Quat m_spanQtXm = Quat(Vec3(0, 1.0, 0), -77.0f);
@@ -173,6 +176,7 @@ namespace basecross {
 		int m_SaveNum;
 		float ab = 0;
 		Vec3 m_Angle = Vec3(0.0f, 0.0f, 0.0f);
+
 		float m_MotionTime = 0;
 		int m_CheckPointCount = 0;
 		Quat m_spanQtXm = Quat (Vec3(0, 1.0, 0), 77.0f);
