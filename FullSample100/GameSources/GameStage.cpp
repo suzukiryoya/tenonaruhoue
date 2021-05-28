@@ -419,7 +419,7 @@ namespace basecross {
 
 			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
 			m_Eye = Vec3(0.0f, 20.0f, -5.0f);
-			m_At = Vec3(0.0f, 0.0f, 2.0f);
+			m_At = Vec3(0.0f, 0.0f, 5.0f);
 
 
 			switch (csvSet)
