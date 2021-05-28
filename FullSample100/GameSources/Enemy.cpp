@@ -380,6 +380,17 @@ namespace basecross {
 			AnimeManager(2);
 			m_MotionTime += elapsedTime;
 		}
+
+		if (m_MoveCheck == 1) {
+			a += elapsedTime;
+
+			if (a >= 1.0f) {
+				AnimeManager(0);
+				m_Angle = m_AngleSave;
+				a = 0;
+				m_MoveCheck = 0;
+			}
+		}
 	}
 
 	void Enemy2::AnimeManager(int num)
@@ -433,17 +444,45 @@ namespace basecross {
 				}
 				break;
 
+			case 2:
+
+				if (m_CheckPointCount == 0) {
+
+					m_Angle = Vec3(-1.0f, 0.0f, 0.0f);
+					m_CheckPointCount = 1;
+
+					Quat spanQtXm(Vec3(0, 1.0, 0), -77.0f);
+					auto qt = GetComponent<Transform>()->GetQuaternion();
+					qt *= spanQtXm;
+					GetComponent<Transform>()->SetQuaternion(qt);
+
+				}
+				else if (m_CheckPointCount == 1) {
+					m_Angle = Vec3(0.0f, 0.0f, 1.0f);
+					Quat spanQtXm(Vec3(0, 1.0, 0), 77.0f);
+					auto qt = GetComponent<Transform>()->GetQuaternion();
+					qt *= spanQtXm;
+					GetComponent<Transform>()->SetQuaternion(qt);
+
+				}
+				break;
+
 			}
 		}
 
 		if (other->FindTag(L"Enemy1"))
-		{
+		{	
+			m_AngleSave = m_Angle;
+			m_Angle = Vec3(0.0f, 0.0f, 0.0f);
+			m_MoveCheck = 1;
+
 			AnimeManager(2);
 			//m_time = 0;
 		}
 
 		if (other->FindTag(L"Player"))
 		{
+
 			AnimeManager(2);
 			//m_time = 0;
 		}
@@ -615,13 +654,14 @@ namespace basecross {
 			GetComponent<Transform>()->SetQuaternion(qt);
 			break;
 		case 2:
-			m_Angle = Vec3(-1.0f, 0.0f, 0.0f);
-			m_spanQtXm=Quat(Vec3(0, 1.0, 0), 77.0f);
+			m_Angle = Vec3(0.0f, 0.0f, 1.0f);
+			m_spanQtXm=Quat(Vec3(0, 1.0, 0), 154.0f);
 			qt *= m_spanQtXm;
 			GetComponent<Transform>()->SetQuaternion(qt);
 
 			break;
 		case 3:
+
 			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
 			break;
 
@@ -713,6 +753,29 @@ namespace basecross {
 				}
 				else if (m_CheckPointCount == 1) {
 					m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+					Quat spanQtXm(Vec3(0, 1.0, 0), 77.0f);
+					auto qt = GetComponent<Transform>()->GetQuaternion();
+					qt *= spanQtXm;
+					GetComponent<Transform>()->SetQuaternion(qt);
+
+				}
+				break;
+
+			case 2:
+
+				if (m_CheckPointCount == 0) {
+
+					m_Angle = Vec3(-1.0f, 0.0f, 0.0f);
+					m_CheckPointCount = 1;
+
+					Quat spanQtXm(Vec3(0, 1.0, 0), -77.0f);
+					auto qt = GetComponent<Transform>()->GetQuaternion();
+					qt *= spanQtXm;
+					GetComponent<Transform>()->SetQuaternion(qt);
+
+				}
+				else if (m_CheckPointCount == 1) {
+					m_Angle = Vec3(0.0f, 0.0f, 1.0f);
 					Quat spanQtXm(Vec3(0, 1.0, 0), 77.0f);
 					auto qt = GetComponent<Transform>()->GetQuaternion();
 					qt *= spanQtXm;
