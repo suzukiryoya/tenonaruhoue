@@ -192,5 +192,21 @@ namespace basecross{
 	int Scene::GetStageNum()	{
 		return m_snum;
 	}
+
+	void Scene::SetCameraPos(Vec3 start, Vec3 goal)
+	{
+		m_PlayerPos = start;
+		m_GoalPos = goal;
+	}
+
+	Vec3 Scene::GetStartCameraPos()
+	{
+		return m_PlayerPos;
+	}
+
+	Vec3 Scene::GetEndCameraPos()
+	{
+		return m_GoalPos;
+	}
 }
 //end basecross

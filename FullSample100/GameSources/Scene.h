@@ -32,12 +32,17 @@ namespace basecross{
 		Vec3 m_getangle;
 		Vec3 m_getposition;
 		Vec3 m_getsoundposition;
+		Vec3 m_PlayerPos;
+		Vec3 m_GoalPos;
 		int m_check;
 		int m_snum;
 		bool m_UpdateCheck;
 
 		//âπÇÃä«óùóp
 		bool m_SoundFlag = true;
+
+		//ToMyCameraóp
+		bool MyCamaraFlag = false;
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -88,6 +93,9 @@ namespace basecross{
 		bool SetUpdateBool(bool check);
 		bool GetUpdateBool();
 
+		void SetCameraPos(Vec3 start, Vec3 goal);
+		Vec3 GetStartCameraPos();
+		Vec3 GetEndCameraPos();
 
 		//SEÇÃä÷êî
 		void PlaySE(wstring key, float vol) {
@@ -118,6 +126,17 @@ namespace basecross{
 			m_SoundFlag = soundFlag;
 		}
 
+		//MyCamaraóp
+		bool SetToMyCameraFlag(bool flag)
+		{
+			MyCamaraFlag = flag;
+			return MyCamaraFlag;
+		}
+
+		bool GetToMyCamara()
+		{
+			return MyCamaraFlag;
+		}
 	};
 
 

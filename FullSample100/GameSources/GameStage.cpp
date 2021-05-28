@@ -12,19 +12,49 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
+		////StartCameraView用のビュー
+		m_StartCameraView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		auto ptrStartCamera = ObjectFactory::Create<StartCamera>();
+		m_StartCameraView->SetCamera(ptrStartCamera);
 
 		const Vec3 eye(0.0f, 20.0f, -5.0f);
-		const Vec3 at(0.0f,0.0f,0.0f);
-		auto PtrView = CreateView<SingleView>();
-		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<MyCamera>();
-		PtrView->SetCamera(PtrCamera);
-		PtrCamera->SetEye(eye);
-		PtrCamera->SetAt(at);
+		const Vec3 at(0.0f, 0.0f, 0.0f);
+
+		m_MyCameraView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		m_ptrMyCamera = ObjectFactory::Create<MyCamera>();
+		m_ptrMyCamera->SetEye(eye);
+		m_ptrMyCamera->SetAt(at);
+		m_MyCameraView->SetCamera(m_ptrMyCamera);
+		//初期状態ではm_StartCameraViewを使う
+		SetView(m_MyCameraView);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
 		PtrMultiLight->SetDefaultLighting();
+	}
+
+	void GameStage::ToMyCamera()
+	{
+		//MyCameraに変更
+		auto ptrMyCamera = dynamic_pointer_cast<MyCamera>(m_MyCameraView->GetCamera());
+		if (ptrMyCamera) {
+			//ビューのカメラの設定
+			SetView(m_MyCameraView);
+		}
+	}
+
+	//カメラマンの作成
+	void GameStage::CreateCameraman() {
+
+		auto ptrStartCameraman = AddGameObject<StartCameraman>();
+		//シェア配列にStartCameramanを追加
+		SetSharedGameObject(L"StartCameraman", ptrStartCameraman);
+
+		auto ptrStartCamera = dynamic_pointer_cast<StartCamera>(m_StartCameraView->GetCamera());
+		if (ptrStartCamera) {
+			ptrStartCamera->SetCameraObject(ptrStartCameraman);
+			SetView(m_StartCameraView);
+		}
 	}
 
 	void GameStage::CreateStage() {
@@ -386,25 +416,38 @@ namespace basecross {
 			wstring MediaDir;
 			App::GetApp()->GetDataDirectory(MediaDir);
 
-			AddGameObject<ActivePsBox>(Vec3(1.0f),Vec3(0.0f),Vec3(0.0f,1.2f,0.0f));
 
 			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
+			m_Eye = Vec3(0.0f, 20.0f, -5.0f);
+			m_At = Vec3(0.0f, 0.0f, 2.0f);
+
+
 			switch (csvSet)
 			{
 			case 1:
 				m_GameStageCsv.SetFileName(MediaDir + L"Stage1.csv");
+				App::GetApp()->GetScene<Scene>()->SetCameraPos(Vec3(-13.0f,1.5f,5.0f),Vec3(12.0f, 0.5f, -11.5f));
+				m_Eye.z += App::GetApp()->GetScene<Scene>()->GetStartCameraPos().z;
 				break;
 			case 2:
 				m_GameStageCsv.SetFileName(MediaDir + L"Stage2.csv");
+				App::GetApp()->GetScene<Scene>()->SetCameraPos(Vec3(7.0f,1.5f,-5.5f),Vec3(-7.0f, 0.0f, 11.0f));
+				m_Eye.z += App::GetApp()->GetScene<Scene>()->GetStartCameraPos().z;
 				break;
 			case 3:
 				m_GameStageCsv.SetFileName(MediaDir + L"Stage3.csv");
+				App::GetApp()->GetScene<Scene>()->SetCameraPos(Vec3(-12.0f,1.5f,5.5f),Vec3(12.0f, 0.0f, 11.0f));
+				m_Eye.z += App::GetApp()->GetScene<Scene>()->GetStartCameraPos().z;
 				break;
 			case 4:
 				m_GameStageCsv.SetFileName(MediaDir + L"Stage4.csv");
+				App::GetApp()->GetScene<Scene>()->SetCameraPos(Vec3(7.0f,1.5f,5.5f),Vec3(7.0f, 0.5f, -12.0f));
+				m_Eye.z += App::GetApp()->GetScene<Scene>()->GetStartCameraPos().z;
 				break;
 			case 5:
 				m_GameStageCsv.SetFileName(MediaDir + L"Stage5.csv");
+				App::GetApp()->GetScene<Scene>()->SetCameraPos(Vec3(12.0f,1.5f,-10.0f),Vec3(12.0f, 0.5f, 11.0f));
+				m_Eye.z += App::GetApp()->GetScene<Scene>()->GetStartCameraPos().z;
 				break;
 			}
 
@@ -417,6 +460,8 @@ namespace basecross {
 			m_bgm = bgm->Start(L"PlayBGM_Towards_the_Future.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
 			//App::GetApp()->GetScene<Scene>()->PlayBGM(L"PlayBGM_Towards_the_Future.wav", 0.1f);
 			wstring dataDir;
+			////カメラマンの作成
+			CreateCameraman();
 			//サンプルのためアセットディレクトリを取得
 			App::GetApp()->GetAssetsDirectory(dataDir);
 			wstring strMovie = dataDir + L"cursor.png";
@@ -487,11 +532,9 @@ namespace basecross {
 		Vec3 angle(0, 0, 0);
 		//コントローラの取得
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		WORD wButtons = 0;
 		if (cntlVec[0].bConnected) {
 			ret.x = cntlVec[0].fThumbRX;
 			ret.z = cntlVec[0].fThumbRY;
-			wButtons = cntlVec[0].wButtons;
 		}
 		float moveX = ret.x;
 		float moveZ = ret.z;
@@ -509,7 +552,7 @@ namespace basecross {
 			angle.normalize();
 			//移動サイズを設定。
 			angle *= moveSize;
-			//Y軸は変化させない
+			////Y軸は変化させない
 			angle.y = 0;
 		}
 		return angle;
@@ -594,14 +637,15 @@ namespace basecross {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto CursorPos = App::GetApp()->GetScene<Scene>()->GetAngle();
 		auto Check = App::GetApp()->GetScene<Scene>()->GetCheck();
-		auto camera = GetView()->GetTargetCamera();
+
+		//auto myCamera = GetView()->GetTargetCamera();
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
 		m_Eye += GetInputState() * elapsedTime * m_Speed;
 		m_At += GetInputState() * elapsedTime * m_Speed;
 
-		camera->SetEye(m_Eye);
-		camera->SetAt(m_At);
+		m_ptrMyCamera->SetEye(m_Eye);
+		m_ptrMyCamera->SetAt(m_At);
 
 		m_MousePoint = KeyState.m_MouseClientPoint;
 
@@ -711,6 +755,7 @@ namespace basecross {
 
 		if (m_GameOverFlag == true)
 		{
+			App::GetApp()->GetScene<Scene>()->SetToMyCameraFlag(false);
 			m_GameOverSceneTime += elapsedTime;
 			GameOverScene();
 		}
@@ -725,6 +770,26 @@ namespace basecross {
 		AddGameObject<Enemy2>(Vec3(1.0f), Vec3(0.0f), Vec3(m_PlayerPos));
 		m_check = 1;
 		}
+
+		//ToMyCamera用
+		if (App::GetApp()->GetScene<Scene>()->GetToMyCamara() == true)
+		{
+			ToMyCamera();
+		}
+		else
+		{
+		}
+	}
+
+	void GameStage::CameraChangeSelect()
+	{
+		//switch (m_CameraSelect) {
+		//case CameraSelect::myCamera:
+		//{
+		//	ToMyCamera();
+		//}
+		//break;
+		//}
 	}
 
 	void GameStage::GetMouseRay(Vec3& Near, Vec3& Far) {
@@ -810,11 +875,11 @@ namespace basecross {
 						
 						m_SoundFlag = App::GetApp()->GetScene<Scene>()->GetSoundFlag();
 
-						auto a=Obb.m_Center;
+						auto a= Obb.m_Center;
 						ObjVec.push_back(PsPtr);
 						//AddGameObject<TriggerBox>(Vec3(10.0f, 2.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
 						AddGameObject<TriggerBox2>(Vec3(2.0f, 2.0f, 2.0f), Vec3(0), Vec3(a.x, 1.0f, a.z));
-						SetSoundPosition(Vec3(a.x, 1.0f, a.z));
+						//SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 						App::GetApp()->GetScene<Scene>()->SetPosition(Vec3(a.x,1.0f,a.z));
 						App::GetApp()->GetScene<Scene>()->SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 					}
@@ -859,16 +924,5 @@ namespace basecross {
 	void GameStage::OnRButtonEnter() {
 		PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitleStage");
 	}
-
-	void GameStage::SetSoundPosition(Vec3 pos)
-	{
-		m_SoundPos = pos;
-	}
-
-	Vec3 GameStage::GetSoundPosition()
-	{
-		return m_SoundPos;
-	}
-
 }
 //end basecross
