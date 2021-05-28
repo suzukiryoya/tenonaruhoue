@@ -578,7 +578,7 @@ namespace basecross {
         PtrDraw->SetOwnShadowActive(true);
         PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.0f));
         PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
-        SetDrawActive(false);
+        //SetDrawActive(false);
 
         App::GetApp()->GetScene<Scene>()->PlaySE(L"SoundMachine.wav", 0.1f);
     }
@@ -649,7 +649,7 @@ namespace basecross {
 
 	void OpeningCameraman::EndStateEnterBehavior() {
 		auto ptrGameGtage = GetTypeStage<GameStage>();
-		ptrGameGtage->ToMyCamera();
+		//ptrGameGtage->ToMyCamera();
 	}
 
 

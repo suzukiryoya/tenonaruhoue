@@ -36,6 +36,7 @@ namespace basecross {
 		shared_ptr<GameOverTitle_UI> m_TextUI;
 		float m_GameOverSceneTime = 0;
 		Col4 m_TestColor = Col4(0, 0, 0, 1.0f);
+		Vec3 m_PlayerPos;
 
 		//BGMçXêVóp
 		shared_ptr<SoundItem> m_bgm;

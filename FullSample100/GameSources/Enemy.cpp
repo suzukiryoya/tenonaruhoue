@@ -95,6 +95,13 @@ namespace basecross {
 			SetUpdateActive(false);
 
 		}
+		if (m_DieTime > 1.0f)
+		{
+			SetUpdateActive(false);
+			SetDrawActive(false);
+			DeleteObject(this);
+		}
+
 
 	}
 
@@ -126,12 +133,12 @@ namespace basecross {
 		if (Other->FindTag(L"Enemy2")) {
 			AnimeManager(1);
 
-			if (m_DieTime > 0.5f)
-			{
-				SetUpdateActive(false);
-				SetDrawActive(false);
-				DeleteObject(this);
-			}
+			//if (m_DieTime > 0.5f)
+			//{
+			//	SetUpdateActive(false);
+			//	SetDrawActive(false);
+			//	DeleteObject(this);
+			//}
 		}
 
 	}
@@ -261,10 +268,13 @@ namespace basecross {
 		PtrTransform->SetRotation(m_Rotation);
 		PtrTransform->SetPosition(m_Position);
 
-		auto PtrGra = AddComponent<Gravity>();
+		//auto PtrGra = AddComponent<Gravity>();
 
 		auto ptrColl = AddComponent<CollisionObb>();
-		ptrColl->SetMakedSize(1.0f);
+		ptrColl->SetAfterCollision(AfterCollision::None);
+
+		ptrColl->SetMakedSize(1.2f);
+
 
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
@@ -315,6 +325,29 @@ namespace basecross {
 
 		ptrDraw->ChangeCurrentAnimation(L"Move");
 		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
+
+		auto CreateCheck = App::GetApp()->GetScene<Scene>()->GetStageNum();
+		auto qt = GetComponent<Transform>()->GetQuaternion();
+
+		switch (CreateCheck) {
+		case 1:
+			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+			qt *= m_spanQtXm;
+			GetComponent<Transform>()->SetQuaternion(qt);
+			break;
+		case 2:
+			m_Angle = Vec3(-1.0f, 0.0f, 0.0f);
+			m_spanQtXm = Quat(Vec3(0, 1.0, 0), 77.0f);
+			qt *= m_spanQtXm;
+			GetComponent<Transform>()->SetQuaternion(qt);
+
+			break;
+		case 3:
+			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+			break;
+
+		}
+
 	}
 
 	void Enemy2::OnUpdate()
@@ -329,37 +362,15 @@ namespace basecross {
 		ptrUtil->RotToHead(1.0f);
 		auto Pos = GetComponent<Transform>()->GetPosition();
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto m_Speed = 1.0f;
+		auto m_Speed = 1.2f;
 		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
-		auto a = Vec3(0.0f, 0.0f, 5.0f);
-		auto b = Vec3(0.0f, 0.0f, -12.0f);
 		if (m_time < 3.0f && m_MotionTime > 3.0f) {
 			m_Angle = Vec3(0.0f, 0.0f, 0.0f);
 			m_MotionTime = 0;
 			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 		}
-		else {
-			if (ab == 0) {
-				m_Angle = Vec3(1.0f, 0.0f, 0.0f);
-			}
-		if (a.x - Pos.x<0.1f && a.x - Pos.x > -0.1f && ab == 0) {
-			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
-			ab = 1;
-			
-		}
-		if (ab == 1) {
-			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
-
-		}
-		if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
-			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
-			ab = 0;
-		}
-
-
-
-		}
+		
 		if (UpdateCheck == true) {
 			SetUpdateActive(false);
 		}
@@ -396,6 +407,35 @@ namespace basecross {
 
 	void Enemy2::OnCollisionEnter(shared_ptr<GameObject>& other)
 	{
+		if (other->FindTag(L"CheckPointBox")) {
+			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
+
+			switch (csvSet) {
+			case 1:
+				if (m_CheckPointCount == 0) {
+
+					m_Angle = Vec3(0.0f, 0.0f, -1.0f);
+					m_CheckPointCount = 1;
+
+					Quat spanQtXm(Vec3(0, 1.0, 0), -77.0f);
+					auto qt = GetComponent<Transform>()->GetQuaternion();
+					qt *= spanQtXm;
+					GetComponent<Transform>()->SetQuaternion(qt);
+
+				}
+				else if (m_CheckPointCount == 1) {
+					m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+					Quat spanQtXm(Vec3(0, 1.0, 0), 77.0f);
+					auto qt = GetComponent<Transform>()->GetQuaternion();
+					qt *= spanQtXm;
+					GetComponent<Transform>()->SetQuaternion(qt);
+
+				}
+				break;
+
+			}
+		}
+
 		if (other->FindTag(L"Enemy1"))
 		{
 			AnimeManager(2);
@@ -525,7 +565,7 @@ namespace basecross {
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetAfterCollision(AfterCollision::None);
 
-		ptrColl->SetMakedSize(1.5f);
+		ptrColl->SetMakedSize(1.2f);
 
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
@@ -559,10 +599,6 @@ namespace basecross {
 		ptrDraw->AddAnimation(L"Move", 0, 20, true, 25);
 		ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
 		//ptrDraw->ChangeCurrentAnimation(L"Move");		
-		Quat spanQtXm(Vec3(0, 1.0, 0), 77.0f);
-		auto qt = GetComponent<Transform>()->GetQuaternion();
-		qt *= spanQtXm;
-		GetComponent<Transform>()->SetQuaternion(qt);
 		m_CheckPointCount = 0;
 
 		////描画するテクスチャを設定
@@ -570,12 +606,20 @@ namespace basecross {
 
 
 		auto CreateCheck = App::GetApp()->GetScene<Scene>()->GetStageNum();
+		auto qt = GetComponent<Transform>()->GetQuaternion();
+
 		switch (CreateCheck) {
 		case 1:
 			m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+			qt *= m_spanQtXm;
+			GetComponent<Transform>()->SetQuaternion(qt);
 			break;
 		case 2:
 			m_Angle = Vec3(-1.0f, 0.0f, 0.0f);
+			m_spanQtXm=Quat(Vec3(0, 1.0, 0), 77.0f);
+			qt *= m_spanQtXm;
+			GetComponent<Transform>()->SetQuaternion(qt);
+
 			break;
 		case 3:
 			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
@@ -593,8 +637,8 @@ namespace basecross {
 		//}
 	}
 	void Playerdummy::OnUpdate() {
-		auto ptrUtil = GetBehavior<UtilBehavior>();
-		ptrUtil->RotToHead(1.0f);
+		//auto ptrUtil = GetBehavior<UtilBehavior>();
+		//ptrUtil->RotToHead(0.2f);
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
 		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
@@ -653,16 +697,26 @@ namespace basecross {
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 		if (other->FindTag(L"CheckPointBox")) {
 			auto csvSet = App::GetApp()->GetScene<Scene>()->GetStageNum();
+
 			switch (csvSet) {
 			case 1:
 				if (m_CheckPointCount == 0) {
-					GetComponent<Transform>()->SetRotation(0.0f, 0.0f, 0.0f);
 
 					m_Angle = Vec3(0.0f, 0.0f, -1.0f);
 					m_CheckPointCount = 1;
+
+					Quat spanQtXm(Vec3(0, 1.0, 0), -77.0f);
+					auto qt = GetComponent<Transform>()->GetQuaternion();
+					qt *= spanQtXm;
+					GetComponent<Transform>()->SetQuaternion(qt);
+
 				}
 				else if (m_CheckPointCount == 1) {
 					m_Angle = Vec3(1.0f, 0.0f, 0.0f);
+					Quat spanQtXm(Vec3(0, 1.0, 0), 77.0f);
+					auto qt = GetComponent<Transform>()->GetQuaternion();
+					qt *= spanQtXm;
+					GetComponent<Transform>()->SetQuaternion(qt);
 
 				}
 				break;

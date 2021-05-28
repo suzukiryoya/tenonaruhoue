@@ -105,6 +105,9 @@ namespace basecross {
 
 		Vec3 m_Angle = Vec3(1.0f, 0.0f, 0.0f);
 		float m_time=0.0f;
+		int m_CheckPointCount = 0;
+		Quat m_spanQtXm = Quat(Vec3(0, 1.0, 0), -77.0f);
+
 
 	public:
 		Enemy2(const shared_ptr<Stage>& StagePtr,
@@ -172,7 +175,7 @@ namespace basecross {
 		Vec3 m_Angle = Vec3(0.0f, 0.0f, 0.0f);
 		float m_MotionTime = 0;
 		int m_CheckPointCount = 0;
-
+		Quat m_spanQtXm = Quat (Vec3(0, 1.0, 0), 77.0f);
 
 	public:
 		Playerdummy(const shared_ptr<Stage>& StagePtr,
