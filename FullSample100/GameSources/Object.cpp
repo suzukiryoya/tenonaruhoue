@@ -244,10 +244,10 @@ namespace basecross {
 		m_Scale.z += 1.0f * elapsedTime * m_Speed;
 		PtrTransform->SetScale(m_Scale);
 
-		if (m_Scale.x >= 10.0f && m_Scale.z >= 10.0f)
+		if (m_Scale.x >= m_MaxSize && m_Scale.z >= m_MaxSize)
 		{
-			m_Scale.x = 10.0f;
-			m_Scale.z = 10.0f;
+			m_Scale.x = m_MaxSize;
+			m_Scale.z = m_MaxSize;
 		}
 
         if (time >= 1.0f && 2.0f >= time) {
@@ -578,7 +578,7 @@ namespace basecross {
         PtrDraw->SetOwnShadowActive(true);
         PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.0f));
         PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
-        //SetDrawActive(false);
+        SetDrawActive(false);
 
         App::GetApp()->GetScene<Scene>()->PlaySE(L"SoundMachine.wav", 0.1f);
     }

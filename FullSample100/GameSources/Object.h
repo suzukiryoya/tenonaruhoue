@@ -96,7 +96,8 @@ namespace basecross {
 
 		float m_UPic = 1.0f;
 		float m_VPic = 1.0f;
-		float m_Speed = 8.5f;
+		float m_MaxSize = 12.0f;
+		float m_Speed = 9.0f;
 		float time;
 	public:
 		//\’z‚Æ”jŠü
