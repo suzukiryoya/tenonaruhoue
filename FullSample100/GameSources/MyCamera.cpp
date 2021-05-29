@@ -169,7 +169,7 @@ namespace basecross {
 		Obj->ToGoalEnterBehavior(Obj->GetPlayerPos(), Obj->GetGoalPos());
 	}
 	void StartCameramanToGoalState::Execute(const shared_ptr<StartCameraman>& Obj) {
-		if (Obj->ExcuteBehavior(5.0f)) {
+		if (Obj->ExcuteBehavior(2.5f)) {
 			Obj->GetStateMachine()->ChangeState(StartCameramanToStartState::Instance());
 		}
 	}
@@ -186,7 +186,7 @@ namespace basecross {
 		Obj->ToStartEnterBehavior(Obj->GetGoalPos(), Obj->GetPlayerPos());
 	}
 	void StartCameramanToStartState::Execute(const shared_ptr<StartCameraman>& Obj) {
-		if (Obj->ExcuteBehavior(3.0f)) {
+		if (Obj->ExcuteBehavior(2.5f)) {
 			Obj->GetStateMachine()->ChangeState(StartCameramanEndState::Instance());
 		}
 	}
