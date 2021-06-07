@@ -74,7 +74,10 @@ namespace basecross{
 
 		void SetGameStage(GameStageKey key) {
 			m_gameStageKey = key;
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), m_stageKey[m_gameStageKey]);
+			PostEvent(0.0f,
+				GetThis<ObjectInterface>(),
+				GetThis<Scene>(),
+				m_stageKey[m_gameStageKey]);
 		}
 
 		Vec3 SetAngle(Vec3 angle);
@@ -99,19 +102,19 @@ namespace basecross{
 
 		//SE‚ÌŠÖ”
 		void PlaySE(wstring key, float vol) {
-			auto se = App::GetApp()->GetXAudio2Manager();
+			auto &se = App::GetApp()->GetXAudio2Manager();
 			se->Start(key, 0, vol);
 		}
 
 		//BGM
 		void PlayBGM(wstring key, float vol) {
-			auto bgm = App::GetApp()->GetXAudio2Manager();
+			auto &bgm = App::GetApp()->GetXAudio2Manager();
 			m_bgm = bgm->Start(key, XAUDIO2_LOOP_INFINITE, vol);
 		}
 
 		//BGM‚ðŽ~‚ß‚é
 		void StopBGM() {
-			auto bgm = App::GetApp()->GetXAudio2Manager();
+			auto &bgm = App::GetApp()->GetXAudio2Manager();
 			bgm->Stop(m_bgm);
 		}
 

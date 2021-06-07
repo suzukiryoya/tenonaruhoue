@@ -16,6 +16,11 @@ namespace basecross {
 		Vec3 m_CursorPos = Vec3(0);
 
 		int m_StageNum = 0;
+		// ステージ選択上限
+		int m_NumMax = 6;
+		int m_NumMin = 0;
+		// 選択時のスティックの傾き具合
+		float FlameSlope = 0.8f;
 		bool m_ControlLock;
 
 		wstring m_Select_image;

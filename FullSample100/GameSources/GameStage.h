@@ -106,8 +106,8 @@ namespace basecross {
 
 		//スタートカメラ用
 		void ToMyCamera();
-		void SetStartCameraPos(Vec3 startCameraPos);
-		Vec3 GetStartCameraPos();
+		/*void SetStartCameraPos(Vec3 startCameraPos);
+		Vec3 GetStartCameraPos();*/
 
 		//ゲームクリア用
 		void GameClearScene();

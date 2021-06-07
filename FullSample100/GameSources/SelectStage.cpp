@@ -125,7 +125,7 @@ namespace basecross {
 
 		if (!m_ControlLock) {
 			// 上移動
-			if (cntlVec[0].fThumbLY >= 0.8f) {
+			if (cntlVec[0].fThumbLY >= FlameSlope) {
 				if (m_StageNum != 1) {
 					m_StageNum--;
 
@@ -139,7 +139,7 @@ namespace basecross {
 				}
 			}
 			// 下移動
-			else if (cntlVec[0].fThumbLY <= -0.8f) {
+			else if (cntlVec[0].fThumbLY <= -FlameSlope) {
 				if (m_StageNum != 5) {
 					m_StageNum++;
 
@@ -155,15 +155,15 @@ namespace basecross {
 		}
 		// スティックが一定以上倒されていない場合
 		else {
-			if (cntlVec[0].fThumbLY < 0.8f && cntlVec[0].fThumbLY > -0.8f) {
+			if (cntlVec[0].fThumbLY < FlameSlope && cntlVec[0].fThumbLY > -FlameSlope) {
 				m_ControlLock = false;
 			}
 		}
 		// ステージ選択上限
-		if (m_StageNum >= 6) {
+		if (m_StageNum >= m_NumMax) {
 			m_StageNum = 5;
 		}
-		else if (m_StageNum <= 0) {
+		else if (m_StageNum <= m_NumMin) {
 			m_StageNum = 1;
 		}
 	}
