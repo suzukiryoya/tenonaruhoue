@@ -58,18 +58,18 @@ namespace basecross {
 		}
 
 		//BGM
-		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		auto &XAPtr = App::GetApp()->GetXAudio2Manager();
 		m_BGM = XAPtr->Start(L"titleBGM_Electronic_Circuit.wav",XAUDIO2_LOOP_INFINITE,0.15f);
 	}
 
 	//BGM’âŽ~
 	void TitleStage::OnDestroy() {
-		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		auto &XAPtr = App::GetApp()->GetXAudio2Manager();
 		XAPtr->Stop(m_BGM);
 	}
 
 	void TitleStage::OnUpdate() {
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto &cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::stageSelect);

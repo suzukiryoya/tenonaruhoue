@@ -427,7 +427,7 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			CreateCellMap();
-			auto bgm = App::GetApp()->GetXAudio2Manager();
+			auto &bgm = App::GetApp()->GetXAudio2Manager();
 			m_bgm = bgm->Start(L"PlayBGM_Towards_the_Future.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
 			//App::GetApp()->GetScene<Scene>()->PlayBGM(L"PlayBGM_Towards_the_Future.wav", 0.1f);
 			wstring dataDir;
@@ -502,7 +502,7 @@ namespace basecross {
 		Vec3 ret(0, 0, 0);
 		Vec3 angle(0, 0, 0);
 		//コントローラの取得
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto &cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (cntlVec[0].bConnected) {
 			ret.x = cntlVec[0].fThumbRX;
 			ret.z = cntlVec[0].fThumbRY;
@@ -531,9 +531,9 @@ namespace basecross {
 
 	void GameStage::GameClearScene()
 	{
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto &cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		//BGM用
-		auto bgm = App::GetApp()->GetXAudio2Manager();
+		auto &bgm = App::GetApp()->GetXAudio2Manager();
 		//
 
 		if (cntlVec[0].fThumbLX >= 0.8f)
@@ -573,7 +573,7 @@ namespace basecross {
 
 	void GameStage::GameClearBGM()
 	{
-		auto bgm = App::GetApp()->GetXAudio2Manager();
+		auto &bgm = App::GetApp()->GetXAudio2Manager();
 		m_bgm = bgm->Start(L"ClearBGM.wav", XAUDIO2_LOOP_INFINITE, 0.1f);
 	}
 
@@ -588,8 +588,8 @@ namespace basecross {
 	void GameStage::OnUpdate()
 	{
 		//キーボード（マウス）の取得
-		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto &KeyState = App::GetApp()->GetInputDevice().GetKeyState();
+		auto &cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto CursorPos = App::GetApp()->GetScene<Scene>()->GetAngle();
 		auto Check = App::GetApp()->GetScene<Scene>()->GetCheck();
 
@@ -617,7 +617,7 @@ namespace basecross {
 		}
 
 		//BGM用
-		auto bgm = App::GetApp()->GetXAudio2Manager();
+		auto &bgm = App::GetApp()->GetXAudio2Manager();
 		//
 
 		switch (Check)
@@ -737,10 +737,10 @@ namespace basecross {
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f)
 		);
-		auto PtrCamera = GetView()->GetTargetCamera();
+		auto &PtrCamera = GetView()->GetTargetCamera();
 		view = PtrCamera->GetViewMatrix();
 		proj = PtrCamera->GetProjMatrix();
-		auto viewport = GetView()->GetTargetViewport();
+		auto &viewport = GetView()->GetTargetViewport();
 		auto CursorPos= App::GetApp()->GetScene<Scene>()->GetAngle();
 
 		//フルスクリーンだった時の対応
@@ -792,7 +792,7 @@ namespace basecross {
 	//マウスの左ボタン押した瞬間
 	void GameStage::OnLButtonEnter() {
 		SelectClear();
-		auto PtrCamera = GetView()->GetTargetCamera();
+		auto &PtrCamera = GetView()->GetTargetCamera();
 		Vec3 Eye = PtrCamera->GetEye();
 
 		vector<shared_ptr<ActivePsObject>> ObjVec;
@@ -812,7 +812,7 @@ namespace basecross {
 						
 						m_SoundFlag = App::GetApp()->GetScene<Scene>()->GetSoundFlag();
 
-						auto a= Obb.m_Center;
+						auto &a= Obb.m_Center;
 						ObjVec.push_back(PsPtr);
 						AddGameObject<TriggerBox2>(Vec3(2.0f, 2.0f, 2.0f), Vec3(0), Vec3(a.x, 1.0f, a.z));
 						App::GetApp()->GetScene<Scene>()->SetPosition(Vec3(a.x,1.0f,a.z));

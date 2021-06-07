@@ -154,18 +154,18 @@ namespace basecross {
 
 	const shared_ptr<Camera>& GameObject::OnGetDrawCamera()const{
 		//デフォルトはビューのカメラから取り出す
-		auto StageView = GetStage()->GetView();
+		auto &StageView = GetStage()->GetView();
 		return StageView->GetTargetCamera();
 	}
 
 	const Light& GameObject::OnGetDrawLight() const {
 		//ステージからライトを取り出す
-		auto StageLight = GetStage()->GetLight();
+		auto &StageLight = GetStage()->GetLight();
 		return StageLight->GetTargetLight();
 	}
 
 	void GameObject::OnGet2DDrawProjMatrix(bsm::Mat4x4& ProjMatrix) const {
-		auto viewport = GetStage()->GetView()->GetTargetViewport();
+		auto &viewport = GetStage()->GetView()->GetTargetViewport();
 		float w = static_cast<float>(viewport.Width);
 		float h = static_cast<float>(viewport.Height);
 		ProjMatrix = XMMatrixOrthographicLH(w, h, viewport.MinDepth, viewport.MaxDepth);
@@ -332,7 +332,7 @@ namespace basecross {
 
 
 	bool Particle::IsActive() const {
-		for (auto Psp : pImpl->m_ParticleSpriteVec) {
+		for (auto &Psp : pImpl->m_ParticleSpriteVec) {
 			if (Psp.m_Active) {
 				//1つでもアクティブがあればtrue
 				return true;
@@ -341,7 +341,7 @@ namespace basecross {
 		return false;
 	}
 	bool Particle::IsAllActive() const {
-		for (auto Psp : pImpl->m_ParticleSpriteVec) {
+		for (auto &Psp : pImpl->m_ParticleSpriteVec) {
 			if (!Psp.m_Active) {
 				//1つでも非アクティブがあればfalse
 				return false;
@@ -350,12 +350,12 @@ namespace basecross {
 		return true;
 	}
 	void Particle::SetAllActive() {
-		for (auto Psp : pImpl->m_ParticleSpriteVec) {
+		for (auto &Psp : pImpl->m_ParticleSpriteVec) {
 			Psp.m_Active = true;
 		}
 	}
 	void Particle::SetAllNoActive() {
-		for (auto Psp : pImpl->m_ParticleSpriteVec) {
+		for (auto &Psp : pImpl->m_ParticleSpriteVec) {
 			Psp.m_Active = false;
 		}
 	}
@@ -367,7 +367,7 @@ namespace basecross {
 		pImpl->m_MaxTime = 0;
 		pImpl->m_ParticleSpriteVec.clear();
 		pImpl->m_ParticleSpriteVec.resize(Count);
-		for (auto Psp : pImpl->m_ParticleSpriteVec) {
+		for (auto &Psp : pImpl->m_ParticleSpriteVec) {
 			Psp.Reflesh();
 		}
 	}
@@ -411,7 +411,7 @@ namespace basecross {
 	}
 
 	void Particle::Draw(const shared_ptr<ParticleManager>& Manager) {
-		for (auto Psp : pImpl->m_ParticleSpriteVec) {
+		for (auto &Psp : pImpl->m_ParticleSpriteVec) {
 			if (Psp.m_Active && !pImpl->m_TextureResource.expired()) {
 				Manager->AddParticle(Psp, GetDrawOption(),
 					GetEmitterPos(), pImpl->m_TextureResource.lock());
@@ -485,7 +485,7 @@ namespace basecross {
 	void MultiParticle::OnUpdate() {
 		//前回のターンからの時間
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		for (auto ParticlePtr : GetParticleVec()) {
+		for (auto &ParticlePtr : GetParticleVec()) {
 			ParticlePtr->AddTotalTime(ElapsedTime);
 			for (auto& rParticleSprite : ParticlePtr->GetParticleSpriteVec()) {
 				if (rParticleSprite.m_Active) {
@@ -503,7 +503,7 @@ namespace basecross {
 
 	void MultiParticle::OnDraw() {
 		if (pImpl->m_ParticleVec.size() > 0) {
-			for (auto Ptr : pImpl->m_ParticleVec) {
+			for (auto &Ptr : pImpl->m_ParticleVec) {
 				if (Ptr->IsActive()) {
 					Ptr->Draw(GetStage()->GetParticleManager(IsAddType()));
 				}
@@ -577,9 +577,9 @@ namespace basecross {
 		const bsm::Vec3& EmitterPos, const shared_ptr<TextureResource>& TextureRes) {
 		auto DrawCom = GetComponent<PCTParticleDraw>();
 
-		auto StageView = GetStage()->GetView();
+		auto &StageView = GetStage()->GetView();
 
-		auto PtrCamera = StageView->GetTargetCamera();
+		auto &PtrCamera = StageView->GetTargetCamera();
 		//カメラの位置
 		bsm::Vec3 CameraEye = PtrCamera->GetEye();
 		bsm::Vec3 CameraAt = PtrCamera->GetAt();
@@ -848,13 +848,13 @@ namespace basecross {
 	//追加や削除待ちになってるオブジェクトを追加・削除する
 	void Stage::SetWaitToObjectVec(){
 		if (!pImpl->m_WaitRemoveObjectVec.empty()) {
-			for (auto Ptr : pImpl->m_WaitRemoveObjectVec) {
+			for (auto &Ptr : pImpl->m_WaitRemoveObjectVec) {
 				pImpl->RemoveTargetGameObject(Ptr);
 			}
 		}
 		pImpl->m_WaitRemoveObjectVec.clear();
 		if (!pImpl->m_WaitAddObjectVec.empty()){
-			for (auto Ptr : pImpl->m_WaitAddObjectVec){
+			for (auto &Ptr : pImpl->m_WaitAddObjectVec){
 				pImpl->m_GameObjectVec.push_back(Ptr);
 			}
 		}
@@ -1160,7 +1160,7 @@ namespace basecross {
 
 	//ステージ内のシャドウマップ描画（ステージからよばれる）
 	void Stage::DrawShadowmapStage() {
-		for (auto ptr : pImpl->m_GameObjectVec) {
+		for (auto &ptr : pImpl->m_GameObjectVec) {
 			if (ptr->IsDrawActive()) {
 				ptr->DrawShadowmap();
 			}
@@ -1197,7 +1197,7 @@ namespace basecross {
 			}
 		}
 
-		auto PtrCamera = pImpl->m_ViewBase->GetTargetCamera();
+		auto &PtrCamera = pImpl->m_ViewBase->GetTargetCamera();
 		//カメラの位置
 		bsm::Vec3 CameraEye = PtrCamera->GetEye();
 		//透明の3Dオブジェクトをカメラからの距離でソート
@@ -1337,7 +1337,7 @@ namespace basecross {
 			Dev->EndDefaultDraw();
 		}
 		//子供ステージの描画
-		for (auto PtrChileStage : GetChileStageVec()) {
+		for (auto &PtrChileStage : GetChileStageVec()) {
 			PtrChileStage->RenderStage();
 		}
 		if (IsDrawPerformanceActive()) {
@@ -1347,11 +1347,11 @@ namespace basecross {
 
 	void Stage::DestroyStage() {
 		//子供ステージの削除処理
-		for (auto PtrChileStage : pImpl->m_ChildStageVec) {
+		for (auto &PtrChileStage : pImpl->m_ChildStageVec) {
 			PtrChileStage->DestroyStage();
 		}
 		//配置オブジェクトの削除処理
-		for (auto ptr : GetGameObjectVec()) {
+		for (auto &ptr : GetGameObjectVec()) {
 				ptr->DestroyGameObject();
 		}
 		//自身の削除処理
@@ -1857,10 +1857,10 @@ namespace basecross {
 			bsm::Vec3(0, 0.01f, 0)				//位置
 		);
 
-		auto PtrCamera = StagePtr->GetView()->GetTargetCamera();
+		auto &PtrCamera = StagePtr->GetView()->GetTargetCamera();
 		View = PtrCamera->GetViewMatrix();
 		Proj = PtrCamera->GetProjMatrix();
-		auto viewport = StagePtr->GetView()->GetTargetViewport();
+		auto &viewport = StagePtr->GetView()->GetTargetViewport();
 		World *= View;
 		World *= Proj;
 
@@ -1999,10 +1999,10 @@ namespace basecross {
 			auto StringPtr = GetComponent<MultiStringSprite>();
 			Mat4x4 World, View, Proj;
 			World.identity();
-			auto PtrCamera = GetStage()->GetView()->GetTargetCamera();
+			auto &PtrCamera = GetStage()->GetView()->GetTargetCamera();
 			View = PtrCamera->GetViewMatrix();
 			Proj = PtrCamera->GetProjMatrix();
-			auto viewport = GetStage()->GetView()->GetTargetViewport();
+			auto &viewport = GetStage()->GetView()->GetTargetViewport();
 
 			World *= View;
 			World *= Proj;
@@ -2062,7 +2062,7 @@ namespace basecross {
 		//転置する
 		World = bsm::transpose(World);
 		//カメラを得る
-		auto CameraPtr = OnGetDrawCamera();
+		auto &CameraPtr = OnGetDrawCamera();
 		//ビューと射影行列を得る
 		View = CameraPtr->GetViewMatrix();
 		//転置する

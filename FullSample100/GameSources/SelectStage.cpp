@@ -38,6 +38,7 @@ namespace basecross {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
+			// セレクト画面の背景
 			AddGameObject<Select_UI>(
 				Vec2(640.0f, 400.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
@@ -46,6 +47,7 @@ namespace basecross {
 				Col4(1.0f),
 				m_Select_image
 				);
+			// ステージ選択時のカーソル
 			m_Cursor_UI = AddGameObject<Select_UI>(
 				Vec2(80.0f),
 				Vec3(-125.0f, 300.0f, 0.0f),
@@ -54,9 +56,9 @@ namespace basecross {
 				Col4(1.0f),
 				m_Cursor_image
 				);
-
+			// ステージ選択時のUI
 			AddGameObject<Select_UI>(
-				Vec2(512.0f, 512.0f),
+				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, 240.0f, 1.0f),
 				Vec3(2.0f),
 				11,
@@ -64,7 +66,7 @@ namespace basecross {
 				m_Stage1
 				);
 			AddGameObject<Select_UI>(
-				Vec2(512.0f, 512.0f),
+				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, 100.0f, 1.0f),
 				Vec3(2.0f),
 				11,
@@ -72,7 +74,7 @@ namespace basecross {
 				m_Stage2
 				);
 			AddGameObject<Select_UI>(
-				Vec2(512.0f, 512.0f),
+				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, -40.0f, 1.0f),
 				Vec3(2.0f),
 				11,
@@ -80,7 +82,7 @@ namespace basecross {
 				m_Stage3
 				);
 			AddGameObject<Select_UI>(
-				Vec2(512.0f, 512.0f),
+				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, -180.0f, 1.0f),
 				Vec3(2.0f),
 				11,
@@ -88,7 +90,7 @@ namespace basecross {
 				m_Stage4
 				);
 			AddGameObject<Select_UI>(
-				Vec2(512.0f, 512.0f),
+				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, -320.0f, 1.0f),
 				Vec3(2.0f),
 				11,
@@ -101,26 +103,26 @@ namespace basecross {
 			throw;
 		}
 
-		auto XAPtr = App::GetApp()->GetXAudio2Manager();
-		m_BGM = XAPtr->Start(L"Select.wav", XAUDIO2_LOOP_INFINITE, 1.0f);
+		auto &XAPtr = App::GetApp()->GetXAudio2Manager();
+		m_BGM = XAPtr->Start(L"Select.wav", XAUDIO2_LOOP_INFINITE, SelectVol);
 	}
 
 	void SelectStage::OnUpdate() {
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		auto &cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto &XAPtr = App::GetApp()->GetXAudio2Manager();
 
 		// ステージへ
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
 			App::GetApp()->GetScene<Scene>()->SetStageNum(m_StageNum);
 			XAPtr->Stop(m_BGM);
-			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01b.wav", 0.1f);
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01b.wav", SEVol);
 		}
 		// タイトルに戻る
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 			XAPtr->Stop(m_BGM);
-			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01b.wav", 0.1f);
+			App::GetApp()->GetScene<Scene>()->PlaySE(L"button01b.wav", SEVol);
 		}
 
 		if (!m_ControlLock) {
@@ -135,7 +137,7 @@ namespace basecross {
 					m_Cursor_UI->SetUpdatePosition(m_CursorPos);
 
 					m_ControlLock = true;
-					App::GetApp()->GetScene<Scene>()->PlaySE(L"button01a.wav", 0.1f);
+					App::GetApp()->GetScene<Scene>()->PlaySE(L"button01a.wav", SEVol);
 				}
 			}
 			// 下移動
@@ -149,7 +151,7 @@ namespace basecross {
 					m_Cursor_UI->SetUpdatePosition(m_CursorPos);
 
 					m_ControlLock = true;
-					App::GetApp()->GetScene<Scene>()->PlaySE(L"button01a.wav", 0.1f);
+					App::GetApp()->GetScene<Scene>()->PlaySE(L"button01a.wav", SEVol);
 				}
 			}
 		}

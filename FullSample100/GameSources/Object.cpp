@@ -82,8 +82,8 @@ namespace basecross {
 	}
 
     void FixedBox::OnUpdate() {
-        auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
-        auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+        auto &KeyState = App::GetApp()->GetInputDevice().GetKeyState();
+        auto &cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
         if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
         }
 
@@ -347,7 +347,7 @@ namespace basecross {
 		ScreenStr += L"Y=" + Util::IntToWStr(cyScreen) + L",\n";
 
 
-		auto viewport = GetTypeStage<GameStage>()->GetView()->GetTargetViewport();
+		auto &viewport = GetTypeStage<GameStage>()->GetView()->GetTargetViewport();
 		wstring ViewStr(L"View:\t");
 		ViewStr += L"Width=" + Util::FloatToWStr(viewport.Width, 6, Util::FloatModify::Fixed) + L",\t";
 		ViewStr += L"Height=" + Util::FloatToWStr(viewport.Height, 6, Util::FloatModify::Fixed) + L",\n";

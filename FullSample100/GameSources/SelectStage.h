@@ -21,6 +21,12 @@ namespace basecross {
 		int m_NumMin = 0;
 		// 選択時のスティックの傾き具合
 		float FlameSlope = 0.8f;
+
+		float SEVol = 0.1f;
+		float SelectVol = 1.0f;
+
+		float StageUISize = 512.0f;
+
 		bool m_ControlLock;
 
 		wstring m_Select_image;

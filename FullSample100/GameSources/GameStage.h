@@ -50,7 +50,7 @@ namespace basecross {
 		Vec3 m_RedMaskPos_1 = Vec3(-525.0f, -200.0f, 0.0f);
 		Vec3 m_RedMaskPos_2 = Vec3(75.0f, -200.0f, 0.0f);
 		bool m_GameClearFlag = false;
-		bool m_GameOverFlag = false; 
+		bool m_GameOverFlag = false;
 		shared_ptr<GameClear_UI> m_Cursor;
 		shared_ptr<GameOverTitle_UI> m_TextUI;
 		float m_GameOverSceneTime = 0;
