@@ -100,6 +100,7 @@ namespace basecross {
 				Col4(1.0f),
 				m_Stage5
 				);
+			
 		}
 		catch (...) {
 			throw;
