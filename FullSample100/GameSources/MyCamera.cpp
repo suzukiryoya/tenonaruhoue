@@ -24,16 +24,10 @@ namespace basecross {
 
 	void MyCamera::SetEye(const bsm::Vec3& Eye) {
 		Camera::SetEye(Eye);
-		//UpdateArmLengh();
 	}
 
 	void MyCamera::SetAt(const bsm::Vec3& At) {
 		Camera::SetAt(At);
-		//Vec3 armVec = GetEye() - GetAt();
-		//armVec.normalize();
-		//armVec *= m_ArmLen;
-		//Vec3 newEye = GetAt() + armVec;
-		//Camera::SetEye(newEye);
 	}
 
 	void MyCamera::OnUpdate()

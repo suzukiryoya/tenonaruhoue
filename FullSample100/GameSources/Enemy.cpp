@@ -6,8 +6,6 @@ namespace basecross {
 		const Vec3& Scale,
 		const Vec3& Rotation,
 		const Vec3& Position
-		//float UPic,
-		//float VPic
 	) :
 		GameObject(StagePtr),
 		m_Scale(Scale),
@@ -57,9 +55,7 @@ namespace basecross {
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->SetMeshResource(m_Mesh);
-		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 		ptrDraw->SetTextureResource(m_Texture);
-		//ptrDraw->AddAnimation(L"Default", 0, 0, true, 1);
 
 		ptrDraw->AddAnimation(L"Move", 25, 30, true, 25);
 		ptrDraw->AddAnimation(L"Die",  51, 70, true, 6);
@@ -73,7 +69,6 @@ namespace basecross {
 	}
 
 	void Enemy1::OnUpdate() {
-		//m_Force = Vec3(0);
 		//ステートマシンのUpdateを行う
 		//この中でステートの切り替えが行われる
 		m_StateMachine->Update();
@@ -132,13 +127,6 @@ namespace basecross {
 
 		if (Other->FindTag(L"Enemy2")) {
 			AnimeManager(1);
-
-			//if (m_DieTime > 0.5f)
-			//{
-			//	SetUpdateActive(false);
-			//	SetDrawActive(false);
-			//	DeleteObject(this);
-			//}
 		}
 
 	}
@@ -200,46 +188,10 @@ namespace basecross {
 			m_StateMachine->ChangeState(SeekNearState::Instance());
 
 		}
-
-
-		
-		//auto PtrAction = AddComponent<Action>();
-		////PtrAction->AllActionClear();
-
-
-		//if (posxcount < 0)
-		//{
-		//	posxcount = -1 * posxcount;
-		//}
-		//if (poszcount < 0)
-		//{
-		//	poszcount = -1 * poszcount;
-		//}
-
-		//PtrAction->AddMoveTo(posxcount, Vec3(m_SoundPos.x,pos.y,pos.z));
-		////PtrAction->AddMoveTo(poszcount, Vec3(m_SoundPos.x, pos.y, m_SoundPos.z));
-		////ループする
-		//PtrAction->SetLooped(false);
-		////アクション開始
-		//if (PtrAction->IsArrived()) {
-		//	PtrAction->Stop();
-		//	PtrAction->AllActionClear();
-
-		//}
-
-		//PtrAction->Run();
-
-		//PtrAction->ReStart();
-
-
-
-
 	}
 
 
 	void Enemy1::ApplyForce2() {
-
-
 	}
 
 
@@ -267,8 +219,6 @@ namespace basecross {
 		PtrTransform->SetScale(m_Scale);
 		PtrTransform->SetRotation(m_Rotation);
 		PtrTransform->SetPosition(m_Position);
-
-		//auto PtrGra = AddComponent<Gravity>();
 
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetAfterCollision(AfterCollision::None);
@@ -321,10 +271,7 @@ namespace basecross {
 		ptrDraw->SetTextureResource(m_Texture);
 		ptrDraw->AddAnimation(L"Move", 0, 30, true, 25);
 		ptrDraw->AddAnimation(L"Attack", 30, 70, true, 25);
-		//ptrDraw->AddAnimation(L"Default", 0, 25, true, 1.0f);
-
 		ptrDraw->ChangeCurrentAnimation(L"Move");
-		//ptrDraw->SetMeshToTransformMatrix(SpanMat);
 
 		auto CreateCheck = App::GetApp()->GetScene<Scene>()->GetStageNum();
 		auto qt = GetComponent<Transform>()->GetQuaternion();
@@ -482,14 +429,12 @@ namespace basecross {
 
 		if (other->FindTag(L"Player"))
 		{
-
 			AnimeManager(2);
-			//m_time = 0;
 		}
 	}
 
 
-	//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------
 //	プレイヤーから遠いときの移動
 //--------------------------------------------------------------------------------------
 	shared_ptr<SeekFarState> SeekFarState::Instance() {
@@ -499,17 +444,6 @@ namespace basecross {
 	void SeekFarState::Enter(const shared_ptr<Enemy1>& Obj) {
 	}
 	void SeekFarState::Execute(const shared_ptr<Enemy1>& Obj) {
-		//auto ptrSeek = Obj->GetBehavior<SeekSteering>();
-		//auto ptrSep = Obj->GetBehavior<SeparationSteering>();
-		//auto force = Obj->GetForce();
-		//force = ptrSeek->Execute(force, Obj->GetVelocity(), Obj->GetTargetPos());
-		//force += ptrSep->Execute(force);
-		//Obj->SetForce(force);
-		//Obj->ApplyForce();
-		//float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
-		//if (f < Obj->GetStateChangeSize()) {
-		//	Obj->GetStateMachine()->ChangeState(SeekNearState::Instance());
-		//}
 	}
 
 	void SeekFarState::Exit(const shared_ptr<Enemy1>& Obj) {
@@ -525,17 +459,6 @@ namespace basecross {
 	void SeekNearState::Enter(const shared_ptr<Enemy1>& Obj) {
 	}
 	void SeekNearState::Execute(const shared_ptr<Enemy1>& Obj) { 
-		//auto ptrArrive = Obj->GetBehavior<ArriveSteering>();
-		//auto ptrSep = Obj->GetBehavior<SeparationSteering>();
-		//auto force = Obj->GetForce();
-		//force = ptrArrive->Execute(force, Obj->GetVelocity(), Obj->GetTargetPos());
-		//force += ptrSep->Execute(force);
-		//Obj->SetForce(force);
-		//Obj->ApplyForce();
-		//float f = bsm::length(Obj->GetComponent<Transform>()->GetPosition() - Obj->GetTargetPos());
-		//if (f >= Obj->GetStateChangeSize()) {
-		//	Obj->GetStateMachine()->ChangeState(SeekFarState::Instance());
-		//}
 	}
 	void SeekNearState::Exit(const shared_ptr<Enemy1>& Obj) {
 	}
@@ -547,29 +470,13 @@ namespace basecross {
 		return instance;
 	}
 	void SoundBoxState::Enter(const shared_ptr<Enemy1>& Obj) {
-		//Obj->ApplyForce2();
-
-		//Obj->GetStateMachine()->ChangeState(SeekFarState::Instance());
-
 	}
 	void SoundBoxState::Execute(const shared_ptr<Enemy1>& Obj) {
-		//float elapsedTime = App::GetApp()->GetElapsedTime();
-		//float time = 0;
-		//time += elapsedTime;
-
-
-
-		//if (time >= Obj->GetCount()) {
-		//	Obj->ActionClear();
-		//}
 		auto pos = App::GetApp()->GetScene<Scene>()->GetSoundPosition();
 		Obj->SetPosition(pos);
 		Obj->ApplyForce();
-
-
 	}
 	void SoundBoxState::Exit(const shared_ptr<Enemy1>& Obj) {
-		//Obj->ApplyForce2();
 		Obj->SetTimer();
 
 	}
@@ -624,20 +531,13 @@ namespace basecross {
 		ShadowPtr->SetMeshToTransformMatrix(SpanMat);
 		AddTag(L"Player");
 
-		////文字列をつける
-		//auto ptrString = AddComponent<StringSprite>();
-		//ptrString->SetText(L"");
-		//ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
-
 		//描画コンポーネントの設定
 		auto ptrDraw = AddComponent<BcPNTBoneModelDraw>();
-		//ptrDraw->SetFogEnabled(true);
 		//描画するメッシュを設定
 		ptrDraw->SetMeshResource(m_Mesh);
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->AddAnimation(L"Move", 0, 20, true, 25);
 		ptrDraw->AddAnimation(L"Die", 20, 40, true, 25);
-		//ptrDraw->ChangeCurrentAnimation(L"Move");		
 		m_CheckPointCount = 0;
 
 		////描画するテクスチャを設定
@@ -661,24 +561,11 @@ namespace basecross {
 
 			break;
 		case 3:
-
 			m_Angle = Vec3(0.0f, 0.0f, -1.0f);
 			break;
-
 		}
-
-		//カメラを得る
-		//auto ptrCamera = dynamic_pointer_cast<Camera>(OnGetDrawCamera());
-		//if (ptrCamera) {
-		//	//MyCameraである
-		//	//MyCameraに注目するオブジェクト（プレイヤー）の設定
-		//	//ptrCamera->SetTargetObject(GetThis<GameObject>());
-		//	//ptrCamera->SetTargetToAt(GetComponent<Transform>()->GetPosition());
-		//}
 	}
 	void Playerdummy::OnUpdate() {
-		//auto ptrUtil = GetBehavior<UtilBehavior>();
-		//ptrUtil->RotToHead(0.2f);
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
 
 		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
@@ -690,17 +577,6 @@ namespace basecross {
 		Pos += m_Angle * ElapsedTime * m_Speed;
 		GetComponent<Transform>()->SetPosition(Pos);
 
-		//auto a = Vec3(0.0f, 0.0f, 5.0f);
-		//auto b = Vec3(0.0f, 0.0f, -12.0f);
-		////if (a.x - Pos.x<0.1f&& a.x - Pos.x > -0.1f&&ab==0) {
-		////	m_Angle = Vec3(0.0f, 0.0f, -1.0f);
-		////	ab = 1;
-		////}
-		//if (b.z - Pos.z<0.1f && b.z - Pos.z > -0.1f && ab == 1) {
-		//	m_Angle = Vec3(1.0f, 0.0f, 0.0f);
-
-		//}
-		//
 		if (m_SaveNum == 1)
 		{
 			m_MotionTime += elapsedTime;
@@ -796,8 +672,6 @@ namespace basecross {
 			App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
 
 			SetUpdateActive(false);
-			//SetDrawActive(false);
-			//DeleteObject(this);
 		}
 		if (other->FindTag(L"Enemy1"))
 		{
@@ -807,16 +681,9 @@ namespace basecross {
 		}
 		if (other->FindTag(L"Enemy2"))
 		{
-			//App::GetApp()->GetScene<Scene>()->SetUpdateBool(true);
-
 			AnimeManager(1);
 		}
 
 	}
-
-
-
-
-
 }
 //end basecross

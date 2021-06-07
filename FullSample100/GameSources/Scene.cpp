@@ -13,8 +13,6 @@ namespace basecross{
 	void Scene::CreateResourses() {
 		wstring dataDir;
 		//mediaディレクトリ取得用
-		//App::GetApp()->GetAssetsDirectory(dataDir);
-
 		wstring mediaDir;
 		App::GetApp()->GetDataDirectory(mediaDir);
 

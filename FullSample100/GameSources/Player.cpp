@@ -100,7 +100,6 @@ namespace basecross{
 		if (controller[0].wPressedButtons & XINPUT_GAMEPAD_A)
 		{
 			m_SoundFlag = true;
-			//SoundBoxSearch();
 		}
 
 		auto ptrDraw = GetComponent<BcPNTBoneModelDraw>();
@@ -130,12 +129,8 @@ namespace basecross{
 		}
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		auto pos = GetComponent<Transform>()->GetPosition();
-		//auto GoPointToNowPos = Vec3(0.0f, 2.0f, 0.0f);
 		auto trans = GetComponent<Transform>();
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
-		//if (length(pos - m_GoPointPos) <= 1.8f) {
-		//	m_Velocity *= 0.95f;
-		//}
 
 		if (homingFlag == true && soundFlag != true) // ¶•ûŒü‚ÉˆÚ“®‚·‚é‚Æ‚«
 		{
@@ -164,14 +159,6 @@ namespace basecross{
 			m_Velocity += speed * ElapsedTime;
 			m_Position += m_Velocity * ElapsedTime;
 
-			//GoPointToNowPos.x = m_Position.x + m_GoPointPos.x;
-			//GoPointToNowPos.z = m_Position.z + m_GoPointPos.z;
-
-			//GoPointToNowPos.normalize();
-
-			//m_Position -= GoPointToNowPos * elapsedTime * m_Speed;
-
-
 			trans->SetRotation(0, m_Rotation.y, 0);
 
 			trans->SetPosition(m_Position.x, 2.0f, m_NowPosZ);
@@ -193,27 +180,18 @@ namespace basecross{
 		auto soundPosition = scene->GetPosition();
 
 		m_GoPointPos = soundPosition;
-		//m_Position = GetComponent<Transform>()->GetPosition();
-
-		//GoPointToNowPos.x = m_Position.x - m_GoPointPos.x;
 		GoPointToNowPos.z = m_Position.z - m_GoPointPos.z;
 
 		GoPointToNowPos.normalize();
 
 		if (GoPointToNowPos.x == 0)
 		{
-			//m_Position.x = GoPointToNowPos.x * elapsedTime * m_Speed;
 			m_Position.z += GoPointToNowPos.z * elapsedTime;
 
 			m_Position.normalize();
 
 			m_NowPosZ += m_Position.z += GoPointToNowPos.z * elapsedTime;
 		}
-		
-		//if(m_NowPosZ == )
-		//{
-		//	return;
-		//}
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& other)

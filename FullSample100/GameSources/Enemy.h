@@ -13,8 +13,6 @@ namespace basecross {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
-		//float m_UPic;
-		//float m_VPic;
 		wstring m_Texture;
 		wstring m_Mesh;
 		Vec3 m_StartPos;
@@ -36,8 +34,6 @@ namespace basecross {
 			const Vec3& Scale,
 			const Vec3& Rotation,
 			const Vec3& Position
-			//float UPic,
-			//float VPic
 		);
 
 		const unique_ptr<StateMachine<Enemy1>>& GetStateMachine() {

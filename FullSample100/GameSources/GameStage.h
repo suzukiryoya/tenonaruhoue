@@ -23,11 +23,7 @@ namespace basecross {
 		shared_ptr<SingleView> m_StartCameraView;
 		//MyCamera用のビュー
 		shared_ptr<SingleView> m_MyCameraView;
-		////ObjCamera用のビュー
-		//shared_ptr<SingleView> m_ObjCameraView;
 		CameraSelect m_CameraSelect;
-		//入力ハンドラー
-		//InputHandler<GameStage> m_InputHandler;
 		//ビューの作成
 		void CreateViewLight();
 		//ボックスの作成
@@ -44,7 +40,6 @@ namespace basecross {
 		void CreateStage();
 
 		wstring m_StageSelect_image,m_StageClear_image,m_GameOver_image, m_GameOver_image2,m_LStick,m_RStick,m_Abutton,m_NextStageText_image,m_TitleBackText_image1, m_TitleBackText_image2,m_Cursor_image,m_Brack_image;
-		//shared_ptr<GameObject> gameover;
 		shared_ptr<GameOverTitle_UI> gameover;
 		shared_ptr<GameObject> gameover2;
 
@@ -135,11 +130,6 @@ namespace basecross {
 
 		//カメラを右スティックで移動
 		Vec3 GetInputState();
-
-		//音の鳴った場所取得用
-		//void SetSoundPosition(Vec3 pos);
-		//Vec3 GetSoundPosition();
-
 	};
 }
 //end basecross

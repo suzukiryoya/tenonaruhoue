@@ -61,9 +61,6 @@ namespace basecross{
 		PtrDraw->CreateOriginalMesh(vertices, indices);
 		PtrDraw->SetOriginalMeshUse(true);
 		PtrDraw->SetFogEnabled(true);
-		//暫定的に色変えました(必要なくなったら消してね)
-		/*auto color = Col4(0.0f,0.0f,0.0f,1.0f);
-		PtrDraw->SetDiffuse(color);*/
 		//自分に影が映りこむようにする
 		PtrDraw->SetOwnShadowActive(true);
 		PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
@@ -74,7 +71,6 @@ namespace basecross{
 		//物理計算ボックス
 		PsBoxParam param(PtrTransform->GetWorldMatrix(), 0.0f, true, PsMotionType::MotionTypeFixed);
 		auto PsPtr = AddComponent<RigidbodyBox>(param);
-		//PsPtr->SetDrawActive(true);
 	}
 
 	//-----------------------------------------------------------------

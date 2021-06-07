@@ -85,7 +85,6 @@ namespace basecross {
         auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
         auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
         if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
-            //GetStage()->AddGameObject<TriggerBox>(Vec3(9.0f, 1.0f, 9.0f), Vec3(0.0f), Vec3(0.0f, 1.0f, 0.0f));
         }
 
 
@@ -136,7 +135,6 @@ namespace basecross {
         PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
         PtrDraw->SetFogEnabled(true);
         PtrDraw->SetOwnShadowActive(true);
-        //PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
         PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
 
         App::GetApp()->GetScene<Scene>()->PlaySE(L"SoundMachine.wav", 0.1f);
@@ -194,7 +192,6 @@ namespace basecross {
         AddTag(L"SoundBox");
 
         auto PtrColl = AddComponent<CollisionObb>();
-        //PtrColl->SetDrawActive(true);
         PtrColl->SetFixed(true);
         ////衝突判定はNoneにする
         PtrColl->SetAfterCollision(AfterCollision::None);
@@ -220,15 +217,12 @@ namespace basecross {
         //影をつける（シャドウマップを描画する）
         auto ShadowPtr = AddComponent<Shadowmap>();
         //影の形（メッシュ）を設定
-        //ShadowPtr->SetMeshResource(L"DEFAULT_TORUS");
 		auto PtrDraw = AddComponent<BcPNTStaticDraw>();
 		PtrDraw->CreateOriginalMesh(vertices, indices);
 		PtrDraw->SetOriginalMeshUse(true);
 		PtrDraw->SetMeshResource(L"DEFAULT_TORUS");
 		PtrDraw->SetFogEnabled(true);
         PtrDraw->SetOwnShadowActive(true);
-        //PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
-        //PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 0.1f));
 		PtrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 1.0f));
 
         App::GetApp()->GetScene<Scene>()->PlaySE(L"SoundMachine.wav", 0.5f);
@@ -295,22 +289,7 @@ namespace basecross {
         PtrTransform->SetRotation(m_Rotation);
         PtrTransform->SetPosition(m_Position);
 
-        ////タグをつける
-        //AddTag(L"SoundBox");
-        ////影をつける（シャドウマップを描画する）
-        //auto ShadowPtr = AddComponent<Shadowmap>();
-        ////影の形（メッシュ）を設定
-        //ShadowPtr->SetMeshResource(L"DEFAULT_CUBE");
-        //auto PtrDraw = AddComponent<BcPNTStaticDraw>();
-        //PtrDraw->SetMeshResource(L"DEFAULT_CUBE");
-        //PtrDraw->SetFogEnabled(true);
-        //PtrDraw->SetOwnShadowActive(true);
-        //PtrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 0.5f));
-
         auto ptrString = AddComponent<StringSprite>();
-
-
-
 	}
 
 	//更新
@@ -455,8 +434,6 @@ namespace basecross {
 		//物理計算ボックス
 		PsBoxParam param(PtrTransform->GetWorldMatrix(), 1.0f, true, PsMotionType::MotionTypeActive);
 		auto PsPtr = AddComponent<RigidbodyBox>(param);
-        //PsPtr->SetAutoTransform(false);
-
 		PsPtr->SetDrawActive(true);
 	}
 
@@ -482,7 +459,6 @@ namespace basecross {
 		PtrTransform->SetRotation(m_Rotation);
 		PtrTransform->SetPosition(m_Position);
 
-		//タグをつける
 		//影をつける（シャドウマップを描画する）
 		auto ShadowPtr = AddComponent<Shadowmap>();
 		//影の形（メッシュ）を設定
@@ -563,7 +539,6 @@ namespace basecross {
         AddTag(L"CheckPointBox");
 
         auto PtrColl = AddComponent<CollisionCapsule>();
-        //PtrColl->SetDrawActive(true);
         PtrColl->SetFixed(true);
         ////衝突判定はNoneにする
         PtrColl->SetAfterCollision(AfterCollision::None);
@@ -649,7 +624,6 @@ namespace basecross {
 
 	void OpeningCameraman::EndStateEnterBehavior() {
 		auto ptrGameGtage = GetTypeStage<GameStage>();
-		//ptrGameGtage->ToMyCamera();
 	}
 
 

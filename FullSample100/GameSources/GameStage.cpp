@@ -157,35 +157,6 @@ namespace basecross {
 			enemy1->AddTag(L"Enemy1");
 			BoxesGroup->IntoGroup(enemy1);
 		}
-		//敵2
-		//m_GameStageCsv.GetSelect(LineVec4, 0, L"Enemy2");
-		//for (auto& v : LineVec4)
-		//{
-		//	//トークン（カラム）の配列
-		//	vector<wstring> Tokens;
-		//	//トークン（カラム）単位で文字列を抽出(L','をデリミタとして区分け)
-		//	Util::WStrToTokenVector(Tokens, v, L',');
-		//	//各トークン（カラム）をスケール、回転、位置に読み込む
-		//	Vec3 Scale(
-		//		(float)_wtof(Tokens[1].c_str()),
-		//		(float)_wtof(Tokens[2].c_str()),
-		//		(float)_wtof(Tokens[3].c_str())
-		//	);
-		//	Vec3 Rot;
-		//	//回転はXM_PIDIV2の文字列になっている場合がある
-		//	Rot.x = (Tokens[4] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[4].c_str());
-		//	Rot.y = (Tokens[5] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[5].c_str());
-		//	Rot.z = (Tokens[6] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[6].c_str());
-		//	Vec3 Pos(
-		//		(float)_wtof(Tokens[7].c_str()),
-		//		(float)_wtof(Tokens[8].c_str()),
-		//		(float)_wtof(Tokens[9].c_str())
-		//	);
-
-		//	auto enemy2 = AddGameObject<Enemy2>(Scale, Rot, Pos,1.0f, 1.0f);
-		//	enemy2->AddTag(L"Enemy2");
-		//	BoxesGroup->IntoGroup(enemy2);
-		//}
 		//扉
 		m_GameStageCsv.GetSelect(LineVec5, 0, L"Door");
 		for (auto& v : LineVec5) {
@@ -598,21 +569,6 @@ namespace basecross {
 
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
 		}
-
-		//if (cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_A)
-		//{
-		//	auto StageNum = App::GetApp()->GetScene<Scene>()->GetStageNum();
-		//	StageNum += 1;
-
-		//	bgm->Stop(m_bgm);
-
-		//	App::GetApp()->GetScene<Scene>()->SetStageNum(StageNum);
-		//	App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::game);
-		//}
-		//else if(cntlVec[0].wPressedButtons && XINPUT_GAMEPAD_B)
-		//{
-		//	App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);
-		//}
 	}
 
 	void GameStage::GameClearBGM()
@@ -711,7 +667,6 @@ namespace basecross {
 				);
 			bgm->Stop(m_bgm);
 			GameClearBGM();
-			//App::GetApp()->GetScene<Scene>()->PlaySE(L"ClearBGM.wav", 0.1f);
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
 		case 1: //ゲームオーバー用
@@ -719,14 +674,6 @@ namespace basecross {
 			bgm->Stop(m_bgm);
 			App::GetApp()->GetScene<Scene>()->PlaySE(L"GameOver.wav", 1.0f);
 
-			//AddGameObject<Title_UI>(
-			//	Vec2(512.0f, 512.0f),
-			//	Vec3(0.0f, 80.0f, 0.0f),
-			//	Vec3(1.5f),
-			//	15,
-			//	Col4(1.0f),
-			//	m_TitleBackText_image1
-			//	);
 			gameover->SetDrawActive(true);
 			App::GetApp()->GetScene<Scene>()->SetCheck(2);
 			break;
@@ -741,8 +688,6 @@ namespace basecross {
 		else if (m_GameOverCheck == Check) {
 			//ゲームオーバー用
 			m_GameOverFlag = true;
-			//
-			//gameover->SetDrawActive(true);
 		}
 
 		if (m_GameClearFlag == true)
@@ -783,13 +728,6 @@ namespace basecross {
 
 	void GameStage::CameraChangeSelect()
 	{
-		//switch (m_CameraSelect) {
-		//case CameraSelect::myCamera:
-		//{
-		//	ToMyCamera();
-		//}
-		//break;
-		//}
 	}
 
 	void GameStage::GetMouseRay(Vec3& Near, Vec3& Far) {
@@ -877,9 +815,7 @@ namespace basecross {
 
 						auto a= Obb.m_Center;
 						ObjVec.push_back(PsPtr);
-						//AddGameObject<TriggerBox>(Vec3(10.0f, 2.0f, 10.0f), Vec3(0.0f), Vec3(a.x, 1.0f, a.z));
 						AddGameObject<TriggerBox2>(Vec3(2.0f, 2.0f, 2.0f), Vec3(0), Vec3(a.x, 1.0f, a.z));
-						//SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 						App::GetApp()->GetScene<Scene>()->SetPosition(Vec3(a.x,1.0f,a.z));
 						App::GetApp()->GetScene<Scene>()->SetSoundPosition(Vec3(a.x, 1.0f, a.z));
 					}

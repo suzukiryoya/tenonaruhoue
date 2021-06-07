@@ -77,44 +77,15 @@ namespace basecross {
 			//右
 			ret.x = 1.0f;
 		}
-		//if (ret.x != 0 || ret.y != 0) {
-		//	//float moveLength = 0;	//動いた時のスピード
-		//	//auto ptrTransform = GetComponent<Transform>();
-		//	//auto ptrCamera = OnGetDrawCamera();
-		//	////進行方向の向きを計算
-		//	//auto front = ptrTransform->GetPosition() - ptrCamera->GetEye();
-		//	//front.y = 0;
-		//	//front.normalize();
-		//	////進行方向向きからの角度を算出
-		//	//float frontAngle = atan2(front.z, front.x);
-		//	//コントローラの向き計算
-		//	Vec2 moveVec(ret.x, ret.y);
-		//	float moveSize = moveVec.length();
-		//	//コントローラの向きから角度を計算
-		//	float cntlAngle = atan2(-ret.x, ret.y);
-		//	////トータルの角度を算出
-		//	//float totalAngle = frontAngle + cntlAngle;
-		//	////角度からベクトルを作成
-		//	//angle = Vec3(cos(totalAngle), 0, sin(totalAngle));
-		//	angle = moveVec;
-		//	////正規化する
-		//	angle.normalize();
-		//	////移動サイズを設定。
-		//	//angle *= moveSize;
-		//	////Y軸は変化させない
-		//	//angle.z = 0;
-		//}
 		Vec3 moveVec(ret.x, ret.y,0);
 		moveVec.normalize();
 
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-			auto pos = GetComponent<Transform>()->GetPosition();
-			pos += moveVec * elapsedTime * m_Speed;
-			GetComponent<Transform>()->SetPosition(pos);
-			App::GetApp()->GetScene<Scene>()->SetAngle(pos);
-
-
+		auto pos = GetComponent<Transform>()->GetPosition();
+		pos += moveVec * elapsedTime * m_Speed;
+		GetComponent<Transform>()->SetPosition(pos);
+		App::GetApp()->GetScene<Scene>()->SetAngle(pos);
 	}
 
 
