@@ -579,7 +579,6 @@ namespace basecross {
 
 	void GameStage::GameOverScene()
 	{
-		//GameOverBGM();
 		if (m_GameOverSceneTime > 3.0f)
 		{
 			App::GetApp()->GetScene<Scene>()->SetGameStage(GameStageKey::title);

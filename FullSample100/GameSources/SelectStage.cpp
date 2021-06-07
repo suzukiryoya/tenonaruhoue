@@ -21,10 +21,6 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
-	void SelectStage::CreateUI() {
-
-	}
-
 	void SelectStage::ChangeSelect(int num) {
 		for (int i = 0; i < 5; i++) {
 			auto sel = GetSelectStage();
@@ -42,7 +38,6 @@ namespace basecross {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
-			CreateUI();
 			AddGameObject<Select_UI>(
 				Vec2(640.0f, 400.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
@@ -107,7 +102,7 @@ namespace basecross {
 		}
 
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
-		m_BGM = XAPtr->Start(L"Select.wav", 1.0f);
+		m_BGM = XAPtr->Start(L"Select.wav", XAUDIO2_LOOP_INFINITE, 1.0f);
 	}
 
 	void SelectStage::OnUpdate() {

@@ -9,8 +9,6 @@ namespace basecross {
 	class SelectStage : public Stage {
 		//ビューの作成
 		void CreateViewLight();
-		void CreateUI();
-
 		void ChangeSelect(int num);
 		vector<shared_ptr<Select_UI>> m_Select;
 		//カーソル移動用

@@ -115,7 +115,6 @@ namespace basecross {
 
 		//ゲームオーバー用
 		void GameOverScene();
-		void GameOverBGM();
 
 		//マウスとカメラのレイの取得
 		void GetMouseRay(Vec3& Near, Vec3& Far);
