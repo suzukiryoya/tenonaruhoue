@@ -159,7 +159,7 @@ namespace basecross {
 			const Vec3& scale,
 			const int& layer,
 			const Col4& color,
-			const wstring& texttuers
+			const wstring& textures
 		) :
 			UI_Base(
 				StagePtr,
@@ -168,7 +168,7 @@ namespace basecross {
 				scale,
 				layer,
 				color,
-				texttuers
+				textures
 			)
 		{}
 

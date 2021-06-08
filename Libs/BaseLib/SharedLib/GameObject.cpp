@@ -2055,8 +2055,8 @@ namespace basecross {
 		Qt.normalize();
 		World.affineTransformation(
 			bsm::Vec3(1.0, 1.0, 1.0),			//スケーリング
-			bsm::Vec3(0, 0, 0),		//回転の中心（重心）
-			Qt,				//回転角度
+			bsm::Vec3(0, 0, 0),		            //回転の中心（重心）
+			Qt,				                    //回転角度
 			bsm::Vec3(0, 0.01f, 0)				//位置
 		);
 		//転置する

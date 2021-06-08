@@ -824,7 +824,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class Particle : public ObjectInterface {
 	public:
-		enum DrawOption {
+		enum class DrawOption {
 			Billboard,	//ビルボード
 			Faceing,	//フェイシング
 			FaceingY,	//フェイシング(Y軸のみ)
@@ -1538,7 +1538,7 @@ namespace basecross {
 		bool FindGameObject(const shared_ptr<GameObject>& Obj) {
 			auto shptr = dynamic_pointer_cast<T>(Obj);
 			if (shptr) {
-				for (auto ptr : GetGameObjectVec()) {
+				for (auto &ptr : GetGameObjectVec()) {
 					if (Obj == ptr) {
 						return true;
 					}
