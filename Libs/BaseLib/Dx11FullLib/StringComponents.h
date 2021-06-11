@@ -31,7 +31,7 @@ namespace basecross {
 		@enum TextAlignment
 		*/
 		//--------------------------------------------------------------------------------------
-		enum TextAlignment{
+		enum class TextAlignment{
 			//¶‡‚í‚¹
 			m_Left,
 			//’†‰›‡‚í‚¹

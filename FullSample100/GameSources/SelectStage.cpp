@@ -42,59 +42,59 @@ namespace basecross {
 			AddGameObject<Select_UI>(
 				Vec2(640.0f, 400.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(2.0f),
+				Vec3(StageUIScale),
 				10,
-				Col4(1.0f),
+				Col4(StageUIColor),
 				m_Select_image
 				);
 			// ステージ選択時のカーソル
 			m_Cursor_UI = AddGameObject<Select_UI>(
 				Vec2(80.0f),
 				Vec3(-125.0f, 300.0f, 0.0f),
-				Vec3(2.0f),
+				Vec3(StageUIScale),
 				10,
-				Col4(1.0f),
+				Col4(StageUIColor),
 				m_Cursor_image
 				);
 			// ステージ選択時のUI
 			AddGameObject<Select_UI>(
 				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, 240.0f, 1.0f),
-				Vec3(2.0f),
+				Vec3(StageUIScale),
 				11,
-				Col4(1.0f),
+				Col4(StageUIColor),
 				m_Stage1
 				);
 			AddGameObject<Select_UI>(
 				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, 100.0f, 1.0f),
-				Vec3(2.0f),
+				Vec3(StageUIScale),
 				11,
-				Col4(1.0f),
+				Col4(StageUIColor),
 				m_Stage2
 				);
 			AddGameObject<Select_UI>(
 				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, -40.0f, 1.0f),
-				Vec3(2.0f),
+				Vec3(StageUIScale),
 				11,
-				Col4(1.0f),
+				Col4(StageUIColor),
 				m_Stage3
 				);
 			AddGameObject<Select_UI>(
 				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, -180.0f, 1.0f),
-				Vec3(2.0f),
+				Vec3(StageUIScale),
 				11,
-				Col4(1.0f),
+				Col4(StageUIColor),
 				m_Stage4
 				);
 			AddGameObject<Select_UI>(
 				Vec2(StageUISize, StageUISize),
 				Vec3(200.0f, -320.0f, 1.0f),
-				Vec3(2.0f),
+				Vec3(StageUIScale),
 				11,
-				Col4(1.0f),
+				Col4(StageUIColor),
 				m_Stage5
 				);
 			
@@ -133,7 +133,7 @@ namespace basecross {
 
 					//カーソル移動更新
 					m_CursorPos = m_Cursor_UI->GetUpdatePosition();
-					m_CursorPos += Vec3(0.0f, 140.0f, 0.0f);
+					m_CursorPos += Vec3(0.0f, CursorPosY, 0.0f);
 					m_Cursor_UI->SetUpdatePosition(m_CursorPos);
 
 					m_ControlLock = true;
@@ -147,7 +147,7 @@ namespace basecross {
 
 					//カーソル移動更新
 					m_CursorPos = m_Cursor_UI->GetUpdatePosition();
-					m_CursorPos += Vec3(0.0f, -140.0f, 0.0f);
+					m_CursorPos += Vec3(0.0f, -CursorPosY, 0.0f);
 					m_Cursor_UI->SetUpdatePosition(m_CursorPos);
 
 					m_ControlLock = true;

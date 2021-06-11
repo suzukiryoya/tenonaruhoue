@@ -26,30 +26,25 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
-	void TitleStage::CreateUI() {
-		
-	}
-
 	void TitleStage::OnCreate() {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
-			CreateUI();
 			AddGameObject<Title_UI>(
-				Vec2(640.0f, 500.0f),
+				Vec2(TitleUISizeX, TitleUISizeY),
 				Vec3(0.0f, -75.0f, 0.0f),
 				Vec3(2.0f),
 				10,
-				Col4(1.0f),
+				Col4(TitleUIColor),
 				m_title_image
 				);
 
 			AddGameObject<Title_UI>(
-				Vec2(640.0f, 500.0f),
+				Vec2(TitleUISizeX, TitleUISizeY),
 				Vec3(0.0f, -250.0f, 0.0f),
 				Vec3(1.3f),
 				10,
-				Col4(1.0f),
+				Col4(TitleUIColor),
 				m_Push_image
 				);
 		}

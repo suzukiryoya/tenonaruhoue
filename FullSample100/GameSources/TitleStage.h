@@ -14,9 +14,12 @@ namespace basecross {
 	class TitleStage : public Stage {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
-		void CreateUI();
 		wstring m_title_image;
 		wstring m_Push_image;
+
+		float TitleUISizeX = 640.0f;
+		float TitleUISizeY = 500.0f;
+		float TitleUIColor = 1.0f;
 
 		//BGM
 		shared_ptr<SoundItem>m_BGM;
